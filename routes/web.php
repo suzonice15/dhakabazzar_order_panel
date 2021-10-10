@@ -23,7 +23,9 @@ Route::get('/login', [AdminController::class, 'login']);
     Route::post('/login', [AdminController::class, 'LoginCheck']); 
     Route::get('/dashboard', [DashboardController::class, 'index']); 
     Route::get('/order', [OrderController::class, 'index']); 
+    Route::post('/orderExchange', [OrderController::class, 'orderExchange']); 
 
+    
 
 
     Route::get('/setting', [SettingController::class,'setting']);  

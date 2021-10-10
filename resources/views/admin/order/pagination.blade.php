@@ -24,7 +24,7 @@ overflow: hidden;
 
                 @if(Session::get('status') !='office-staff')
                 <td>
-                    <input style="width: 22px;" type="checkbox" class="form-control">
+                    <input style="width: 15px;" type="checkbox" value="{{$order->order_id}}" class="form-control checkAll">
                 {{officeStaffName($order->staff_id)}}
                </td>
 

@@ -125,8 +125,13 @@
             <div class="row">
                 <div class="col-12 col-md-8">
                      <h3 class="card-title">Order  List</h3>
+                     @if(Session::get('status')=='office-staff')
+
                      <a href="{{url('/')}}/admin/order/create" class="btn btn-success btn-sm" style="float:right"> <i class="fa fa-plus"></i> Add New </a>
- 
+                     @else
+                     <button  type="button"  data-toggle="modal" data-target="#modal-default" class="btn btn-danger btn-sm" style="float:right"  id="deleteAll"><i class="fas fa-exchange"></i> Exchange Order </button>
+                   @endif
+                     
               </div>
               <div class="col-12 col-md-4">
                       <input type="text" id="search" placeholder="Enter Order Id /Phone Number" class="form-control">
@@ -144,6 +149,7 @@
                       </th>
                       @if(Session::get('status') !='office-staff')
                       <th>
+                        <input type="checkbox" name="all_select" id="checkAll" />
                        Office Staff
                       </th>
                       @endif
@@ -170,5 +176,118 @@
       <!-- /.card -->
 
     </section>
+
+
+    <div class="modal fade show" id="modal-default" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Order Exchange</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <label>Exchange to</label>
+              <select name="staff_id" id="staff_id" class="form-control">
+                <option value="">----select----</option>
+                @foreach($users as $user)
+                <option value="{{$user->user_id}}">{{$user->user_name}}</option>
+                @endforeach
+             </select>
+              
+            
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="exchange_now">Exchange Now</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+<script>
+
+$(document).ready(function(){
+
+
+$("#exchange_now").click(function(){
+  var staff_id=$("#staff_id").val();
+  if(staff_id==''){
+    alert("Please Select at least One Staff")
+    return false;
+  }
+  var order_id = new Array();
+//var allId=$('.checkAll').val();
+$('.checkAll').each(function () {
+if ($(this).is(":checked")) {
+  order_id.push(this.value);
+}
+});
+if(order_id.length >0){
+$.ajax({
+
+url: '{{url('/')}}/admin/orderExchange',
+data: {
+  order_id: order_id,
+  staff_id: $("#staff_id").val(),
+  "_token":"{{csrf_token()}}"
+},
+type: 'post',
+success: function (data) {
+  location.reload(); 
+
+
+}
+});
+} else{
+  alert("Please select Order Id")
+}
+
+ 
+
+})
+
+	//$('#checkAll').change(function () {
+		$(document).on("change", "#checkAll", function(event){
+
+if ($(this).is(":checked")) {
+
+$('.checkAll').prop('checked', true);
+
+} else if ($(this).is(":not(:checked)")) {
+
+$('.checkAll').prop('checked', false);
+
+}
+
+});
+$('#deleteAll').click(function (e) {
+e.preventDefault();
+var order_id = new Array();
+//var allId=$('.checkAll').val();
+$('.checkAll').each(function () {
+if ($(this).is(":checked")) {
+  order_id.push(this.value);
+}
+});
+
+
+if(order_id.length==0){
+
+  Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Please Select At least One Order Id',
+        showConfirmButton: true,
+        timer: 2000
+    })
+}
+
+
+});
+})
+</script>
 
     @endsection
