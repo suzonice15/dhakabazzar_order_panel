@@ -1,20 +1,7 @@
 
-<style>
-    .img-responsive{
-float:left;
-border: 2px solid #ddd;
-    }
-    .product-title{
-        width: 100%;
-display: block;
-height: 30px;
-overflow: hidden;
-    }
-
- </style>
 
               @foreach($orders as $order)
-            <tr >
+            <tr>
               <td> 
                    <span   class="badge badge-pill badge-danger">  {{$order->order_id}}</span>                
                    {{date('d/m/Y h:i a',strtotime($order->created_time))}}
@@ -158,12 +145,10 @@ overflow: hidden;
                     </div>
                 </div>
             </td>
-       
-
-              </tr>
+        </tr>
               @endforeach 
               <tr > <td style="text-align: center" colspan="6">  {!! $orders->links() !!}</td></tr>     
-              </tbody>
+              
          
          
          

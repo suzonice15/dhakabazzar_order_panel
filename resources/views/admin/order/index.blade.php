@@ -7,123 +7,29 @@
 
 @section('main-content')
  
+<style>
+    .img-responsive{
+float:left;
+border: 2px solid #ddd;
+    }
+    .product-title{
+        width: 100%;
+display: block;
+height: 30px;
+overflow: hidden;
+    }
 
+ </style>
 <section class="content">
 
 
-<div class="row" style="cursor: pointer;">
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-shopping-cart"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">New</span>
-                <span class="info-box-number">
-                 {{totalOrder('new')}}
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
+<div class="row" style="cursor: pointer;" > 
+ <span id="order_status_view"></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Pending</span>
-                <span class="info-box-number"> {{totalOrder('pending')}} </span>
-             
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">   Pending Pyment</span>
-                <span class="info-box-number">{{totalOrder('pending_payment')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-
-  
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Processing</span>
-                <span class="info-box-number">{{totalOrder('processing')}}  </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Ready To Deliver</span>
-                <span class="info-box-number">{{totalOrder('ready_to_deliver')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
-         
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
- 
-              <div class="info-box-content">
-                <span class="info-box-text">Courier</span>
-                <span class="info-box-number">{{totalOrder('on_courier')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>            
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Delivered</span>
-                <span class="info-box-number">{{totalOrder('delivered')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Cancled</span>
-                <span class="info-box-number">{{totalOrder('cancled')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
-        </div>
       <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-4">
                      <h3 class="card-title">Order  List</h3>
                      @if(Session::get('status')=='office-staff')
 
@@ -134,7 +40,11 @@
                      
               </div>
               <div class="col-12 col-md-4">
-                      <input type="text" id="search" placeholder="Enter Order Id /Phone Number" class="form-control">
+                      <input type="text" id="order_id" placeholder="Enter Order ID " class="form-control">
+
+              </div>
+              <div class="col-12 col-md-4">
+                      <input type="text" id="pagination_search_by_phone" placeholder="Enter Phone Number" class="form-control">
 
               </div>
 
@@ -148,12 +58,14 @@
                          Order ID
                       </th>
                       @if(Session::get('status') !='office-staff')
-                      <th>
-                        <input type="checkbox" name="all_select" id="checkAll" />
-                       Office Staff
+                      <th style="width: 9%;">
+                       
+                      <span style="font-size: 15px;"> Office Staff</span>
+                       <br/>
+                       <input type="checkbox" name="all_select" id="checkAll" />
                       </th>
                       @endif
-                      <th  style="width:20%">Customer</th>
+                      <th  style="width:20%;text-align:left">Customer</th>
 
                       <th style="text-align:left">Products</th>
                         <th>   Amount   </th>  
@@ -165,11 +77,9 @@
                   </tr>
               </thead>
               <tbody>
-
               @include('admin.order.pagination')
-
-   </table>
-
+              </tbody>
+               </table>
         </div>
         <!-- /.card-body -->
       </div>
@@ -207,9 +117,12 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
-<script>
+      <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
+      <input type="hidden" name="status" id="status" value="new" />
 
-$(document).ready(function(){
+<script  >
+
+window.load=order_status()
 
 
 $("#exchange_now").click(function(){
@@ -237,17 +150,12 @@ data: {
 type: 'post',
 success: function (data) {
   location.reload(); 
-
-
-}
+  }
 });
 } else{
   alert("Please select Order Id")
 }
-
- 
-
-})
+});
 
 	//$('#checkAll').change(function () {
 		$(document).on("change", "#checkAll", function(event){
@@ -287,7 +195,143 @@ if(order_id.length==0){
 
 
 });
-})
+
+function fetch_data(page,status)
+        {
+            $.ajax({
+                type:"GET",              
+                url:"{{url('admin/order/pagination')}}?page="+page+"&status="+status,
+                success:function(data)
+                {
+                   $('tbody').html('');
+                    $('tbody').html(data);
+                }
+            })
+        }
+        function order_status()
+        {
+            $.ajax({
+                type:"GET",              
+                url:"{{url('admin/order/order_status')}}",
+                success:function(data)
+                {
+                   $('#order_status_view').html(data);                   
+                }
+            })
+        }
+function orderStatus(status){
+                    $('#status').val(status);
+                    let page= 1;         
+                     fetch_data(page,status); 
+          } 
+
 </script>
+
+
+<script>
+
+   
+        function pagination_search_by_order_id(query)
+        {
+          var page=1
+            $.ajax({
+                type:"GET",
+                url:"{{url('admin/order/pagination_search_by_order_id')}}?page="+page+"&query="+query,
+                success:function(data)
+                {
+                    $('tbody').html('');
+                    $('tbody').html(data);
+                }
+            })
+        }
+
+        
+        function pagination_search_by_phone(query)
+        {
+          var page=1
+            $.ajax({
+                type:"GET",
+                url:"{{url('admin/order/pagination_search_by_phone')}}?page="+page+"&query="+query,
+
+                success:function(data)
+                {
+                    $('tbody').html('');
+                    $('tbody').html(data);
+                }
+            })
+        }
+        function pagination_search_by_product_code(query)
+        {
+          var page=1
+            $.ajax({
+                type:"GET",
+                url:"{{url('order/pagination_search_by_product_code')}}?page="+page+"&query="+query,
+
+                success:function(data)
+                {
+                    $('tbody').html('');
+                    $('tbody').html(data);
+                }
+            })
+        }
+
+
+        $(document).on('keyup input', '#order_id', function(){
+            var query = $('#order_id').val();
+            if(query.length >1) {
+              pagination_search_by_order_id(query);
+            } else {
+              fetch_data(1, 'new');
+            }
+        });
+
+ 
+
+        $(document).on('keyup input', '#product_code', function(){
+            var query = $('#product_code').val();
+            var page = $('#hidden_page').val();
+            var status = $('#status').val();
+            if(query.length >3) {
+                pagination_search_by_product_code(page,query);
+            } else {
+              fetch_data(1, 'new');
+            }
+        });
+        $(document).on('keyup input', '#pagination_search_by_phone', function(){
+            var query = $('#pagination_search_by_phone').val();
+           
+            if(query.length >7) {
+                pagination_search_by_phone(query);
+            } else {
+              fetch_data(1, 'new');
+            }
+        });
+
+
+        $(document).on('click', '.pagination a', function(event){
+          
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            $('#hidden_page').val(page);
+         var status=$('#status').val();
+            fetch_data(page,status);
+        });
+
+
+
+            $(document).on('click', '.status_check', function() {  
+                var status=$(this).val()
+                $('#status').val(status);
+                var status=$('#status').val();
+                 var page = 1;
+                  fetch_data(page, status);
+                          });
+
+               
+
+  
+</script>
+
+
 
     @endsection
