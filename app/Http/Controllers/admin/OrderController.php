@@ -108,6 +108,38 @@ class OrderController extends Controller
        return view('admin.order.new_ajax_order',$data);
 
    }
+
+   public function convertOrder()
+   {
+    ini_set('max_execution_time', 5555555555);
+
+    $orders= DB::table('order')->where('order_id', '<=','33935')->get();
+    foreach($orders as $order){
+      $order_row= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->count();
+      if($order_row >0){
+        $data['billing_name']= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->where('meta_key','=','billing_name')->value('meta_value');
+        $data['billing_mobile']= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->where('meta_key','=','billing_phone')->value('meta_value');
+        $data['shipping_address1']= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->where('meta_key','=','shipping_address1')->value('meta_value');
+       if(strlen($data['shipping_address1']) <450){
+        DB::table('order')->where('order_id', '=',$order->order_id)->update($data);
+
+       } else {
+         continue;
+       }
+   
+      }
+    
+   }
+
+
+    }
+    
+
+       
+
+ 
+
+   
     
 
 }

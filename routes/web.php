@@ -26,6 +26,7 @@ Route::get('/login', [AdminController::class, 'login']);
     Route::get('/order/create', [OrderController::class, 'create']); 
     Route::get('/order/order_status', [OrderController::class, 'order_status']); 
     Route::post('/newProductSelectionChange', [OrderController::class, 'newProductSelectionChange']); 
+    Route::get('/convertOrder', [OrderController::class, 'convertOrder']); 
 
 
     Route::post('/orderExchange', [OrderController::class, 'orderExchange']);
