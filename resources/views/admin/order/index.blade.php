@@ -88,6 +88,11 @@ overflow: hidden;
     </section>
 
 
+<?php
+
+$status=  Session::get('status');
+if($status !='office-staff'){
+    ?>
     <div class="modal fade show" id="modal-default" aria-modal="true" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -117,6 +122,8 @@ overflow: hidden;
         </div>
         <!-- /.modal-dialog -->
       </div>
+
+   <?php }?>
       <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
       <input type="hidden" name="status" id="status" value="new" />
 

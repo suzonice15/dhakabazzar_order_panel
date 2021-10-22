@@ -2,11 +2,8 @@
 
               @foreach($orders as $order)
             <tr>
-              <td> 
-                   <span   class="badge badge-pill badge-danger">  {{$order->order_id}}</span>                
+              <td><span   class="badge badge-pill badge-danger">  {{$order->order_id}}</span>
                    {{date('d/m/Y h:i a',strtotime($order->created_time))}}
-                 
-
                 </td>
 
                 @if(Session::get('status') !='office-staff')
@@ -79,7 +76,7 @@
 
 
             <td>
-                <a title="edit" target="_blank" href="{{ url('admin/order') }}/{{ $order->order_id }}">
+                <a title="edit"   href="{{ url('admin/order') }}/{{ $order->order_id }}/edit">
                     <i class="fa fa-pencil btn btn-success btn-sm"></i>
                 </a>
 
@@ -91,7 +88,7 @@
                     {{--<i class="fa fa-fw fa-print"></i>--}}
                 {{--</button>--}}
 
-                <a title="print" target="_blank" href="{{ url('admin/order/invoice-print') }}/{{ $order->order_id }}">
+                <a title="print"   href="{{ url('admin/order/invoice-print') }}/{{ $order->order_id }}">
 
                     <i class="fa fa-print btn btn-success btn-sm"></i>
                 </a>

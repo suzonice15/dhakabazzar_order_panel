@@ -14,10 +14,7 @@ class AdminController extends Controller
         $data['users']=  DB::table('admin')->get();
         return view('admin.user.index',$data);
     }
-    public  function donate(){
-        $data['donates']=  DB::table('donate_us')->get();
-        return view('admin.user.donate_us',$data);
-    }
+    
 
     
     public  function create(){ 

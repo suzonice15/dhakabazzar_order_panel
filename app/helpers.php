@@ -21,3 +21,12 @@ function officeStaffName($id){
   
    
   }
+function single_product_information($product_id)
+{
+  $result=DB::table('product')->select('sku','product_name','product_title')->where('product_id',$product_id)->first();
+
+  if($result){
+    return $result;
+
+  }
+}

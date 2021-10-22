@@ -20,12 +20,17 @@ Route::get('/login', [AdminController::class, 'login']);
   Route::get('/logout', [AdminController::class, 'logout']);
 
    
-    Route::post('/login', [AdminController::class, 'LoginCheck']); 
+    Route::post('/login', [AdminController::class, 'LoginCheck']);
     Route::get('/dashboard', [DashboardController::class, 'index']); 
-    Route::get('/order', [OrderController::class, 'index']); 
-    Route::get('/order/create', [OrderController::class, 'create']); 
-    Route::get('/order/order_status', [OrderController::class, 'order_status']); 
-    Route::post('/newProductSelectionChange', [OrderController::class, 'newProductSelectionChange']); 
+    Route::get('/order', [OrderController::class, 'index']);
+    Route::post('/order', [OrderController::class, 'store']);
+    Route::get('/order/create', [OrderController::class, 'create']);
+    Route::get('/order/{id}/edit', [OrderController::class, 'edit']); 
+    Route::get('/order/order_status', [OrderController::class, 'order_status']);
+    Route::post('/order/newProductSelectionChange', [OrderController::class, 'newProductSelectionChange']); 
+    Route::post('/order/newProductEditSelectionChange', [OrderController::class, 'newProductEditSelectionChange']); 
+    Route::post('/order/newProductUpdateChange', [OrderController::class, 'newProductUpdateChange']); 
+    Route::post('/order/{id}', [OrderController::class, 'update']); 
     Route::get('/convertOrder', [OrderController::class, 'convertOrder']); 
 
 
