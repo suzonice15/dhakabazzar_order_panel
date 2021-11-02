@@ -3,16 +3,20 @@
               @foreach($orders as $order)
             <tr>
               <td><span   class="badge badge-pill badge-danger">  {{$order->order_id}}</span>
-                   {{date('d/m/Y h:i a',strtotime($order->created_time))}}
+                   {{date('d-m-Y h:i a',strtotime($order->created_time))}}
                 </td>
 
+
+                <td style="text-align: center" >
                 @if(Session::get('status') !='office-staff')
-                <td>
-                    <input style="width: 15px;" type="checkbox" value="{{$order->order_id}}" class="form-control checkAll">
-                {{officeStaffName($order->staff_id)}}
+                    <input style="width: 15px;text-align: center" type="checkbox" value="{{$order->order_id}}" class="checkAll ">
+                    @endif
+                    <span   data-toggle="modal" data-target="#modal-edit" onclick="orderEdit({{$order->order_id}})" class="badge badge-pill badge-primary"> {{officeStaffName($order->staff_id)}}</span>
+              <span class="badge badge-pill badge-danger" >@if($order->order_area=='outside_dhaka')  Outside Dhaka   @else Inside Dhaka @endif</span>
+
                </td>
 
-               @endif
+            
                
                
              <td>
@@ -21,6 +25,9 @@
                <span   class="badge badge-pill badge-success">  {{$order->billing_mobile}}</span>
               <br>
                  {{$order->shipping_address1}}
+                 <br>
+                <span style="color:red;font-weight: 400">Note: {{$order->order_note}} </span>
+
               </td>
               <td>
                   <?php       
@@ -72,34 +79,21 @@
                 <?php } ?>
                         <br>
             </td>
-             
 
 
             <td>
-                <a title="edit"   href="{{ url('admin/order') }}/{{ $order->order_id }}/edit">
-                    <i class="fa fa-pencil btn btn-success btn-sm"></i>
+                <a title="edit"   href="{{ url('admin/order') }}/{{ $order->order_id }}/edit" class=" btn btn-success btn-sm">
+                    <i class="fa fa-pencil"></i>
+                </a> 
+
+                @if(($order->order_status=='processing') && ($order->order_print_status !=1))
+
+                <a title="print"  class="btn btn-info btn-sm" target="_blank" href="https://dhakabaazar.com/order/single_order_invoice/{{ $order->order_id }}?name={{ Session::get('name') }}">
+
+                    <i class="fa fa-print "></i>
                 </a>
-
-                {{--<a title="edit" href="{{ url('admin/order/invoice-print') }}/{{ $order->order_id }}">--}}
-                    {{--<span class="glyphicon glyphicon-print btn btn-info"></span>--}}
-                {{--</a>--}}
-
-                {{--<button type="button"  class="btn btn-info orderPrint mt-2" data-order_id="{{$order->order_id }}" data-toggle="modal" data-target="#modal-default">--}}
-                    {{--<i class="fa fa-fw fa-print"></i>--}}
-                {{--</button>--}}
-
-                <a title="print"   href="{{ url('admin/order/invoice-print') }}/{{ $order->order_id }}">
-
-                    <i class="fa fa-print btn btn-success btn-sm"></i>
-                </a>
-
-
-                {{--<a title="delete" href="{{ url('admin/product/delete') }}/{{ $order->product_id }}" onclick="return confirm('Are you want to delete this Product')">--}}
-                    {{--<span class="glyphicon glyphicon-trash btn btn-danger"></span>--}}
-                {{--</a>--}}
-
-
-                <div class="input-group input-group-lg">
+                @endif
+                <!-- <div class="input-group input-group-lg">
 
 
                     <div class="input-group-btn">
@@ -140,7 +134,7 @@
 
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </td>
         </tr>
               @endforeach 

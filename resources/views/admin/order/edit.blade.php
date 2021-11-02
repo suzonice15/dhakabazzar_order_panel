@@ -3,7 +3,7 @@
 @section('active',"Update Order")
 @section('title',"Update Order of $order->order_id")
 @section('main-content')
-    <form action="{{url('/')}}/admin/order/{{$order->order_id}}" method="post">
+    <form action="{{url('/')}}/admin/order/{{$order->order_id}}" method="post" id="order_form">
         @csrf
         <section class="content">
 
@@ -58,11 +58,31 @@
 
 
                             <div class="card-body">
-                                <div class="form-group" style="padding: 11px;margin-top: -21px;">
+                                <div class="form-group" id="order_area">
+                                    <label> <input type="radio" name="order_area"  value="inside_dhaka" @if($order->order_area=='inside_dhaka') checked="" @endif>
+                                        Inside Dhaka </label>   <label>
+                                        <input type="radio" name="order_area" value="outside_dhaka" @if($order->order_area=='outside_dhaka') checked="" @endif> Outside Dhaka
+                                    </label></div>
+                                <div class="form-group">
+                                    <label>Courier Service</label>
+                                        <select name="courier_service" class="form-control select2"                                                                                    id="courier_service">
+                                            <option value="">---- Select ----</option>
+                                            <option value="sundarban courier service">sundarban courier service</option>
+                                            <option value="karatoa courier service">karatoa courier service</option>
+                                            <option value="S A paribahan courier service">S A paribahan courier          service
+                                            </option>
+                                            <option value="Janani courier service">Janani courier service</option>
+                                            <option value="AJR Courier Service">AJR Courier Service</option>
+                                            <option value="Redx">Redx</option>
+                                        </select>
+
+                                </div>
+                                <div class="form-group" >
                                     <label>Order Status</label>
                                     <select name="order_status" id="order_status" class="form-control">
                                         <option value="new">New</option>
                                         <option value="pending_payment">Pending for Payment</option>
+                                        <option value="pending">Pending</option>
                                         <option value="processing">Processing</option>
                                         <option value="on_courier">With Courier</option>
                                         <option value="delivered">Delivered</option>
@@ -70,10 +90,18 @@
 
                                     </select>
                                 </div>
-                                <div class="form-group" style="padding: 11px;margin-top: -21px;">
+                                <div class="form-group ">
+                                    <label>Shipping Date</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                        </div>
+                                        <input type="date" name="shipment_time" class="form-control pull-right"   value="{{date("Y-m-d",strtotime($order->shipment_time))}}">
+                                    </div>
+                                </div>
+                                <div class="form-group" >
                                     <label> Order Note</label>
                                     <textarea rows="3" class="form-control"
-                                              name="order_note"></textarea>
+                                              name="order_note">{{$order->order_note}}</textarea>
 
                                 </div>
                             </div>
@@ -89,18 +117,14 @@
                             <div class="card-header">
                                 <h3 class="card-title">Order Information</h3>
                             </div>
-
-
                             <div class="card-body">
-
-
                                 <div class="card">
                                     <div class="card-header">
                                         <h3 class="card-title">Product Information</h3>
                                     </div>
                                     <div class="card-body p-0">
 
-        <span id="product_html">
+                       <span id="product_html">
                            <table class="table table-striped table-bordered">
                                <thead>
                                <tr>
@@ -113,8 +137,6 @@
                                </tr>
                                <tr>
                                </thead>
-
-
                                <?php
                                $order_ids = array();
                                $totalCommision = 0;
@@ -228,7 +250,7 @@
                                    <td
                                            class="text-right"> <span class="bold totalamout"><p> ৳ <span
                                                        id="total_cost">{{$order->order_total}}</span></p></span>
-                                       <input type="text" name="order_total" id="order_total"
+                                       <input type="hidden" name="order_total" id="order_total"
                                               value="{{$order->order_total}}">
                                </tr>
 
@@ -260,10 +282,12 @@
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-success" style="float: right">Update
-                                            </button>
-                                        </div>
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-success float-right" >Update</button>
+                                        <a href="{{ url('/') }}/admin/order" class="btn btn-danger float-right">Cancel</a>
                                     </div>
                                     <!-- /.card-body -->
                                 </div>
@@ -340,8 +364,6 @@
     <script>
 
 
-
-
         $(document).on('click', '.update_items', function () {
             var product_ids = [];
             var product_qtys = [];
@@ -411,6 +433,8 @@
             });
 
         });
+        document.forms['order_form'].elements['order_status'].value = "{{$order->order_status}}"
+        document.forms['order_form'].elements['courier_service'].value = "{{$order->courier_service}}"
 
     </script>
 

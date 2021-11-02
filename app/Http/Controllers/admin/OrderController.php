@@ -40,15 +40,39 @@ class OrderController extends Controller
           }
         }
     }
+    public function editHistory(Request $request,$order_id){
+
+
+        $data['orders'] = DB::table('order_edit_track')
+            ->where('order_id', $order_id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+         return view('admin.order.orderEditHistory',$data);
+
+    }
+
     public function pagination(Request $request)
     {
-     
-       
-            $status = $request->get('status');
+        $role_status=  Session::get('status');
+        $status = $request->get('status');
+        $staff_id=  Session::get('admin_id');
+        if($role_status=='office-staff'){
             $orders = DB::table('order')
-            ->where('order_status', $status)
+                ->where('order_status', $status)
+                ->where('staff_id','=',$staff_id)
                 ->orderBy('staff_id','desc')
-             ->paginate(10);
+                ->paginate(10);
+        } else{
+            $orders = DB::table('order')
+                ->where('order_status', $status)
+          
+                ->orderBy('staff_id','desc')
+                ->paginate(10);
+        }
+
+
+
              $data['orders']=  $orders;  
             return view('admin.order.pagination',$data);
          
@@ -98,7 +122,6 @@ class OrderController extends Controller
         $order_status = $request->order_status;
         $data['shipping_charge'] = $request->shipping_charge;
         $data['created_time'] = date("Y-m-d H:i:s");
-        $data['created_by'] = Session::get('name');
         $data['modified_time'] = date("Y-m-d");
         $data['order_date'] = date("Y-m-d");
         $data['order_total'] = $request->order_total;
@@ -107,18 +130,18 @@ class OrderController extends Controller
         $data['billing_mobile'] = $request->billing_mobile;
         $data['shipping_address1'] = $request->shipping_address1;
         $data['courier_service'] = $request->courier_service;
-        $data['staff_id'] = Session::get('admin_id');
         $data['shipping_charge'] = $request->shipping_charge;
         $data['discount_price'] = $request->discount_price;
         $data['advabced_price'] = $request->advabced_price;
         $data['order_note'] = $request->order_note;
+        $data['order_area'] = $request->order_area;
         if ($request->shipment_time) {
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
         }
         $result = DB::table('order')->where('order_id','=',$order_id)->update($data);
 
         /// order edit track
-        $order_track['status'] = "order From ".Session::get('name').$order_status;
+        $order_track['status'] =  $order_status;
         $order_track['user_id'] = Session::get('admin_id');
         $order_track['order_id'] = $order_id;
         $order_track['updated_date'] = date('Y-m-d H:i:s');
@@ -140,6 +163,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        date_default_timezone_set("Asia/Dhaka");
         $data['order_status'] = $request->order_status;
         $order_status = $request->order_status;
         $data['shipping_charge'] = $request->shipping_charge;
@@ -154,11 +178,11 @@ class OrderController extends Controller
         $data['shipping_address1'] = $request->shipping_address1;
         $data['courier_service'] = $request->courier_service;
         $data['staff_id'] = Session::get('admin_id');
-        //$data['delevery_address'] = $request->delevery;
         $data['shipping_charge'] = $request->shipping_charge;
         $data['discount_price'] = $request->discount_price;
         $data['advabced_price'] = $request->advabced_price;
         $data['order_note'] = $request->order_note;
+        $data['order_area'] = $request->order_area;
         if ($request->shipment_time) {
 
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
@@ -166,7 +190,7 @@ class OrderController extends Controller
         $orderID = DB::table('order')->insertGetId($data);
 
         /// order edit track
-        $order_track['status'] = "order From ".Session::get('name').$order_status;
+        $order_track['status'] = $order_status;
         $order_track['user_id'] = Session::get('admin_id');
         $order_track['order_id'] = $orderID;
         $order_track['updated_date'] = date('Y-m-d H:i:s');
@@ -175,7 +199,7 @@ class OrderController extends Controller
         DB::table('order_edit_track')->insert($order_track);
 
         if ($orderID) {
-            return redirect('admin/order')->with('success', 'Created successfully.');
+            return redirect('admin/order')->with('success', "Order ID $orderID Created successfully.");
         } else {
             return redirect('admin/order')->with('error', 'Error to Create this order');
         }

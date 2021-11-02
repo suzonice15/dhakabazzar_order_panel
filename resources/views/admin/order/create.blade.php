@@ -5,7 +5,7 @@
 @section('main-content')
     <form action="{{url('/')}}/admin/order" method="post">
         @csrf
-    <section class="content">
+        <section class="content">
 
 
             <div class="container-fluid">
@@ -19,30 +19,29 @@
                             </div>
 
 
-                                <div class="card-body">
-                                    <div class="form-group ">
-                                        <label for="billing_name">Name </label>
-                                        <input required class="form-control" placeholder="Customer Name" type="text"
-                                               name="billing_name"
-                                               value=""/>
-                                    </div>
-
-
-                                    <div class="form-group ">
-                                        <label for="billing_mobile">Customer Phone</label>
-                                        <input required type="text" placeholder="Customer Mobile" name="billing_mobile"
-                                               class="form-control"
-                                               value=""/>
-                                    </div>
-
-
-                                    <div class="form-group shipping-address-group ">
-                                        <label for="shipping_address1">Customer Address </label>
-                                        <textarea required class="form-control" rows="2" name="shipping_address1"
-                                                  id="shipping_address1" placeholder="Customer Address"></textarea>
-                                    </div>
+                            <div class="card-body">
+                                <div class="form-group ">
+                                    <label for="billing_name">Name </label>
+                                    <input required class="form-control" placeholder="Customer Name" type="text"
+                                           name="billing_name"
+                                           value=""/>
                                 </div>
 
+
+                                <div class="form-group ">
+                                    <label for="billing_mobile">Customer Phone</label>
+                                    <input required type="text" placeholder="Customer Mobile" name="billing_mobile"
+                                           class="form-control"
+                                           value=""/>
+                                </div>
+
+
+                                <div class="form-group shipping-address-group ">
+                                    <label for="shipping_address1">Customer Address </label>
+                                        <textarea required class="form-control" rows="2" name="shipping_address1"
+                                                  id="shipping_address1" placeholder="Customer Address"></textarea>
+                                </div>
+                            </div>
 
 
                         </div>
@@ -58,25 +57,53 @@
 
 
                             <div class="card-body">
-                                <div class="form-group" style="padding: 11px;margin-top: -21px;">
+                                <div class="form-group" id="order_area">
+                                    <label> <input type="radio" name="order_area"  value="inside_dhaka" checked="">
+                                        Inside Dhaka </label>   <label> 
+                                            <input type="radio" name="order_area" value="outside_dhaka"> Outside Dhaka
+                                    </label></div>
+
+                                <div class="form-group"  >
+                                    <label>Courier </label>
+                                    <select name="courier_service" id="courier_service" class="form-control select2">
+                                        <option value="sundarban courier service">-----Select----</option>
+                                        <option value="sundarban courier service">sundarban courier service</option>
+                                        <option value="karatoa courier service">karatoa courier service</option>
+                                        <option value="S A paribahan courier service">S A paribahan courier service
+                                        </option>
+                                        <option value="Janani courier service">Janani courier service</option>
+                                        <option value="AJR Courier Service">AJR Courier Service</option>
+                                        <option value="Redx">Redx</option>
+                                        <option value="M N courier service">M N courier service</option>
+                                        <option value="Pathao">Pathao</option>
+                                        <option value="Habib Express">Habib Express</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"  >
                                     <label>Order Status</label>
                                     <select name="order_status" id="order_status" class="form-control">
                                         <option value="new">New</option>
                                         <option value="pending_payment">Pending for Payment</option>
                                         <option value="processing">Processing</option>
-                                        <option value="on_courier">With Courier</option>
+                                        <option value="on_courier">Courier</option>
                                         <option value="delivered">Delivered</option>
-                                         <option value="cancled">Cancelled</option>
-
+                                        <option value="cancled">Cancelled</option>
                                     </select>
                                 </div>
-                                <div class="form-group" style="padding: 11px;margin-top: -21px;">
+                                <div class="form-group"  >
                                     <label> Order Note</label>
-                                    <textarea rows="3" class="form-control"
-                                              name="order_note"></textarea>
-
+                                    <textarea rows="2" class="form-control"   name="order_note"></textarea>
                                 </div>
-                            </div>
+                                <div class="form-group "> 
+                                    <label>Shipping Date</label> 
+                                    <div class="input-group date"> 
+                                        <div class="input-group-addon">                                            
+                                            </div>
+                                              <input type="date" name="shipment_time" class="form-control pull-right" id="datepicker" value="10/31/2021">
+                                     </div>     
+                                </div>
+                                 </div>
+                                   </div>
 
 
                         </div>
@@ -91,14 +118,14 @@
                             </div>
 
 
-                                <div class="card-body">
+                            <div class="card-body">
 
 
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Product Information</h3>
-                                        </div>
-                                        <div class="card-body p-0">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Product Information</h3>
+                                    </div>
+                                    <div class="card-body p-0">
 
                          <span id="product_html">
                            <table class="table table-striped table-bordered">
@@ -114,33 +141,32 @@
                            </table>
                            </span>
 
-                                            <div class="form-group">
-                                                <select name="product_ids" id="product_ids" class="form-control select2"
-                                                        multiple="multiple"
-                                                        data-placeholder="Type... product name here..."
-                                                        style="width:100%;">
+                                        <div class="form-group">
+                                            <select name="product_ids" id="product_ids" class="form-control select2"
+                                                    multiple="multiple"
+                                                    data-placeholder="Type... product name here..."
+                                                    style="width:100%;">
 
-                                                    <?php foreach($products as $product) :
-                                                    $product_title = substr($product->product_title, 0, 50)
-                                                    ?>
-                                                    <option value="{{$product->product_id}}"
-                                                    >{{$product_title}} - {{$product->sku}}</option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-success" style="float: right">Save</button>
-
-                                            </div>
-
-
+                                                <?php foreach($products as $product) :
+                                                $product_title = substr($product->product_title, 0, 50)
+                                                ?>
+                                                <option value="{{$product->product_id}}"
+                                                >{{$product_title}} - {{$product->sku}}</option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
+                                        <div class="card-footer">
+                  <button type="submit" class="btn btn-primary" style="float:right">Submit</button>
+                </div>
 
-                                        <!-- /.card-body -->
+
                                     </div>
 
-
+                                    <!-- /.card-body -->
                                 </div>
+
+
+                            </div>
 
 
                         </div>
@@ -151,7 +177,7 @@
 
                 </div>
             </div>
-    </section>
+        </section>
     </form>
     <script>
 
@@ -216,8 +242,6 @@
 
 
     <script>
-
-
 
 
         $(document).on('click', '.update_items', function () {
@@ -290,8 +314,9 @@
 
         });
 
+
     </script>
     </section>
 
-    
+
 @endsection

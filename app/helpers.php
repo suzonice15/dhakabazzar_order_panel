@@ -21,6 +21,15 @@ function officeStaffName($id){
   
    
   }
+
+function get_option($option_name)
+{
+ return DB::table('options')
+      ->select('option_value')
+      ->where('option_name',$option_name)
+     ->value('option_value'); 
+  
+}
 function single_product_information($product_id)
 {
   $result=DB::table('product')->select('sku','product_name','product_title')->where('product_id',$product_id)->first();

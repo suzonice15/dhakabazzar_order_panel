@@ -8,19 +8,15 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\SettingController; 
 
-
-Route::get('/', [AdminController::class, 'login']); 
-Route::get('/login', [AdminController::class, 'login']); 
+ 
 
 
  Route::group(['prefix'=>'admin',
-'middleware' => 'admin'], function(){   
+'middleware' => 'admin'], function(){  
    
   Route::get('/login', [AdminController::class, 'login']); 
-  Route::get('/logout', [AdminController::class, 'logout']);
-
-   
-    Route::post('/login', [AdminController::class, 'LoginCheck']);
+  Route::get('/logout', [AdminController::class, 'logout']);   
+  
     Route::get('/dashboard', [DashboardController::class, 'index']); 
     Route::get('/order', [OrderController::class, 'index']);
     Route::post('/order', [OrderController::class, 'store']);
@@ -32,6 +28,7 @@ Route::get('/login', [AdminController::class, 'login']);
     Route::post('/order/newProductUpdateChange', [OrderController::class, 'newProductUpdateChange']); 
     Route::post('/order/{id}', [OrderController::class, 'update']); 
     Route::get('/convertOrder', [OrderController::class, 'convertOrder']); 
+    Route::get('/order/editHistory/{id}', [OrderController::class, 'editHistory']); 
 
 
     Route::post('/orderExchange', [OrderController::class, 'orderExchange']);
@@ -42,13 +39,19 @@ Route::get('/login', [AdminController::class, 'login']);
     
     Route::get('/setting', [SettingController::class,'setting']);  
     Route::post('/setting', [SettingController::class,'setting']);
-    Route::get('/cache-clean', 
-    function() {
-          Cache::flush();
-        Artisan::call('cache:clear');
-       Artisan::call('view:clear');
-         return view('admin.setting.cache');
-   }
-);   
-});
 
+     
+});
+Route::get('/{id}', [AdminController::class,'login']);
+
+Route::get('/', [AdminController::class, 'login']);
+Route::get('/login', [AdminController::class, 'login']);
+Route::post('/login', [AdminController::class, 'LoginCheck']);
+Route::get('/cache-clean',
+    function() {
+        Cache::flush();
+        Artisan::call('cache:clear');
+        Artisan::call('view:clear');
+        return view('admin.setting.cache');
+    }
+);   

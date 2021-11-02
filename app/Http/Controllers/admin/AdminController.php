@@ -92,12 +92,12 @@ class AdminController extends Controller
         return redirect('/admin/user')->with('success','Updated successfully');
     }
     public function  logout(){
-
-
+ 
         Session::put("admin_id","");     
-        Session::put("admin",2); 
+
         Session::put("email","");
-        Session::put("name","");   
+        Session::put("name","");
+        Session::flush();
         return redirect('/admin/login');
     
     }

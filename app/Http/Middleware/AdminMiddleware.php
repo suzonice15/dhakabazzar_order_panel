@@ -20,7 +20,7 @@ class AdminMiddleware
           if($userId){
             return $next($request);
           } else {
-             //return redirect("/admin/login");
+             return redirect("/login");
           }
         return $next($request);
     }

@@ -35,7 +35,7 @@
         <p class="login-box-msg" style="color:red">{{Session::get('error')}}</p>
 
 
-        <form action="{{url('/')}}/admin/login" method="post">
+        <form action="{{url('/')}}/login" method="post">
    @csrf
         <div class="input-group mb-3">
           <input required name="email" type="email" class="form-control" placeholder="Email">
