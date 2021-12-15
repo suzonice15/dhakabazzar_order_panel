@@ -20,11 +20,28 @@ $subtotall = 0;
 foreach ($products as $prod) {
 $qty = $pqty[$prod->product_id];
 $total_quntity = $qty + $pqty[$prod->product_id];
-if ($prod->discount_price) {
-    $sell_price = floatval($prod->discount_price);
-} else {
-    $sell_price = floatval($prod->sell_price);
+//
+//if ($prod->discount_price) {
+//    $sell_price = floatval($prod->discount_price);
+//} else {
+//    $sell_price = floatval($prod->sell_price);
+//}
+$product_price =$prod->sell_price;
+
+$product_discount =$prod->discount_price;
+$discount_type = $prod->discount_type;
+
+
+if($discount_type == 'fixed')
+{
+    $sell_price = ($product_price - $product_discount);
 }
+elseif($discount_type == 'percent')
+{
+    $save_money = ($product_discount / 100) * $product_price;
+    $sell_price = floatval($product_price - $save_money);
+}
+
 $subtotal = ($sell_price * $qty);
 $subtotall += $subtotal;
 $product_link = url('/') . '/' . $prod->product_name;

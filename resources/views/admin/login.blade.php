@@ -25,10 +25,10 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a onclick="return false;" class="h1"><b>Admin </b>Panel</a>
+      <a onclick="return false;" class="h1"><b>Dhaka Baazar</b></a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg" style="padding: 0 17px 9px;">অ্যাডমিন প্যানেলে প্রবেশ করতে আপনার সঠিক ই-মেইল ও পাসওয়ার্ড ব্যাবহার করুন.</p>
 
      
         <p class="login-box-msg" style="color:green">{{Session::get('success')}}</p>

@@ -84,10 +84,14 @@
                                     <select name="order_status" id="order_status" class="form-control">
                                         <option value="new">New</option>
                                         <option value="pending_payment">Pending for Payment</option>
-                                        <option value="processing">Processing</option>
-                                        <option value="on_courier">Courier</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="on_courier"> Courier</option>
                                         <option value="delivered">Delivered</option>
                                         <option value="cancled">Cancelled</option>
+                                        <option value="ready_to_deliver">Pending Invoice</option>
+                                        <option value="invoice">Invoice</option>
+
+
                                     </select>
                                 </div>
                                 <div class="form-group"  >

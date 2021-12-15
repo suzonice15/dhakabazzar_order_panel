@@ -7,40 +7,45 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use Cache;
+
 class OrderController extends Controller
 {
-    public  function index(){
-      $staff_id=  Session::get('admin_id');
-      $status=  Session::get('status');
-      if($status=='office-staff'){        
-        $data['orders']= DB::table('order')
-        ->where('order_status','=','new')
-        ->where('staff_id','=',$staff_id)
-        ->orderBy('order_id','desc')->paginate(10);      
-        return view('admin.order.index',$data);
-      }
-      $data['orders']= DB::table('order')
-                                        ->where('order_status','=','new')
-                                        ->orderBy('staff_id','desc')
-                                        ->paginate(10);
+    public function index()
+    {
+        $staff_id = Session::get('admin_id');
+        $status = Session::get('status');
+        if ($status == 'office-staff') {
+            $data['orders'] = DB::table('order')
+                ->where('order_status', '=', 'new')
+                ->where('staff_id', '=', $staff_id)
+                ->orderBy('order_id', 'desc')->paginate(10);
+            return view('admin.order.index', $data);
+        }
+        $data['orders'] = DB::table('order')
+            ->where('order_status', '=', 'new')
+            ->orderBy('staff_id', 'desc')
+            ->paginate(10);
 
         $users = Cache::remember('users', 36000, function () {
-          return DB::table('users')->select('user_id','user_name')->where('user_type','=','office-staff')->get();
-      });
-      $data['users']=  $users;   
-        return view('admin.order.index',$data); 
+            return DB::table('users')->select('user_id', 'user_name')->where('user_type', '=', 'office-staff')->get();
+        });
+        $data['users'] = $users;
+        return view('admin.order.index', $data);
     }
 
-    public function orderExchange(Request $request){
-        $count=count($request->order_id);
-        if($count > 0){
-          foreach($request->order_id as $order_id){
-            $data['staff_id']=$request->staff_id;
-            DB::table('order')->where('order_id','=',$order_id)->update($data);
-          }
+    public function orderExchange(Request $request)
+    {
+        $count = count($request->order_id);
+        if ($count > 0) {
+            foreach ($request->order_id as $order_id) {
+                $data['staff_id'] = $request->staff_id;
+                DB::table('order')->where('order_id', '=', $order_id)->update($data);
+            }
         }
     }
-    public function editHistory(Request $request,$order_id){
+
+    public function editHistory(Request $request, $order_id)
+    {
 
 
         $data['orders'] = DB::table('order_edit_track')
@@ -48,34 +53,32 @@ class OrderController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-         return view('admin.order.orderEditHistory',$data);
+        return view('admin.order.orderEditHistory', $data);
 
     }
 
     public function pagination(Request $request)
     {
-        $role_status=  Session::get('status');
+        $role_status = Session::get('status');
         $status = $request->get('status');
-        $staff_id=  Session::get('admin_id');
-        if($role_status=='office-staff'){
+        $staff_id = Session::get('admin_id');
+        if ($role_status == 'office-staff') {
             $orders = DB::table('order')
                 ->where('order_status', $status)
-                ->where('staff_id','=',$staff_id)
-                ->orderBy('staff_id','desc')
+                ->where('staff_id', '=', $staff_id)
+                ->orderBy('staff_id', 'desc')
                 ->paginate(10);
-        } else{
+        } else {
             $orders = DB::table('order')
                 ->where('order_status', $status)
-          
-                ->orderBy('staff_id','desc')
+                ->orderBy('staff_id', 'desc')
                 ->paginate(10);
         }
 
 
+        $data['orders'] = $orders;
+        return view('admin.order.pagination', $data);
 
-             $data['orders']=  $orders;  
-            return view('admin.order.pagination',$data);
-         
     }
 
     public function pagination_search_by_phone(Request $request)
@@ -92,6 +95,7 @@ class OrderController extends Controller
         }
 
     }
+
     public function pagination_search_by_order_id(Request $request)
     {
 
@@ -99,7 +103,7 @@ class OrderController extends Controller
             $query = $request->get('query');
             $query = str_replace(" ", "%", $query);
             $orders = DB::table('order')
-                ->where('order_id', '=',$query)
+                ->where('order_id', '=', $query)
                 ->orderBy('order_id', 'desc')
                 ->paginate(1);
             return view('admin.order.pagination', compact('orders'));
@@ -107,16 +111,21 @@ class OrderController extends Controller
 
     }
 
-    public function create (){
-      $data['products']=DB::table('product')->select('product_id','sku','product_title')->get();
-      return view('admin.order.create',$data);  
+    public function create()
+    {
+        $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
+        return view('admin.order.create', $data);
     }
-    public function edit ($order_id){
-        $data['products']=DB::table('product')->select('product_id','sku','product_title')->get();
-        $data['order']=DB::table('order')->where('order_id','=',$order_id)->first();
-        return view('admin.order.edit',$data);
+
+    public function edit($order_id)
+    {
+        $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
+        $data['order'] = DB::table('order')->where('order_id', '=', $order_id)->first();
+        return view('admin.order.edit', $data);
     }
-    public  function update(Request $request,$order_id){
+
+    public function update(Request $request, $order_id)
+    {
 
         $data['order_status'] = $request->order_status;
         $order_status = $request->order_status;
@@ -138,10 +147,35 @@ class OrderController extends Controller
         if ($request->shipment_time) {
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
         }
-        $result = DB::table('order')->where('order_id','=',$order_id)->update($data);
+
+        if ($request->order_status == 'on_courier') {
+
+            //   order_date
+            $existingOrderID = DB::table('product_order_report')->where('order_id', '=', $order_id)->value('order_id');
+            if ($existingOrderID) {
+
+            } else {
+                $order_items = unserialize($data['products']);
+                if (is_array($order_items['items'])) {
+                    foreach ($order_items['items'] as $product_id => $item) {
+                        $sku = DB::table('product')->where('product_id', $product_id)->value('sku');
+                        $newArray[] = array(
+                            'order_id' => $order_id,
+                            'product_id' => $product_id,
+                            'product_code' => $sku,
+                            'order_date' => $data['order_date']
+                        );
+                    }
+                    DB::table('product_order_report')->insert($newArray);
+
+                }
+            }
+
+        }
+        $result = DB::table('order')->where('order_id', '=', $order_id)->update($data);
 
         /// order edit track
-        $order_track['status'] =  $order_status;
+        $order_track['status'] = $order_status;
         $order_track['user_id'] = Session::get('admin_id');
         $order_track['order_id'] = $order_id;
         $order_track['updated_date'] = date('Y-m-d H:i:s');
@@ -155,10 +189,11 @@ class OrderController extends Controller
         }
 
     }
-    
-    public function order_status (){
-      
-      return view('admin.order.order_status');  
+
+    public function order_status()
+    {
+
+        return view('admin.order.order_status');
     }
 
     public function store(Request $request)
@@ -189,6 +224,25 @@ class OrderController extends Controller
         }
         $orderID = DB::table('order')->insertGetId($data);
 
+        if ($request->order_status == 'on_courier') {
+
+
+            $order_items = unserialize($data['products']);
+            if (is_array($order_items['items'])) {
+                foreach ($order_items['items'] as $product_id => $item) {
+                    $sku = DB::table('product')->where('product_id', $product_id)->value('sku');
+                    $newArray[] = array(
+                        'order_id' => $orderID,
+                        'product_id' => $product_id,
+                        'product_code' => $sku,
+                        'order_date' => $data['order_date']
+                    );
+                }
+                DB::table('product_order_report')->insert($newArray);
+            }
+
+        }
+
         /// order edit track
         $order_track['status'] = $order_status;
         $order_track['user_id'] = Session::get('admin_id');
@@ -207,26 +261,26 @@ class OrderController extends Controller
     }
 
 
-
     public function newProductSelectionChange(Request $request)
-   {
-       $product_ids = explode(",", $request->product_id);
-       $data['qty'] = $request->product_quantity;
-       $data['shipping_charge'] = $request->shipping_charge;
-       $data['order_id'] = $request->order_id;
-       $data['products']= DB::table('product')->whereIn('product_id',$product_ids)->get();
-       $data['order']= DB::table('order')->where('order_id', $request->order_id)->first();
-       return view('admin.order.new_ajax_order',$data);
-   }
+    {
+        $product_ids = explode(",", $request->product_id);
+        $data['qty'] = $request->product_quantity;
+        $data['shipping_charge'] = $request->shipping_charge;
+        $data['order_id'] = $request->order_id;
+        $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
+        $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
+        return view('admin.order.new_ajax_order', $data);
+    }
+
     public function newProductEditSelectionChange(Request $request)
     {
         $product_ids = explode(",", $request->product_id);
         $data['qty'] = $request->product_quantity;
         $data['shipping_charge'] = $request->shipping_charge;
         $data['order_id'] = $request->order_id;
-        $data['products']= DB::table('product')->whereIn('product_id',$product_ids)->get();
-        $data['order']= DB::table('order')->where('order_id', $request->order_id)->first();
-        return view('admin.order.new_ajax_order_edit',$data);
+        $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
+        $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
+        return view('admin.order.new_ajax_order_edit', $data);
     }
 
 
@@ -238,43 +292,167 @@ class OrderController extends Controller
         $product_qtys = explode(",", $request->product_qtys);
         $data['shipping_charge'] = $request->shipping_charge;
         $data['order_id'] = $request->order_id;
-        $data['order']= DB::table('order')->where('order_id', $request->order_id)->first();
+        $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
         $pqty = array_combine($product_ids, $product_qtys);
-        $data['pqty']=$pqty;
-        $data['products']= DB::table('product')->whereIn('product_id',$product_ids)->get();
-        return view('admin.order.newProductUpdateChange',$data);
+        $data['pqty'] = $pqty;
+        $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
+        return view('admin.order.newProductUpdateChange', $data);
+    }
+
+
+    public function convertOrder()
+    {
+        ini_set('max_execution_time', 5555555555);
+
+        $orders = DB::table('order')->select('order_id')->whereBetween('order_id', [28000, 33935])->get();
+        foreach ($orders as $order) {
+            $order_row = DB::table('ordermeta')->where('order_id', '=', $order->order_id)->first();
+            if ($order_row) {
+                $data['billing_name'] = DB::table('ordermeta')->where('order_id', '=', $order->order_id)->where('meta_key', '=', 'billing_name')->value('meta_value');
+                $data['billing_mobile'] = DB::table('ordermeta')->where('order_id', '=', $order->order_id)->where('meta_key', '=', 'billing_phone')->value('meta_value');
+                $data['shipping_address1'] = DB::table('ordermeta')->where('order_id', '=', $order->order_id)->where('meta_key', '=', 'shipping_address1')->value('meta_value');
+                if (strlen($data['shipping_address1']) < 450) {
+                    DB::table('order')->where('order_id', '=', $order->order_id)->update($data);
+
+                }
+            }
+
+        }
+
+
+    }
+
+    public function productReport(Request $request)
+    {
+
+        if ($request->order_date || $request->product_code) {
+
+            if ($request->product_code) {
+                $start_date = date("Y-m-d");
+                $data['searchDate'] = $start_date;
+                $data['searchText'] = $request->product_code;
+
+                $data['orders'] = DB::table('product_order_report')
+                    ->select('sku', 'product_title', 'product_code', 'product_order_report.product_id', DB::raw('count(*) as total'))
+                    ->join('product', 'product.product_id', '=', 'product_order_report.product_id')
+                    ->where('product_code', '=', $request->product_code)
+                    ->groupBy('product_order_report.product_id')->get();
+            } else if ($request->order_date) {
+                $start_date = date("Y-m-d", strtotime($request->order_date));
+                $ending_date = date("Y-m-d", strtotime($request->order_date));
+                $data['searchDate'] = $start_date;
+                $data['orders'] = DB::table('product_order_report')
+                    ->select('sku', 'product_title', 'product_code', 'product_order_report.product_id', DB::raw('count(*) as total'))
+                    ->join('product', 'product.product_id', '=', 'product_order_report.product_id')
+                    ->whereBetween('order_date', [$start_date, $ending_date])->groupBy('product_order_report.product_id')->get();
+
+            } else {
+                $start_date = date("Y-m-d", strtotime($request->order_date));
+                $ending_date = date("Y-m-d", strtotime($request->order_date));
+                $data['searchDate'] = $start_date;
+                $data['searchText'] = $request->product_code;
+                $data['orders'] = DB::table('product_order_report')
+                    ->select('sku', 'product_title', 'product_code', 'product_order_report.product_id', DB::raw('count(*) as total'))
+                    ->join('product', 'product.product_id', '=', 'product_order_report.product_id')
+                    ->where('product_code', '=', $request->product_code)
+                    ->whereBetween('order_date', [$start_date, $ending_date])
+                    ->groupBy('product_order_report.product_id')->get();
+
+            }
+
+
+        } else {
+            $start_date = date("Y-m-d");
+            $ending_date = date("Y-m-d");
+            $data['searchDate'] = $start_date;
+            $data['orders'] = DB::table('product_order_report')
+                ->select('sku', 'product_title', 'product_code', 'product_order_report.product_id', DB::raw('count(*) as total'))
+                ->join('product', 'product.product_id', '=', 'product_order_report.product_id')
+                ->whereBetween('order_date', [$start_date, $ending_date])->groupBy('product_order_report.product_id')->get();
+
+        }
+
+
+        return view('admin.order.productReport', $data);
+
+    }
+
+    public function single_order_invoice($orderID)
+    {
+        $data['products'] = DB::table('order')->where('order_id', '=', $orderID)->value('products');
+        $order_items = unserialize($data['products']);
+        if (is_array($order_items['items'])) {
+            foreach ($order_items['items'] as $product_id => $item) {
+                $sku = DB::table('product')->where('product_id', $product_id)->value('sku');
+                $newArray[] = array(
+                    'order_id' => $orderID,
+                    'product_id' => $product_id,
+                    'product_code' => $sku,
+                    'order_date' => date("Y-m-d")
+                );
+            }
+            DB::table('product_order_report')->insert($newArray);
+        }
+        $name = Session::get('name');
+        $row_data['order_status']='invoice';
+        $row_data['order_print_status']=1;
+        DB::table('order')->where('order_id', '=', $orderID)->update($row_data);
+        return redirect("https://dhakabaazar.com/order/single_order_invoice/{$orderID}?name={$name}");
+
+    }
+
+    public function orderStatusReport(Request $request)
+    {
+        date_default_timezone_set("Asia/Dhaka");
+        $data['start_date']=date("Y-m-d");
+        $data['ending_date']=date("Y-m-d");
+        $data['orders']=array();
+        if($request->order_status){
+
+            $data['start_date']=date("Y-m-d",strtotime($request->starting_date));
+            $data['ending_date']=date("Y-m-d",strtotime($request->ending_date));
+
+            $data['orderStatus']=$request->order_status;
+            $data['orders']= DB::table('order')
+                ->where('order_date', '>=',  $data['start_date'])
+                ->where('order_date', '<=', $data['ending_date'])
+                ->where('order_status', '=', $request->order_status)
+                ->get();
+
+
+
+        }else if($request->starting_date || $request->ending_date){
+            $data['orderStatus']="";
+            $data['start_date']=date("Y-m-d",strtotime($request->starting_date));
+            $data['ending_date']=date("Y-m-d",strtotime($request->ending_date));
+        }
+        else{
+            $data['orderStatus']="";
+            $data['start_date']=date("Y-m-d");
+            $data['ending_date']=date("Y-m-d");
+        }
+
+
+        return view('admin.order.orderStatusReport', $data);
+
+ 
+    }
+
+    public  function currentMonthStaffReport(){
+        $start_date = date("Y-m-01");
+        $ending_date  = date("Y-m-31");
+
+        $data['orders']=  DB::table('order')->select('staff_id',DB::raw('count(order_id) as total'))
+
+            ->groupBy('staff_id')
+            ->where('order_date', '>=', $start_date)
+            ->where('order_date', '<=', $ending_date)
+            ->get();
+
+        return view('admin.order.currentMonthStaffReport', $data);
     }
 
 
 
-   public function convertOrder()
-   {
-    ini_set('max_execution_time', 5555555555);
- 
-    $orders= DB::table('order')->select('order_id')->whereBetween('order_id', [28000, 33935])->get();
-    foreach($orders as $order){
-      $order_row= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->first();
-      if($order_row){
-        $data['billing_name']= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->where('meta_key','=','billing_name')->value('meta_value');
-        $data['billing_mobile']= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->where('meta_key','=','billing_phone')->value('meta_value');
-        $data['shipping_address1']= DB::table('ordermeta')->where('order_id', '=',$order->order_id)->where('meta_key','=','shipping_address1')->value('meta_value');
-       if(strlen($data['shipping_address1']) <450){
-        DB::table('order')->where('order_id', '=',$order->order_id)->update($data);
-
-       } 
-      }
-    
-   }
-
-
-    }
-    
-
-       
-
- 
-
-   
-    
 
 }

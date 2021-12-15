@@ -19,10 +19,20 @@ if (count($products) > 0) {
     $totalamout = 0;
     foreach ($products as $prod) {
 
-    if ($prod->discount_price) {
-        $sell_price = floatval($prod->discount_price);
-    } else {
-        $sell_price = floatval($prod->sell_price);
+    $product_price =$prod->sell_price;
+
+    $product_discount =$prod->discount_price;
+    $discount_type = $prod->discount_type;
+
+
+    if($discount_type == 'fixed')
+    {
+        $sell_price = ($product_price - $product_discount);
+    }
+    elseif($discount_type == 'percent')
+    {
+        $save_money = ($product_discount / 100) * $product_price;
+        $sell_price = floatval($product_price - $save_money);
     }
     $subtotal = ($sell_price * $qty);
     $totalamout += $subtotal;

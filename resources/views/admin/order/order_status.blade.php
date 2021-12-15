@@ -45,15 +45,25 @@
             <!-- /.info-box -->
           </div>
           <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3" onClick="orderStatus('on_courier')">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
+            <div class="info-box-content">
+                <span class="info-box-text">Courier</span>
+                <span class="info-box-number">{{totalOrder('on_courier')}} </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+    </div>
   
           <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('processing')">
+            <div class="info-box mb-3" onClick="orderStatus('invoice')">
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Processing</span>
-                <span class="info-box-number">{{totalOrder('processing')}}  </span>
+                <span class="info-box-text">Invoice</span>
+                <span class="info-box-number">{{totalOrder('invoice')}}  </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -64,25 +74,17 @@
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Ready To Deliver</span>
+                <span class="info-box-text">Pending Invoice  </span>
                 <span class="info-box-number">{{totalOrder('ready_to_deliver')}} </span>
               </div>
               <!-- /.info-box-content -->
             </div>
             
           </div>
-         
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('on_courier')">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
- 
-              <div class="info-box-content">
-                <span class="info-box-text">Courier</span>
-                <span class="info-box-number">{{totalOrder('on_courier')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>            
-          </div>
+
+
+
+
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3" onClick="orderStatus('delivered')">
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>

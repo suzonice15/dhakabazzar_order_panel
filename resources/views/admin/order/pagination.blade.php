@@ -60,8 +60,8 @@
                 <span   class="badge badge-pill badge-info" style="background-color:#ffad55;color: black;border: none;" >Payment Pending</span>
                 <?php  } elseif ($order->order_status=='new') { ?>
                     <span   class="badge badge-pill badge-info">{{ $order->order_status }}</span>
-                <?php  } elseif ($order->order_status=='processing') { ?>
-                    <span   class="badge badge-pill badge-info">{{ $order->order_status }}</span>
+                <?php  } elseif ($order->order_status=='invoice') { ?>
+                    <span   class="badge badge-pill badge-info">Invoice</span>
                 <?php  } elseif ($order->order_status=='on_courier') { ?>
                     <span   class="badge badge-pill badge-danger">{{ $order->order_status }}</span>
                 <?php  } elseif ($order->order_status=='delivered') { ?>
@@ -75,7 +75,7 @@
                     <?php  } elseif ($order->order_status=='failed') { ?>
                     <span    class="badge badge-pill badge-danger"  >Failded Delevery </span>
                     <?php  } else {  ?>
-                    <span   class="badge badge-pill badge-success">{{ $order->order_status }}</span>
+                    <span   class="badge badge-pill badge-success">Pending Invoice</span>
                 <?php } ?>
                         <br>
             </td>
@@ -86,9 +86,9 @@
                     <i class="fa fa-pencil"></i>
                 </a> 
 
-                @if(($order->order_status=='processing') && ($order->order_print_status !=1))
+                @if(($order->order_status=='ready_to_deliver') && ($order->order_print_status !=1))
 
-                <a title="print"  class="btn btn-info btn-sm" target="_blank" href="https://dhakabaazar.com/order/single_order_invoice/{{ $order->order_id }}?name={{ Session::get('name') }}">
+                <a title="print"  class="btn btn-info btn-sm" target="_blank" href="{{url('/')}}/admin/single_order_invoice/{{ $order->order_id }}?name={{ Session::get('name') }}">
 
                     <i class="fa fa-print "></i>
                 </a>

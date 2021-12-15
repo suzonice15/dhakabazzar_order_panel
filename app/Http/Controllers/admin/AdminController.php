@@ -28,7 +28,12 @@ class AdminController extends Controller
      
 
     
-    public  function login(){       
+    public  function login(){
+       $admin_id= Session::get("admin_id");
+        if($admin_id){
+            return redirect('admin/dashboard');
+        }
+
         return view('admin.login');
         }
 

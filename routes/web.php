@@ -29,6 +29,10 @@ use App\Http\Controllers\admin\SettingController;
     Route::post('/order/{id}', [OrderController::class, 'update']); 
     Route::get('/convertOrder', [OrderController::class, 'convertOrder']); 
     Route::get('/order/editHistory/{id}', [OrderController::class, 'editHistory']); 
+    Route::get('/product/report', [OrderController::class, 'productReport']); 
+    Route::get('/single_order_invoice/{id}', [OrderController::class, 'single_order_invoice']); 
+    Route::get('/orderStatus/report', [OrderController::class, 'orderStatusReport']);
+    Route::get('/currentMonthStaffReport', [OrderController::class, 'currentMonthStaffReport']);
 
 
     Route::post('/orderExchange', [OrderController::class, 'orderExchange']);
@@ -42,16 +46,17 @@ use App\Http\Controllers\admin\SettingController;
 
      
 });
-Route::get('/{id}', [AdminController::class,'login']);
 
 Route::get('/', [AdminController::class, 'login']);
 Route::get('/login', [AdminController::class, 'login']);
 Route::post('/login', [AdminController::class, 'LoginCheck']);
-Route::get('/cache-clean',
+Route::get('/admin/cache-clean',
     function() {
         Cache::flush();
         Artisan::call('cache:clear');
         Artisan::call('view:clear');
         return view('admin.setting.cache');
     }
-);   
+);
+
+Route::get('/{id}', [AdminController::class,'login']);

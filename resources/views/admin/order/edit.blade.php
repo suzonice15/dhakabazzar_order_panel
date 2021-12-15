@@ -83,10 +83,11 @@
                                         <option value="new">New</option>
                                         <option value="pending_payment">Pending for Payment</option>
                                         <option value="pending">Pending</option>
-                                        <option value="processing">Processing</option>
-                                        <option value="on_courier">With Courier</option>
+                                        <option value="on_courier"> Courier</option>
                                         <option value="delivered">Delivered</option>
                                         <option value="cancled">Cancelled</option>
+                                        <option value="ready_to_deliver">Pending Invoice</option>
+                                        <option value="invoice">Invoice</option>
 
                                     </select>
                                 </div>
@@ -208,10 +209,9 @@
                                }
                                }
                                ?>
-
                                <tr>
                                    <td class="text-right" colspan="6">
-                                       <a class="btn btn-primary   update_items">Change</a>
+                                       <a class="btn btn-primary  btn-sm  update_items">Change</a>
                                    </td>
                                </tr>
                                <tr>
@@ -286,8 +286,8 @@
                                     </div>
 
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-success float-right" >Update</button>
-                                        <a href="{{ url('/') }}/admin/order" class="btn btn-danger float-right">Cancel</a>
+                                        <button type="submit" class="btn btn-success btn-sm float-right" >Update</button>
+                                        <a href="{{ url('/') }}/admin/order" class="btn btn-danger btn-sm float-left">Cancel</a>
                                     </div>
                                     <!-- /.card-body -->
                                 </div>

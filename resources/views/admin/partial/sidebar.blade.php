@@ -3,7 +3,9 @@
     <img src="https://cdn.pixabay.com/photo/2015/03/04/22/35/head-659651_960_720.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">Admin Panel</span>
 </a>
-
+<?php
+$status=Session::get("status");
+?>
 <!-- Sidebar -->
 <div class="sidebar">
     <!-- Sidebar user panel (optional) -->
@@ -22,7 +24,7 @@
     <li class="nav-item">
             <a href="{{url('/')}}/admin/dashboard" class="nav-link">
             <i class="nav-icon  fas fa-tachometer-alt"></i>                
-                <p>               Dashboard                 
+                <p>               Dashboard
                 </p>
             </a>
         </li>
@@ -48,7 +50,32 @@
                     <i class="fas fa-arrow-circle-right nav-icon"></i>
                         <p>Orders List</p>
                     </a>
-                </li>               
+                </li>     
+                @if($status=='super-admin')
+                <li class="nav-item">
+                    <a href="{{url('/')}}/admin/product/report" class="nav-link">
+                    <i class="fas fa-arrow-circle-right nav-icon"></i>
+                        <p>Product report </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{url('/')}}/admin/orderStatus/report" class="nav-link">
+                        <i class="fas fa-arrow-circle-right nav-icon"></i>
+                        <p>Order Status Report </p>
+                    </a>
+                </li>
+                    <li class="nav-item">
+                        <a href="{{url('/')}}/admin/currentMonthStaffReport" class="nav-link">
+                            <i class="fas fa-arrow-circle-right nav-icon"></i>
+                            <p>Current Month Staff Report </p>
+                        </a>
+                    </li>
+
+                    @endif
+
+
+
 
             </ul>
         </li>
@@ -108,3 +135,15 @@
 </nav>
 </div>
 <!-- /.sidebar -->
+
+<script type="text/javascript">
+ var url = window.location;
+const allLinks = document.querySelectorAll('.nav-item a');
+const currentLink = [...allLinks].filter(e => {
+  return e.href == url;
+});
+
+currentLink[0].classList.add("active")
+currentLink[0].closest(".nav-treeview").style.display="block";
+currentLink[0].closest(".has-treeview").classList.add("active");
+</script>

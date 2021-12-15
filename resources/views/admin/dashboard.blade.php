@@ -2,6 +2,7 @@
 @extends('admin.master')
 @section('main',"Dashboard")
 @section('active',"Dashboard")
+@section('title',"Dashboard")
 @section('main-content')
 <section class="content">
     <div class="container-fluid">
@@ -59,8 +60,8 @@
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Processing</span>
-                <span class="info-box-number">{{totalOrder('processing')}}  </span>
+                <span class="info-box-text">Invoice</span>
+                <span class="info-box-number">{{totalOrder('invoice')}}  </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -71,7 +72,7 @@
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Ready To Deliver</span>
+                <span class="info-box-text">Pending Invoice</span>
                 <span class="info-box-number">{{totalOrder('ready_to_deliver')}} </span>
               </div>
               <!-- /.info-box-content -->
@@ -119,7 +120,6 @@
             
           </div>
         </div>
-
 
     </div><!--/. container-fluid -->
 </section>

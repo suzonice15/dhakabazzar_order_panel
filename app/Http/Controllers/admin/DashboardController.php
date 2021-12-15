@@ -9,7 +9,8 @@ class DashboardController extends Controller
 {
     public  function index(){
 
-      $data['users']=  DB::table('users')->get();
+        $data['users']=  DB::table('users')->get();
+
         return view('admin.dashboard',$data);
     }
 }
