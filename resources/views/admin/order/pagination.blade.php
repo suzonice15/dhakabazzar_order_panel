@@ -3,7 +3,8 @@
               @foreach($orders as $order)
             <tr>
               <td><span   class="badge badge-pill badge-danger">  {{$order->order_id}}</span>
-                   {{date('d-m-Y h:i a',strtotime($order->created_time))}}
+                  <span   class="badge badge-pill badge-success">    {{date('d-m-Y',strtotime($order->created_time))}}</span>
+                   {{date('h:i a',strtotime($order->created_time))}}
                 </td>
 
 

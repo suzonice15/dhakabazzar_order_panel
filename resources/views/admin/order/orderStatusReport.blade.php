@@ -49,7 +49,7 @@
                     <div class="form-group"  >
                         <div class="form-group"  >
                             <label>Starting Date </label>
-                            <input type="date" name="starting_date" value="{{date("Y-m-d",strtotime($ending_date))}}" class="form-control">
+                            <input type="date" name="starting_date" value="{{date("Y-m-d",strtotime($start_date))}}" class="form-control">
                         </div>
                     </div>
                 </div>

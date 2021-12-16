@@ -23,7 +23,8 @@ class OrderController extends Controller
         }
         $data['orders'] = DB::table('order')
             ->where('order_status', '=', 'new')
-            ->orderBy('staff_id', 'desc')
+            //->orderBy('staff_id', 'desc')
+            ->orderBy('order_id', 'desc')
             ->paginate(10);
 
         $users = Cache::remember('users', 36000, function () {
@@ -63,15 +64,24 @@ class OrderController extends Controller
         $status = $request->get('status');
         $staff_id = Session::get('admin_id');
         if ($role_status == 'office-staff') {
-            $orders = DB::table('order')
-                ->where('order_status', $status)
-                ->where('staff_id', '=', $staff_id)
-                ->orderBy('staff_id', 'desc')
-                ->paginate(10);
+            if($status=='ready_to_deliver' || $status=='invoice'){
+                $orders = DB::table('order')
+                    ->where('order_status', $status)
+                   // ->where('staff_id', '=', $staff_id)
+                    ->orderBy('order_id', 'desc')
+                    ->paginate(10);
+            }else{
+                $orders = DB::table('order')
+                    ->where('order_status', $status)
+                    ->where('staff_id', '=', $staff_id)
+                    ->orderBy('order_id', 'desc')
+                    ->paginate(10);
+            }
+
         } else {
             $orders = DB::table('order')
                 ->where('order_status', $status)
-                ->orderBy('staff_id', 'desc')
+                ->orderBy('order_id', 'desc')
                 ->paginate(10);
         }
 
@@ -130,7 +140,7 @@ class OrderController extends Controller
         $data['order_status'] = $request->order_status;
         $order_status = $request->order_status;
         $data['shipping_charge'] = $request->shipping_charge;
-        $data['created_time'] = date("Y-m-d H:i:s");
+      //  $data['created_time'] = date("Y-m-d H:i:s");
         $data['modified_time'] = date("Y-m-d");
         $data['order_date'] = date("Y-m-d");
         $data['order_total'] = $request->order_total;
@@ -183,9 +193,9 @@ class OrderController extends Controller
         $order_track['order_note'] = $request->order_note;
         DB::table('order_edit_track')->insert($order_track);
         if ($result) {
-            return redirect('admin/order')->with('success', 'Updated successfully.');
+            return back()->with('success', 'Updated successfully.');
         } else {
-            return redirect('admin/order')->with('error', 'Error to Update this order');
+            return  back()->with('error', 'Error to Update this order');
         }
 
     }

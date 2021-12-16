@@ -1,113 +1,74 @@
-<div class="row" style="cursor: pointer;" >
 
-<div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box" onClick="orderStatus('new')">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-shopping-cart"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">New</span>
-                <span class="info-box-number">
-                 {{totalOrder('new')}}
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('pending')">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
+<style> .status_active {
+        background: #FE19B4 !important;
+        border: none;
+    }
 
-              <div class="info-box-content">
-                <span class="info-box-text">Pending</span>
-                <span class="info-box-number"> {{totalOrder('pending')}} </span>
-             
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
+    .order_status {
+        width: 23.9%;
+        background: #6A00A8;
+        font-weight: bold;
+        border: none;
+        margin: 4px;
+    }
 
-          <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
+    .btn .badge {
+        position: relative;
+        top: 2px;
+        text-align: center;
+        float: right;
+        color: red;
+    }
 
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('pending_payment')">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+    @media (max-width: 776px) {
+        .order_status {
+            width: 48%;
+            margin-bottom: 8px;
+            background: #6a00a8;
+            font-weight: bold;
+            border: none;
+            margin: 2px;
+        }
 
-              <div class="info-box-content">
-                <span class="info-box-text">   Pending Pyment</span>
-                <span class="info-box-number">{{totalOrder('pending_payment')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-    <div class="col-12 col-sm-6 col-md-3">
-        <div class="info-box mb-3" onClick="orderStatus('on_courier')">
-            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+        .btn .badge {
+            position: relative;
+            top: 2px;
+            text-align: center;
+            float: right;
+            color: red;
+        }
+    } </style>
+<div class="row" style="cursor: pointer;">
+<div class="col-12 col-lg-12 col-xl-12">
+    <button onClick="orderStatus('new')" type="button"
+            class="btn btn-primary order_status  "> New <span class="badge badge-light">     {{totalOrder('new')}}</span>
+    </button>
 
-            <div class="info-box-content">
-                <span class="info-box-text">Courier</span>
-                <span class="info-box-number">{{totalOrder('on_courier')}} </span>
-            </div>
-            <!-- /.info-box-content -->
-        </div>
-    </div>
-  
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('invoice')">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
+    <button onClick="orderStatus('pending')" type="button"
+            class="btn btn-primary order_status "> Pending <span class="badge badge-light">     {{totalOrder('pending')}}</span>
+    </button>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Invoice</span>
-                <span class="info-box-number">{{totalOrder('invoice')}}  </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('ready_to_deliver')">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
+    <button onClick="orderStatus('pending_payment')" type="button"
+            class="btn btn-primary order_status ">  Pending Pyment <span class="badge badge-light">     {{totalOrder('pending_payment')}}</span>
+    </button>
+    <button onClick="orderStatus('on_courier')" type="button"
+            class="btn btn-primary order_status ">  Courier  <span class="badge badge-light">     {{totalOrder('on_courier')}}</span>
+    </button>
+    <button onClick="orderStatus('invoice')" type="button"
+            class="btn btn-primary order_status ">    Invoice <span class="badge badge-light">     {{totalOrder('invoice')}}</span>
+    </button>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Pending Invoice  </span>
-                <span class="info-box-number">{{totalOrder('ready_to_deliver')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
+    <button onClick="orderStatus('ready_to_deliver')" type="button"
+            class="btn btn-primary order_status ">  Pending Invoice   <span class="badge badge-light">     {{totalOrder('ready_to_deliver')}}</span>
+    </button>
+    <button onClick="orderStatus('delivered')" type="button"
+            class="btn btn-primary order_status ">  Delivered  <span class="badge badge-light">     {{totalOrder('delivered')}}</span>
+    </button>
+    <button onClick="orderStatus('cancled')" type="button"
+            class="btn btn-primary order_status ">  Cancled  <span class="badge badge-light">     {{totalOrder('cancled')}}</span>
+    </button>
+
+</div>
 
 
-
-
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('delivered')">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Delivered</span>
-                <span class="info-box-number">{{totalOrder('delivered')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3" onClick="orderStatus('cancled')">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Cancled</span>
-                <span class="info-box-number">{{totalOrder('cancled')}} </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            
-          </div>
-        </div>
-        </div>
+</div>

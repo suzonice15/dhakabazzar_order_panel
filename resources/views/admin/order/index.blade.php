@@ -5,6 +5,7 @@
 
 @section('main-content')
 
+
     <style>
         .img-responsive {
             float: left;
