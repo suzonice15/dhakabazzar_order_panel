@@ -54,8 +54,12 @@
                     </tr>
                   </thead>
                   <tbody>
+                  <?php $total_quantity=0;?>
                       @if($orders)
                       @foreach($orders as $key=>$order)
+                          <?php
+                          $total_quantity += $order->total;
+                          ?>
                     <tr>
                       <td>{{++$key}}</td>
                       <td>{{$order->product_title}}</td>
@@ -65,6 +69,10 @@
                      </tr>
                     @endforeach
                     @endif
+                  <tr>
+                      <td colspan="3"  style="text-align: right">Total</td>
+                      <td style="text-align: right">{{$total_quantity}}</td>
+                  </tr>
                     
                   </tbody>
                 </table>

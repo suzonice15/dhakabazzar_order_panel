@@ -25,7 +25,7 @@ class OrderController extends Controller
             ->where('order_status', '=', 'new')
             //->orderBy('staff_id', 'desc')
             ->orderBy('order_id', 'desc')
-            ->paginate(10);
+            ->paginate(500);
 
         $users = Cache::remember('users', 36000, function () {
             return DB::table('users')->select('user_id', 'user_name')->where('user_type', '=', 'office-staff')->get();
@@ -40,6 +40,7 @@ class OrderController extends Controller
         if ($count > 0) {
             foreach ($request->order_id as $order_id) {
                 $data['staff_id'] = $request->staff_id;
+                $data['order_status'] = $request->order_status;
                 DB::table('order')->where('order_id', '=', $order_id)->update($data);
             }
         }
@@ -82,7 +83,7 @@ class OrderController extends Controller
             $orders = DB::table('order')
                 ->where('order_status', $status)
                 ->orderBy('order_id', 'desc')
-                ->paginate(10);
+                ->paginate(500);
         }
 
 
@@ -131,12 +132,13 @@ class OrderController extends Controller
     {
         $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
         $data['order'] = DB::table('order')->where('order_id', '=', $order_id)->first();
+        $data['order_track']=DB::table('order_edit_track')->where('order_id',$order_id)->orderBy('id','desc')->value('updated_date');
         return view('admin.order.edit', $data);
     }
 
     public function update(Request $request, $order_id)
     {
-
+        date_default_timezone_set("Asia/Dhaka");
         $data['order_status'] = $request->order_status;
         $order_status = $request->order_status;
         $data['shipping_charge'] = $request->shipping_charge;
@@ -159,11 +161,9 @@ class OrderController extends Controller
         }
 
         if ($request->order_status == 'on_courier') {
-
             //   order_date
             $existingOrderID = DB::table('product_order_report')->where('order_id', '=', $order_id)->value('order_id');
             if ($existingOrderID) {
-
             } else {
                 $order_items = unserialize($data['products']);
                 if (is_array($order_items['items'])) {
@@ -302,7 +302,7 @@ class OrderController extends Controller
         $product_qtys = explode(",", $request->product_qtys);
         $data['shipping_charge'] = $request->shipping_charge;
         $data['order_id'] = $request->order_id;
-        $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
+      $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
         $pqty = array_combine($product_ids, $product_qtys);
         $data['pqty'] = $pqty;
         $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
@@ -413,11 +413,13 @@ class OrderController extends Controller
 
     public function orderStatusReport(Request $request)
     {
+
+
         date_default_timezone_set("Asia/Dhaka");
         $data['start_date']=date("Y-m-d");
         $data['ending_date']=date("Y-m-d");
         $data['orders']=array();
-        if($request->order_status){
+        if($request->order_status && $request->starting_date && $request->ending_date){
 
             $data['start_date']=date("Y-m-d",strtotime($request->starting_date));
             $data['ending_date']=date("Y-m-d",strtotime($request->ending_date));
@@ -427,19 +429,33 @@ class OrderController extends Controller
                 ->where('order_date', '>=',  $data['start_date'])
                 ->where('order_date', '<=', $data['ending_date'])
                 ->where('order_status', '=', $request->order_status)
+                ->orderBy('order_id','desc')
                 ->get();
 
 
 
-        }else if($request->starting_date || $request->ending_date){
+        }else if($request->starting_date && $request->ending_date){
             $data['orderStatus']="";
             $data['start_date']=date("Y-m-d",strtotime($request->starting_date));
             $data['ending_date']=date("Y-m-d",strtotime($request->ending_date));
+            $data['orders']= DB::table('order')
+                ->where('order_date', '>=',  $data['start_date'])
+                ->where('order_date', '<=', $data['ending_date'])
+          //      ->where('order_status', '=', $request->order_status)
+          ->orderBy('order_id','desc')
+                ->get();
         }
         else{
+
             $data['orderStatus']="";
             $data['start_date']=date("Y-m-d");
             $data['ending_date']=date("Y-m-d");
+            $data['orders']= DB::table('order')
+                ->where('order_date', '>=',  $data['start_date'])
+                ->where('order_date', '<=', $data['ending_date'])
+                //      ->where('order_status', '=', $request->order_status)
+                ->orderBy('order_id','desc')
+                ->get();
         }
 
 

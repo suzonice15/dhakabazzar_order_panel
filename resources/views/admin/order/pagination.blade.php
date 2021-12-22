@@ -1,9 +1,15 @@
 
 
               @foreach($orders as $order)
-            <tr>
-              <td><span   class="badge badge-pill badge-danger">  {{$order->order_id}}</span>
-                  <span   class="badge badge-pill badge-success">    {{date('d-m-Y',strtotime($order->created_time))}}</span>
+
+                  <?php
+
+                  $order_track=DB::table('order_edit_track')->where('order_id',$order->order_id)->orderBy('id','desc')->value('updated_date');
+
+                          ?>
+                  <tr>
+              <td><span   class="badge badge-pill badge-danger" style="font-size:18px">  {{$order->order_id}}</span>
+                  <span   class="badge badge-pill badge-success" style="font-size:18px">    {{date('d-m-Y',strtotime($order->created_time))}}</span>
                    {{date('h:i a',strtotime($order->created_time))}}
                 </td>
 
@@ -21,13 +27,18 @@
                
                
              <td>
-             <span   class="badge badge-pill badge-info">   {{$order->billing_name}}</span>
+             <span   class="badge badge-pill badge-info" style="font-size:18px">   {{$order->billing_name}}</span>
                <br>
-               <span   class="badge badge-pill badge-success">  {{$order->billing_mobile}}</span>
+               <span   class="badge badge-pill badge-success" style="font-size:18px">  {{$order->billing_mobile}}</span>
               <br>
                  {{$order->shipping_address1}}
                  <br>
                 <span style="color:red;font-weight: 400">Note: {{$order->order_note}} </span>
+                    @if($order_track)
+                     <br>
+                         <span class="badge badge-pill badge-success" style="font-size:15px">{{date("d-m-Y",strtotime($order_track))}}</span>
+                         <span class="badge badge-pill badge-info" style="font-size:15px">{{date("h:i a",strtotime($order_track))}}</span>
+                     @endif
 
               </td>
               <td>
@@ -36,6 +47,8 @@
                 if(is_array($order_items['items'])) {                
                     foreach ($order_items['items'] as $product_id => $item) { 
                       $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
+                      
+                      $sku=DB::table('product')->where('product_id',$product_id)->value('sku');
                       ?>
          <span class="product-title"><?=($item['name'])?></span>
              <img  class="img-responsive"  width="50" src="<?=$featured_image?>" />
@@ -43,6 +56,7 @@
                 <i class="fal fa-times"></i>
     <?=($item['qty'])?>= {{$item['subtotal']}}
                     </p>
+                    <p  style="color:red;font-weight:bold;position: absolute;margin-top: 8px;">Code :{{$sku}}</p>
  
                 <br>
                 <?php }
@@ -87,10 +101,12 @@
                     <i class="fa fa-pencil"></i>
                 </a> 
 
-                @if(($order->order_status=='ready_to_deliver') && ($order->order_print_status !=1))
+                @if(($order->order_status=='ready_to_deliver') ||  ($order->order_status=='invoice'))
 
                 <a title="print"  class="btn btn-info btn-sm" target="_blank" href="{{url('/')}}/admin/single_order_invoice/{{ $order->order_id }}?name={{ Session::get('name') }}">
-
+                      @if($order->order_print_status ==1)
+                        Done
+                      @endif
                     <i class="fa fa-print "></i>
                 </a>
                 @endif

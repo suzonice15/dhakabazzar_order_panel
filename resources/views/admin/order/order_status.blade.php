@@ -39,7 +39,9 @@
         }
     } </style>
 <div class="row" style="cursor: pointer;">
-<div class="col-12 col-lg-12 col-xl-12">
+
+
+    <div class="col-12 col-lg-12 col-xl-12">
     <button onClick="orderStatus('new')" type="button"
             class="btn btn-primary order_status  "> New <span class="badge badge-light">     {{totalOrder('new')}}</span>
     </button>

@@ -15,7 +15,7 @@
 
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Customer Information</h3>
+                                <h3 class="card-title">Customer Information (<span style='font-size:22px'>{{$order->order_id}}</span>)</h3>
                             </div>
 
 
@@ -105,6 +105,17 @@
                                               name="order_note">{{$order->order_note}}</textarea>
 
                                 </div>
+                                @if($order_track)
+                                <div class="form-group" >
+                                    <label> Order Note Date</label>
+
+
+                                    <span class="badge badge-pill badge-success" style="font-size:18px">{{date("d-m-Y",strtotime($order_track))}}</span>
+                                    <span class="badge badge-pill badge-info" style="font-size:18px">{{date("h:i a",strtotime($order_track))}}</span>
+
+                                </div>
+                                    @endif
+
                             </div>
 
 

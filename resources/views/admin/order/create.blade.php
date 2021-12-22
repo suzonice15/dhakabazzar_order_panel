@@ -103,7 +103,7 @@
                                     <div class="input-group date"> 
                                         <div class="input-group-addon">                                            
                                             </div>
-                                              <input type="date" name="shipment_time" class="form-control pull-right" id="datepicker" value="10/31/2021">
+                                              <input type="date" name="shipment_time" class="form-control pull-right" id="datepicker" value="{{date("Y-m-d")}}">
                                      </div>     
                                 </div>
                                  </div>

@@ -60,8 +60,6 @@
                             <th width="10%">
                                 Order ID
                             </th>
-
-
                             <th style="width: 9%;">
                                 <span style="font-size: 15px;"> Office Staff</span>
                                 <br/>
@@ -69,15 +67,11 @@
                                     <input type="checkbox" name="all_select" id="checkAll"/>
                                 @endif
                             </th>
-
                             <th style="width:20%;text-align:left">Customer</th>
-
                             <th style="text-align:left">Products</th>
                             <th> Amount</th>
                             <th> Status</th>
-                            <th width="10%">
-                                Action
-                            </th>
+                            <th width="10%">Action </th>
 
                         </tr>
                         </thead>
@@ -110,6 +104,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class='form-group'>
+                        
+                   
                     <label>Exchange to</label>
                     <select name="staff_id" id="staff_id" class="form-control">
                         <option value="">----select----</option>
@@ -117,6 +114,24 @@
                             <option value="{{$user->user_id}}">{{$user->user_name}}</option>
                         @endforeach
                     </select>
+                     </div>
+                     
+                       <div class='form-group'>
+                        
+                   
+                    <label>Order Status</label>
+                    <select name="order_status_convert" id="order_status_convert" class="form-control">
+                        <option value="">----select----</option>
+                        <option value="new">New</option>
+                                        <option value="pending_payment">Pending for Payment</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="on_courier"> Courier</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="cancled">Cancelled</option>
+                                        <option value="ready_to_deliver">Pending Invoice</option>
+                                        <option value="invoice">Invoice</option>
+                    </select>
+                     </div>
 
 
                 </div>
@@ -174,10 +189,11 @@
         }
         $("#exchange_now").click(function () {
             var staff_id = $("#staff_id").val();
-            if (staff_id == '') {
-                alert("Please Select at least One Staff")
-                return false;
-            }
+            var order_status_convert = $("#order_status_convert").val();
+            // if (staff_id == '') {
+            //     alert("Please Select at least One Staff")
+            //     return false;
+            // }
             var order_id = new Array();
 //var allId=$('.checkAll').val();
             $('.checkAll').each(function () {
@@ -191,6 +207,7 @@
                     url: '{{url('/')}}/admin/orderExchange',
                     data: {
                         order_id: order_id,
+                        order_status:order_status_convert,
                         staff_id: $("#staff_id").val(),
                         "_token": "{{csrf_token()}}"
                     },

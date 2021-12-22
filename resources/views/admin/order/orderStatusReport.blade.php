@@ -18,6 +18,47 @@
         }
 
     </style>
+
+
+    <style> .status_active {
+            background: #FE19B4 !important;
+            border: none;
+        }
+
+        .order_status {
+            width: 23.9%;
+            background: #6A00A8;
+            font-weight: bold;
+            border: none;
+            margin: 4px;
+        }
+
+        .btn .badge {
+            position: relative;
+            top: 2px;
+            text-align: center;
+            float: right;
+            color: red;
+        }
+
+        @media (max-width: 776px) {
+            .order_status {
+                width: 48%;
+                margin-bottom: 8px;
+                background: #6a00a8;
+                font-weight: bold;
+                border: none;
+                margin: 2px;
+            }
+
+            .btn .badge {
+                position: relative;
+                top: 2px;
+                text-align: center;
+                float: right;
+                color: red;
+            }
+        } </style>
     <section class="content">
         <div class="container-fluid">
 
@@ -74,119 +115,41 @@
 </form>
 
         </div>
-            <div class="row" style="cursor: pointer;">
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-shopping-cart"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">New</span>
-                <span class="info-box-number">
-                 {{orderStatusReport('new',$start_date,$ending_date)}}
-                </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Pending</span>
-                            <span class="info-box-number"> {{orderStatusReport('pending',$start_date,$ending_date)}} </span>
-
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-
-                <!-- fix for small devices only -->
-                <div class="clearfix hidden-md-up"></div>
-
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">   Pending Pyment</span>
-                            <span class="info-box-number">{{orderStatusReport('pending_payment',$start_date,$ending_date)}} </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
 
 
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
+        <div class="col-12 col-lg-12 col-xl-12">
+            <button onClick="orderStatus('new')" type="button"
+                    class="btn btn-primary order_status  "> New <span class="badge badge-light">      {{orderStatusReport('new',$start_date,$ending_date)}}</span>
+            </button>
 
-                        <div class="info-box-content">
-                            <span class="info-box-text">Invoice</span>
-                            <span class="info-box-number">{{orderStatusReport('invoice',$start_date,$ending_date)}}  </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
+            <button onClick="orderStatus('pending')" type="button"
+                    class="btn btn-primary order_status "> Pending <span class="badge badge-light">   {{orderStatusReport('pending',$start_date,$ending_date)}}   </span>
+            </button>
 
-                </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
+            <button onClick="orderStatus('pending_payment')" type="button"
+                    class="btn btn-primary order_status ">  Pending Pyment <span class="badge badge-light">   {{orderStatusReport('pending_payment',$start_date,$ending_date)}}    </span>
+            </button>
+            <button onClick="orderStatus('on_courier')" type="button"
+                    class="btn btn-primary order_status ">  Courier  <span class="badge badge-light">   {{orderStatusReport('on_courier',$start_date,$ending_date)}}  </span>
+            </button>
+            <button onClick="orderStatus('invoice')" type="button"
+                    class="btn btn-primary order_status ">    Invoice <span class="badge badge-light">    {{orderStatusReport('invoice',$start_date,$ending_date)}}  </span>
+            </button>
 
-                        <div class="info-box-content">
-                            <span class="info-box-text">Pending Invoice</span>
-                            <span class="info-box-number">{{orderStatusReport('ready_to_deliver',$start_date,$ending_date)}} </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
+            <button onClick="orderStatus('ready_to_deliver')" type="button"
+                    class="btn btn-primary order_status ">  Pending Invoice   <span class="badge badge-light">   {{orderStatusReport('invoice',$start_date,$ending_date)}} </span>
+            </button>
+            <button onClick="orderStatus('delivered')" type="button"
+                    class="btn btn-primary order_status ">  Delivered  <span class="badge badge-light">   {{orderStatusReport('delivered',$start_date,$ending_date)}} </span>
+            </button>
+            <button onClick="orderStatus('cancled')" type="button"
+                    class="btn btn-primary order_status ">  Cancled  <span class="badge badge-light">  {{orderStatusReport('cancled',$start_date,$ending_date)}} </span>
+            </button>
 
-                </div>
+        </div>
 
 
 
-
-
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Courier</span>
-                            <span class="info-box-number">{{orderStatusReport('on_courier',$start_date,$ending_date)}} </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Delivered</span>
-                            <span class="info-box-number">{{orderStatusReport('delivered',$start_date,$ending_date)}} </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-
-                </div>
-                <div class="col-12 col-sm-6 col-md-3">
-                    <div class="info-box mb-3">
-                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Cancled</span>
-                            <span class="info-box-number">{{orderStatusReport('cancled',$start_date,$ending_date)}} </span>
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-
-                </div>
-            </div>
 
         <table class="table table-bordered">
 @if($orderStatus !='')
@@ -210,13 +173,19 @@
                     <th style="text-align:left">Products</th>
                     <th> Amount</th>
                     <th> Status</th>
+                    <th> Action</th>
 
 
                 </tr>
                 </thead>
         @foreach($orders as $order)
+                    <?php
+
+                    $order_track=DB::table('order_edit_track')->where('order_id',$order->order_id)->orderBy('id','desc')->value('updated_date');
+
+                    ?>
             <tr>
-                <td><span   class="badge badge-pill badge-danger">  {{$order->order_id}}</span>
+                <td><span   class="badge badge-pill badge-danger" style="font-size:18px">  {{$order->order_id}}</span>
                     {{date('d-m-Y h:i a',strtotime($order->created_time))}}
                 </td>
 
@@ -232,13 +201,18 @@
 
 
                 <td>
-                    <span   class="badge badge-pill badge-info">   {{$order->billing_name}}</span>
+                    <span   class="badge badge-pill badge-info" style="font-size:18px">   {{$order->billing_name}}</span>
                     <br>
-                    <span   class="badge badge-pill badge-success">  {{$order->billing_mobile}}</span>
+                    <span   class="badge badge-pill badge-success" style="font-size:18px">  {{$order->billing_mobile}}</span>
                     <br>
                     {{$order->shipping_address1}}
                     <br>
                     <span style="color:red;font-weight: 400">Note: {{$order->order_note}} </span>
+                    @if($order_track)
+                        <br>
+                        <span class="badge badge-pill badge-success" style="font-size:15px">{{date("d-m-Y",strtotime($order_track))}}</span>
+                        <span class="badge badge-pill badge-info" style="font-size:15px">{{date("h:i a",strtotime($order_track))}}</span>
+                    @endif
 
                 </td>
                 <td>
@@ -247,6 +221,7 @@
                     if(is_array($order_items['items'])) {
                     foreach ($order_items['items'] as $product_id => $item) {
                     $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
+                     $sku=DB::table('product')->where('product_id',$product_id)->value('sku');
                     ?>
                     <span class="product-title"><?=($item['name'])?></span>
                     <img  class="img-responsive"  width="50" src="<?=$featured_image?>" />
@@ -254,6 +229,7 @@
                         <i class="fal fa-times"></i>
                         <?=($item['qty'])?>= {{$item['subtotal']}}
                     </p>
+                     <p  style="color:red;font-weight:bold;position: absolute;margin-top: 8px;">Code :{{$sku}}</p>
 
                     <br>
                     <?php }
@@ -291,6 +267,22 @@
                     <?php } ?>
                     <br>
                 </td>
+                <td>
+                    <a title="edit"   href="{{ url('admin/order') }}/{{ $order->order_id }}/edit" class=" btn btn-success btn-sm">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+
+                    @if(($order->order_status=='ready_to_deliver') && ($order->order_print_status !=1))
+
+                        <a title="print"  class="btn btn-info btn-sm" target="_blank" href="{{url('/')}}/admin/single_order_invoice/{{ $order->order_id }}?name={{ Session::get('name') }}">
+
+                            <i class="fa fa-print "></i>
+                        </a>
+                    @endif
+
+
+                </td>
+
 
 
 
@@ -305,6 +297,10 @@
     </section>
 
     </div>
+
+    <script>
+        $("#order_status").val("{{$orderStatus}}");
+    </script>
 
 
 @endsection
