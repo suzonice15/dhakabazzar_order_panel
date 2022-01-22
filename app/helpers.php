@@ -25,6 +25,39 @@ function orderStatusReport($order_status,$start_date,$ending_date)
             ->count();
     
 }
+function onlineOrder($start_date,$ending_date)
+{
+
+    return DB::table('order')
+        ->whereDate('created_time', '>=', $start_date)
+        ->whereDate('created_time', '<=', $ending_date)
+        ->where('created_by', '=', 'customer')
+        ->count();
+
+}
+
+function TotalOnlineStaffOrderList($start_date,$ending_date)
+{
+
+    return DB::table('order')
+        ->whereDate('created_time', '>=', $start_date)
+        ->whereDate('created_time', '<=', $ending_date)     
+        ->count();
+
+}
+
+function StaffOrderList($start_date,$ending_date)
+{
+
+    return DB::table('order')
+        ->whereDate('created_time', '>=', $start_date)
+        ->whereDate('created_time', '<=', $ending_date)
+        ->where('created_by', '!=', 'customer')
+        ->count();
+
+}
+
+
 function getOrderStatus($order_status,$staff_id)
 {
     $start_date = date('Y-m-01');

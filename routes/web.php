@@ -26,6 +26,8 @@ use App\Http\Controllers\admin\SettingController;
     Route::post('/order/newProductSelectionChange', [OrderController::class, 'newProductSelectionChange']); 
     Route::post('/order/newProductEditSelectionChange', [OrderController::class, 'newProductEditSelectionChange']); 
     Route::post('/order/newProductUpdateChange', [OrderController::class, 'newProductUpdateChange']); 
+    Route::post('/order/ProductUpdateChangeOfNewOrder', [OrderController::class, 'ProductUpdateChangeOfNewOrder']); 
+   
     Route::post('/order/{id}', [OrderController::class, 'update']); 
     Route::get('/convertOrder', [OrderController::class, 'convertOrder']); 
     Route::get('/order/editHistory/{id}', [OrderController::class, 'editHistory']); 

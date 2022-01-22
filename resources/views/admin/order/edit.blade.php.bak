@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
 
                         <div class="card card-primary">
                             <div class="card-header">
@@ -48,62 +48,12 @@
                         </div>
 
                     </div>
-                    <div class="col-md-4">
 
-<div class="card card-info">
-    <div class="card-header">
-        <h3 class="card-title">Order Edit History</h3>
-    </div>
+                    <div class="col-md-6">
 
-
-    <div class="card-body">
-         
-<table class="table table-bordered">
-    <tr>
-        
-        <th>Name</th>      
-        <th>Order Note</th>
-        <th style="width: 99px;">Time </th>
-         
-    </tr>
-
-    <?php
-    if($orderTrackInfo) {
-    $count=0;
-    foreach ($orderTrackInfo as $order_track ){
-    ?>
-    <tr>
-       
-        <td><span class="badge badge-pill badge-danger"> <?=++$count?>  </span>  <br/> <span class="badge badge-pill badge-info">{{$order_track->user_name}}</span></td>
-        <td> <span class="badge badge-pill badge-success">{{$order_track->status}}</span>
-        <br/>
-        {{$order_track->order_note}}
-
-
-        </td>
-       
-
-        <td>{{date('d-m-Y',strtotime($order_track->updated_date))}}
-
-        {{date('h:i a',strtotime($order_track->updated_date))}}
-        </td>
-       
-    </tr>
-
-    <?php } } ?>
-</table>
-    </div>
-
-
-</div>
-
-</div>
-
-                    <div class="col-md-4">
-
-                        <div class="card card-success">
+                        <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Order Action </h3>
+                                <h3 class="card-title">Action </h3>
                             </div>
 
 
@@ -152,7 +102,7 @@
                                 <div class="form-group" >
                                     <label> Order Note</label>
                                     <textarea rows="3" class="form-control"
-                                              name="order_note"></textarea>
+                                              name="order_note">{{$order->order_note}}</textarea>
 
                                 </div>
                                 
@@ -312,7 +262,7 @@
                            </span>
 
                                         <div class="form-group">
-                                            <select required name="product_ids" id="product_ids" class="form-control select2"
+                                            <select name="product_ids" id="product_ids" class="form-control select2"
                                                     multiple="multiple"
                                                     data-placeholder="Type... product name here..."
                                                     style="width:100%;">

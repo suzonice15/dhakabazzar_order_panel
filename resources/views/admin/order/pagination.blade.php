@@ -89,6 +89,8 @@
                     <span    class="badge badge-pill badge-info" style="background-color:#ffad55;color: black;border: none;" >Phone Pending </span>
                     <?php  } elseif ($order->order_status=='failed') { ?>
                     <span    class="badge badge-pill badge-danger"  >Failded Delevery </span>
+                    <?php  } elseif ($order->order_status=='pending') { ?>
+                    <span    class="badge badge-pill badge-danger"  >Pending  </span>
                     <?php  } else {  ?>
                     <span   class="badge badge-pill badge-success">Pending Invoice</span>
                 <?php } ?>

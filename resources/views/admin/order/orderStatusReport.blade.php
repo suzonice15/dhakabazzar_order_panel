@@ -116,7 +116,40 @@
 
         </div>
 
+        <?php
 
+        $role_status = Session::get('status');
+
+        if ($role_status != 'office-staff') {
+
+        ?>
+
+
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <button onClick="orderStatus('new')" type="button"
+                        class="btn btn-success form-control "> Total Order <span class="badge badge-light">      {{TotalOnlineStaffOrderList($start_date,$ending_date)}}</span>
+                </button>
+
+            </div>
+        <div class="col-sm-6 col-md-4">
+            <button onClick="orderStatus('new')" type="button"
+                    class="btn btn-info form-control "> Online Order <span class="badge badge-light">      {{onlineOrder($start_date,$ending_date)}}</span>
+            </button>
+
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <button onClick="orderStatus('new')" type="button"
+                    class="btn btn-primary form-control "> Staff Order <span class="badge badge-light">      {{StaffOrderList($start_date,$ending_date)}}</span>
+            </button>
+        </div>
+            </div>
+
+        <?php } ?>
+
+
+
+        <div class="row">
         <div class="col-12 col-lg-12 col-xl-12">
             <button onClick="orderStatus('new')" type="button"
                     class="btn btn-primary order_status  "> New <span class="badge badge-light">      {{orderStatusReport('new',$start_date,$ending_date)}}</span>
@@ -137,7 +170,7 @@
             </button>
 
             <button onClick="orderStatus('ready_to_deliver')" type="button"
-                    class="btn btn-primary order_status ">  Pending Invoice   <span class="badge badge-light">   {{orderStatusReport('invoice',$start_date,$ending_date)}} </span>
+                    class="btn btn-primary order_status ">  Pending Invoice   <span class="badge badge-light">   {{orderStatusReport('ready_to_deliver',$start_date,$ending_date)}} </span>
             </button>
             <button onClick="orderStatus('delivered')" type="button"
                     class="btn btn-primary order_status ">  Delivered  <span class="badge badge-light">   {{orderStatusReport('delivered',$start_date,$ending_date)}} </span>
@@ -147,35 +180,22 @@
             </button>
 
         </div>
-
-
-
+        </div>
 
         <table class="table table-bordered">
 @if($orderStatus !='')
-
-
                 <thead>
                 <tr style="text-align:center">
-                    <th width="10%">
-                        Order ID
-                    </th>
-
-
+                    <th width="10%"> Order ID </th>
                     <th style="width: 9%;">
                         <span style="font-size: 15px;"> Office Staff</span>
                         <br/>
-
                     </th>
-
                     <th style="width:20%;text-align:left">Customer</th>
-
                     <th style="text-align:left">Products</th>
                     <th> Amount</th>
                     <th> Status</th>
                     <th> Action</th>
-
-
                 </tr>
                 </thead>
         @foreach($orders as $order)

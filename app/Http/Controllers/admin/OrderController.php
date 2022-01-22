@@ -132,7 +132,7 @@ class OrderController extends Controller
     {
         $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
         $data['order'] = DB::table('order')->where('order_id', '=', $order_id)->first();
-        $data['order_track']=DB::table('order_edit_track')->where('order_id',$order_id)->orderBy('id','desc')->value('updated_date');
+        $data['orderTrackInfo']=DB::table('order_edit_track')->where('order_id',$order_id)->orderBy('id','desc')->get();
         return view('admin.order.edit', $data);
     }
 
@@ -308,6 +308,23 @@ class OrderController extends Controller
         $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
         return view('admin.order.newProductUpdateChange', $data);
     }
+    public function ProductUpdateChangeOfNewOrder(Request $request)
+    {
+
+
+        $product_ids = explode(",", $request->product_ids);
+        $product_qtys = explode(",", $request->product_qtys);
+        $data['shipping_charge'] = $request->shipping_charge;
+        $data['order_id'] = $request->order_id;
+      $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
+        $pqty = array_combine($product_ids, $product_qtys);
+        $data['pqty'] = $pqty;
+        $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
+        return view('admin.order.ProductUpdateChangeOfNewOrder', $data);
+    }
+
+
+    
 
 
     public function convertOrder()
@@ -393,6 +410,9 @@ class OrderController extends Controller
         $order_items = unserialize($data['products']);
         if (is_array($order_items['items'])) {
             foreach ($order_items['items'] as $product_id => $item) {
+                $existingOrderID = DB::table('product_order_report')->where('order_id', '=', $orderID)->value('order_id');
+                if ($existingOrderID) {
+                }else{ 
                 $sku = DB::table('product')->where('product_id', $product_id)->value('sku');
                 $newArray[] = array(
                     'order_id' => $orderID,
@@ -400,8 +420,12 @@ class OrderController extends Controller
                     'product_code' => $sku,
                     'order_date' => date("Y-m-d")
                 );
+                DB::table('product_order_report')->insert($newArray);
             }
-            DB::table('product_order_report')->insert($newArray);
+
+
+            }
+          
         }
         $name = Session::get('name');
         $row_data['order_status']='invoice';
