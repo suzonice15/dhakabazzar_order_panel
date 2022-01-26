@@ -14,17 +14,24 @@
 
                      <form action="{{url('/')}}/admin/product/report" method="get" >
                   <div class="row">
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                           <h3 class="card-title">Order Product Report</h3>
                       </div>
 
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                           <div class="input-group input-group-sm" >
-                              <input type="date" name="order_date" value="@if(isset($searchDate)){{date("Y-m-d",strtotime($searchDate))}}@endif" class="form-control float-right" placeholder="Search">
+                              <input type="date" name="order_date_start" value="@if(isset($searchDateStart)){{date("Y-m-d",strtotime($searchDateStart))}}@endif" class="form-control float-right" >
 
                           </div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-3">
+                          <div class="input-group input-group-sm" >
+                              <input type="date" name="order_date_end" value="@if(isset($searchDateEnd)){{date("Y-m-d",strtotime($searchDateEnd))}}@endif" class="form-control float-right" >
+
+                          </div>
+                      </div>
+
+                      <div class="col-md-3">
                           <div class="input-group input-group-sm" >
                               <input type="text" name="product_code"  value="@if(isset($searchText)){{$searchText}} @endif" class="form-control float-right" placeholder="Search product code here ...">
                               <div class="input-group-append">

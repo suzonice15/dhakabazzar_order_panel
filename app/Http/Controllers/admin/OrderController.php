@@ -352,11 +352,14 @@ class OrderController extends Controller
     public function productReport(Request $request)
     {
 
-        if ($request->order_date || $request->product_code) {
+        if ($request->order_date_start || $request->order_date_end || $request->product_code) {
 
+            
             if ($request->product_code) {
                 $start_date = date("Y-m-d");
-                $data['searchDate'] = $start_date;
+               
+                $data['searchDateStart'] = $start_date;
+                $data['searchDateEnd'] = $start_date;
                 $data['searchText'] = $request->product_code;
 
                 $data['orders'] = DB::table('product_order_report')
@@ -364,19 +367,21 @@ class OrderController extends Controller
                     ->join('product', 'product.product_id', '=', 'product_order_report.product_id')
                     ->where('product_code', '=', $request->product_code)
                     ->groupBy('product_order_report.product_id')->get();
-            } else if ($request->order_date) {
-                $start_date = date("Y-m-d", strtotime($request->order_date));
-                $ending_date = date("Y-m-d", strtotime($request->order_date));
-                $data['searchDate'] = $start_date;
+            } else if ($request->order_date_start && $request->order_date_end ) {
+                $start_date = date("Y-m-d", strtotime($request->order_date_start));
+                $ending_date = date("Y-m-d", strtotime($request->order_date_end));
+                $data['searchDateStart'] = $start_date;
+                $data['searchDateEnd'] = $ending_date;
                 $data['orders'] = DB::table('product_order_report')
                     ->select('sku', 'product_title', 'product_code', 'product_order_report.product_id', DB::raw('count(*) as total'))
                     ->join('product', 'product.product_id', '=', 'product_order_report.product_id')
                     ->whereBetween('order_date', [$start_date, $ending_date])->groupBy('product_order_report.product_id')->get();
 
             } else {
-                $start_date = date("Y-m-d", strtotime($request->order_date));
-                $ending_date = date("Y-m-d", strtotime($request->order_date));
-                $data['searchDate'] = $start_date;
+                $start_date = date("Y-m-d", strtotime($request->order_date_start));
+                $ending_date = date("Y-m-d", strtotime($request->order_date_end));
+                $data['searchDateStart'] = $start_date;
+                $data['searchDateEnd'] = $ending_date;
                 $data['searchText'] = $request->product_code;
                 $data['orders'] = DB::table('product_order_report')
                     ->select('sku', 'product_title', 'product_code', 'product_order_report.product_id', DB::raw('count(*) as total'))
@@ -391,7 +396,8 @@ class OrderController extends Controller
         } else {
             $start_date = date("Y-m-d");
             $ending_date = date("Y-m-d");
-            $data['searchDate'] = $start_date;
+            $data['searchDateStart'] = $start_date;
+            $data['searchDateEnd'] = $start_date;
             $data['orders'] = DB::table('product_order_report')
                 ->select('sku', 'product_title', 'product_code', 'product_order_report.product_id', DB::raw('count(*) as total'))
                 ->join('product', 'product.product_id', '=', 'product_order_report.product_id')

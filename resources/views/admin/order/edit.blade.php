@@ -57,14 +57,13 @@
 
 
     <div class="card-body">
+        <div   style="height:300px;overflow-y:scroll">
          
 <table class="table table-bordered">
     <tr>
         
         <th>Name</th>      
-        <th>Order Note</th>
-        <th style="width: 99px;">Time </th>
-         
+        <th>Order Note</th>         
     </tr>
 
     <?php
@@ -74,24 +73,20 @@
     ?>
     <tr>
        
-        <td><span class="badge badge-pill badge-danger"> <?=++$count?>  </span>  <br/> <span class="badge badge-pill badge-info">{{$order_track->user_name}}</span></td>
-        <td> <span class="badge badge-pill badge-success">{{$order_track->status}}</span>
-        <br/>
+        <td> <span class="badge badge-pill badge-success">{{$order_track->status}}</span>  <br/> <span class="badge badge-pill badge-info">{{$order_track->user_name}}</span></td>
+        <td> 
+        
         {{$order_track->order_note}}
-
-
-        </td>
-       
-
-        <td>{{date('d-m-Y',strtotime($order_track->updated_date))}}
-
-        {{date('h:i a',strtotime($order_track->updated_date))}}
+        <br/>
+        <span class="badge badge-pill badge-success"> {{date('d-m-Y',strtotime($order_track->updated_date))}} </span>
+        <span class="badge badge-pill badge-success">  {{date('h:i a',strtotime($order_track->updated_date))}}</span>
         </td>
        
     </tr>
 
     <?php } } ?>
 </table>
+    </div>
     </div>
 
 
