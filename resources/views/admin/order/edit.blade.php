@@ -196,7 +196,7 @@
                                $order_id = $order->order_id;
                                $order_items = unserialize($order->products);
                                $html = null;
-                               if(is_array($order_items['items'])) {
+                               if(isset($order_items['items'])) {
                                foreach ($order_items['items'] as $product_id => $item) {
                                $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
                                $product_ids[] = $product_id;

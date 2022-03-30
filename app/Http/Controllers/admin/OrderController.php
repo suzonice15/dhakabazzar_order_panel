@@ -508,6 +508,14 @@ class OrderController extends Controller
         return view('admin.order.currentMonthStaffReport', $data);
     }
 
+    public  function getTotalProductsReport(Request $request){
+
+        $data['orders']=getTotalOrderListItems($request->status,$request->starting_date,$request->ending_date);
+        return view('admin.order.order_loop',$data);
+    }
+
+
+
 
 
 

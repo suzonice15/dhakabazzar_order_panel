@@ -46,6 +46,31 @@ function TotalOnlineStaffOrderList($start_date,$ending_date)
 
 }
 
+function getTotalOrderListItems($status,$start_date,$ending_date)
+{
+if($status==1) {
+
+
+    return DB::table('order')
+        ->whereDate('created_time', '>=', $start_date)
+        ->whereDate('created_time', '<=', $ending_date)
+        ->get();
+}elseif($status==2){
+    return DB::table('order')
+        ->whereDate('created_time', '>=', $start_date)
+        ->whereDate('created_time', '<=', $ending_date)
+        ->where('created_by', '=', 'customer')
+        ->get();
+}else{
+    return DB::table('order')
+        ->whereDate('created_time', '>=', $start_date)
+        ->whereDate('created_time', '<=', $ending_date)
+        ->where('created_by', '!=', 'customer')
+        ->get();
+}
+
+}
+
 function StaffOrderList($start_date,$ending_date)
 {
 

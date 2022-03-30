@@ -44,7 +44,7 @@
               <td>
                   <?php       
                 $order_items = unserialize($order->products);                            
-                if(is_array($order_items['items'])) {                
+                if(isset($order_items['items'])) {                
                     foreach ($order_items['items'] as $product_id => $item) { 
                       $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
                       

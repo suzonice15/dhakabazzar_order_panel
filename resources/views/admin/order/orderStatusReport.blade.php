@@ -90,7 +90,7 @@
                     <div class="form-group"  >
                         <div class="form-group"  >
                             <label>Starting Date </label>
-                            <input type="date" name="starting_date" value="{{date("Y-m-d",strtotime($start_date))}}" class="form-control">
+                            <input type="date" id="starting_date" name="starting_date" value="{{date("Y-m-d",strtotime($start_date))}}" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
 
                     <div class="form-group"  >
                         <label>Ending Date </label>
-                        <input type="date" name="ending_date" value="{{date("Y-m-d",strtotime($ending_date))}}" class="form-control">
+                        <input type="date" id="ending_date" name="ending_date" value="{{date("Y-m-d",strtotime($ending_date))}}" class="form-control">
                     </div>
                 </div>
 
@@ -119,7 +119,6 @@
         <?php
 
         $role_status = Session::get('status');
-
         if ($role_status != 'office-staff') {
 
         ?>
@@ -127,19 +126,19 @@
 
         <div class="row">
             <div class="col-sm-6 col-md-4">
-                <button onClick="orderStatus('new')" type="button"
+                <button onClick="getTotalProducts(1)" type="button"
                         class="btn btn-success form-control "> Total Order <span class="badge badge-light">      {{TotalOnlineStaffOrderList($start_date,$ending_date)}}</span>
                 </button>
 
             </div>
         <div class="col-sm-6 col-md-4">
-            <button onClick="orderStatus('new')" type="button"
+            <button onClick="getTotalProducts(2)" type="button"
                     class="btn btn-info form-control "> Online Order <span class="badge badge-light">      {{onlineOrder($start_date,$ending_date)}}</span>
             </button>
 
         </div>
         <div class="col-sm-6 col-md-4">
-            <button onClick="orderStatus('new')" type="button"
+            <button onClick="getTotalProducts(3)" type="button"
                     class="btn btn-primary form-control "> Staff Order <span class="badge badge-light">      {{StaffOrderList($start_date,$ending_date)}}</span>
             </button>
         </div>
@@ -183,7 +182,7 @@
         </div>
 
         <table class="table table-bordered">
-@if($orderStatus !='')
+
                 <thead>
                 <tr style="text-align:center">
                     <th width="10%"> Order ID </th>
@@ -198,9 +197,10 @@
                     <th> Action</th>
                 </tr>
                 </thead>
-        @foreach($orders as $order)
+            <tbody id="tbody">
+            @if($orderStatus !='')
+            @foreach($orders as $order)
                     <?php
-
                     $order_track=DB::table('order_edit_track')->where('order_id',$order->order_id)->orderBy('id','desc')->value('updated_date');
 
                     ?>
@@ -238,7 +238,7 @@
                 <td>
                     <?php
                     $order_items = unserialize($order->products);
-                    if(is_array($order_items['items'])) {
+                    if(isset($order_items['items'])) {
                     foreach ($order_items['items'] as $product_id => $item) {
                     $featured_image = isset($item['featured_image']) ? $item['featured_image'] : null;
                      $sku=DB::table('product')->where('product_id',$product_id)->value('sku');
@@ -309,6 +309,7 @@
             </tr>
         @endforeach
                 @endif
+            </tbody>
 
                 </table>
 
@@ -320,7 +321,23 @@
 
     <script>
         $("#order_status").val("{{$orderStatus}}");
+        function getTotalProducts(status){
+           var ending_date= $("#ending_date").val();
+           var starting_date= $("#starting_date").val();
+
+            $.ajax({
+                type: "GET",
+                url: "{{url('admin/order/getTotalProductsReport')}}?status=" + status+"&starting_date="+starting_date+"&ending_date="+ending_date,
+                success: function (data) {
+                    console.log(data)
+                    $('#tbody').html('');
+                    $('#tbody').html(data);
+                }
+            })
+        }
     </script>
+
+
 
 
 @endsection

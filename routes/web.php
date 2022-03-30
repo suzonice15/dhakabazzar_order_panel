@@ -35,6 +35,7 @@ use App\Http\Controllers\admin\SettingController;
     Route::get('/single_order_invoice/{id}', [OrderController::class, 'single_order_invoice']); 
     Route::get('/orderStatus/report', [OrderController::class, 'orderStatusReport']);
     Route::get('/currentMonthStaffReport', [OrderController::class, 'currentMonthStaffReport']);
+    Route::get('/order/getTotalProductsReport', [OrderController::class, 'getTotalProductsReport']);
 
 
     Route::post('/orderExchange', [OrderController::class, 'orderExchange']);
