@@ -19,3 +19,4 @@ use App\Http\Controllers\Api\ProductController;
  Route::get('/allProduct', [ProductController::class, 'allProduct']);
  Route::get('/productSearch', [ProductController::class, 'productSearch']);
  Route::get('/singleProductRightCategory/{product_id}', [ProductController::class, 'singleProductRightCategory']);
+ Route::get('/singleProductRightCategory/{product_id}', [ProductController::class, 'singleProductRightCategory']);
