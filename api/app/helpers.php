@@ -92,8 +92,7 @@ function getOrderStatus($order_status,$staff_id)
             ->where('order_status', '=', $order_status)
           ->where('order_date', '>=', $start_date)
           ->where('order_date', '<=', $ending_date)
-            ->count();
-    
+            ->count();    
 }
 
 function getPrint($staff_id)
@@ -106,7 +105,6 @@ function getPrint($staff_id)
         ->where('order_date', '>=', $start_date)
         ->where('order_date', '<=', $ending_date)
         ->count();
-
 }
 
 
@@ -116,7 +114,6 @@ function officeStaffName($id)
         ->where('user_id', '=', $id)
         ->value('user_name');
 
-
 }
 
 function get_option($option_name)
@@ -125,15 +122,30 @@ function get_option($option_name)
         ->select('option_value')
         ->where('option_name', $option_name)
         ->value('option_value');
-
 }
 
 function single_product_information($product_id)
 {
     $result = DB::table('product')->select('sku', 'product_name', 'product_title')->where('product_id', $product_id)->first();
-
     if ($result) {
         return $result;
-
     }
 }
+
+function getProductGalaryImageByProductId($product_id)
+{
+    $picture=array();
+    $media_ids= DB::table('productmeta')
+        ->where('product_id', $product_id)
+        ->where('meta_key', 'gallery_image')
+        ->value('meta_value');
+    if($media_ids){
+       $media_ids_arrays=explode(',',$media_ids);
+        $picture= DB::table('media')
+            ->select('media_path')
+            ->whereIn('media_id', $media_ids_arrays)->get();
+         return $picture;
+    }
+    return $picture;
+}
+

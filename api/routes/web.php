@@ -3,12 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\BlogController;
-use App\Http\Controllers\admin\CategoryController;
+ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\OrderController;
-use App\Http\Controllers\admin\SettingController; 
-
- 
+use App\Http\Controllers\admin\SettingController;  
 
 
  Route::group(['prefix'=>'admin',
