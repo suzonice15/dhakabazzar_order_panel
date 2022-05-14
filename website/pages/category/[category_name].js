@@ -9,17 +9,15 @@ import { api_base_url, WEBSITEURL } from '../../components/AppUrl';
   let category_name=router.query.category_name;
    const [products,setProduct]=useState([])
    useEffect(() => {         
-      getCategory(); 
-   },[category_name])
-   const getCategory=()=>{ 
-             let menu_category_url=api_base_url+"category/"+category_name;   
+      let menu_category_url=api_base_url+"category/"+category_name;   
              axios.get(menu_category_url).then(response=>{                   
               setProduct(response.data)
                }).catch(error => {
                   setProduct([])
                 console.log("slider_api_error",error)                
              }) 
-         } 
+   },[category_name])
+ 
 
          const  generatePrice=(sell_price,discount_price,discount_type)=>{
             var product_price = sell_price = sell_price;
@@ -54,7 +52,7 @@ import { api_base_url, WEBSITEURL } from '../../components/AppUrl';
             <div className="col-sm-12">
 {products.map((product,index)=>{
 return (    
-                <li    className="col-xs-6 col-sm-2">
+                <li  key={index}   className="col-xs-6 col-sm-2">
                      <div  style={{background:"white"}} className="pro-box" onClick={()=>{router.push(`/products/${product.product_name}`) }}>
                         <div  className="img-box">
                            <div className="imgbox_overflwoe">                             

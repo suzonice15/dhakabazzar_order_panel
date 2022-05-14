@@ -11,7 +11,9 @@ export default function productDescription() {
          </ul>
          <div className="tab-content">
             <div className="tab-pane active" id="description">
-               <div className="tabbox-container"> <img src="http://www.dhakabaazar.com/uploads/cutter-mavhine-2606.1-min.jpg" alt="dbimg" /> </div>
+               <div className="tabbox-container"> 
+               {/* <img src="http://www.dhakabaazar.com/uploads/cutter-mavhine-2606.1-min.jpg"   /> */}
+                </div>
             </div>
             <div className="tab-pane" id="terms">
                <div className="tabbox-container">

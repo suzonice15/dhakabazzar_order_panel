@@ -1,9 +1,9 @@
-import React from 'react'
+import react from 'react'
 import { WEBSITEURL } from '../AppUrl';
 import Image from 'next/image'
 import {  useRouter } from 'next/router';
 
-export default function hotDeal({hotProducts}) {
+export default function HotDeal({hotProducts}) {
    console.log("yes")
    const router = useRouter();
     const  generatePrice=(sell_price,discount_price,discount_type)=>{

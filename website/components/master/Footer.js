@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import Image from 'next/image';
+import { WEBSITEURL } from '../AppUrl';
 
 export default function Footer() {
   return (
@@ -10,7 +11,8 @@ export default function Footer() {
        <div className="row">
           <div className="col-sm-4">
              <div className="boxinner">
-                <img src="http://dhakabaazar.com/images/free-shipping.png" alt="Free Shipping" /> 
+                 <Image src={`${WEBSITEURL+"images/free-shipping.png"}`} alt="dhaka Bazar"    width={100}
+                                height={54}   />
                 <div className="text">
                    <strong>Free Home Delivery</strong> 
                    <p>On Order Over ৳10000</p>
@@ -19,8 +21,9 @@ export default function Footer() {
           </div>
           <div className="col-sm-4">
              <div className="boxinner item2">
-                <img src="http://dhakabaazar.com/images/secured-payment.png" alt="Secure Payment" /> 
-                <div className="text">
+             <Image   src={`${WEBSITEURL+"images/secured-payment.png"}`}    width={100}
+                                height={54}   alt="dhaka Bazar"/>
+                 <div className="text">
                    <strong>100% Secure Payment</strong> 
                    <p>bKash, uCash, Dutch Bangla Bank </p>
                 </div>
@@ -28,8 +31,10 @@ export default function Footer() {
           </div>
           <div className="col-sm-4">
              <div className="boxinner item3">
-                <img src="http://dhakabaazar.com/images/cash-on-delivery.png" alt="Cash on Delivery" /> 
-                <div className="text">
+             <Image    width={100}
+                                height={54}    src={`${WEBSITEURL+"images/cash-on-delivery.png"}`} alt="dhaka Bazar" />
+
+                 <div className="text">
                    <strong>Cash On Delivery</strong> 
                    <p>Safe &amp; Convenient Shopping</p>
                 </div>

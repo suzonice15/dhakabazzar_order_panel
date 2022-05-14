@@ -50,16 +50,16 @@ import { api_base_url } from '../components/AppUrl';
   return (
     
   
- <div class="container remove_class" style={{marginTop:130}}> 
-            <ul class="products row row5 mt30">
-            <div class="col-sm-12">
+ <div className="container remove_class" style={{marginTop:130}}> 
+            <ul className="products row row5 mt30">
+            <div className="col-sm-12">
 {products.map((product,index)=>{
 return (    
-                <li    class="col-xs-6 col-sm-2">
-                     <div class="pro-box" onClick={()=>{router.push(`/products/${product.product_name}`) }}>
-                        <div class="img-box">
-                           <div class="imgbox_overflwoe">                             
-                              <div class="freepeoduct">৳ 450 ছাড়</div>
+                <li  key={index}   className="col-xs-6 col-sm-2">
+                     <div className="pro-box" onClick={()=>{router.push(`/products/${product.product_name}`) }}>
+                        <div className="img-box">
+                           <div className="imgbox_overflwoe">                             
+                              <div className="freepeoduct">৳ 450 ছাড়</div>
                               <Image
                                 src={`${WEBSITEURL+product.featured_image}`}
                                 alt={`${product.product_title}`}
@@ -69,22 +69,22 @@ return (
                              />
                            </div>
                         </div>
-                        <div class="pro-desc">
-                           <div class="pro-name">
+                        <div className="pro-desc">
+                           <div className="pro-name">
                            <a  
                                href={`/products/${product.product_name}`}>{product.product_title.substring(0, 25)}
                                </a> 
                            </div>
-                           <div class="clearfix">
+                           <div className="clearfix">
                               <h5>Code:{product.sku}</h5>
-                              <div class="price">
+                              <div className="price">
                               {generatePrice(product.sell_price,product.discount_price,product.discount_type)}
 
                                  </div>
                            </div>
                         </div>
-                        <div class="add-btn-box">
-                           <a   class="buy_now" data-product_id="2538" data-product_price="450" data-product_title="Tea Strainer Amazing Stainless Steel Tea Infuser Pipe Design Touch Feel Good Holder Tool Tea Spoon Infuser Filter">
+                        <div className="add-btn-box">
+                           <a   className="buy_now" data-product_id="2538" data-product_price="450" data-product_title="Tea Strainer Amazing Stainless Steel Tea Infuser Pipe Design Touch Feel Good Holder Tool Tea Spoon Infuser Filter">
                            Order<span> Now</span>
                            </a>
                         </div>

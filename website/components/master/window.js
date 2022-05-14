@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
-export default function Window() {
+export default function GetWindowDimensions() {
 
   const hasWindow = typeof window !== 'undefined';
 
-  function getWindowDimensions() {
+  function GetWindowDimensions() {
     const width = hasWindow ? window.innerWidth : null;
     const height = hasWindow ? window.innerHeight : null;
     return {
@@ -13,12 +13,12 @@ export default function Window() {
     };
   }
 
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(GetWindowDimensions());
 
   useEffect(() => {
     if (hasWindow) {
       function handleResize() {
-        setWindowDimensions(getWindowDimensions());
+        setWindowDimensions(GetWindowDimensions());
       }
 
       window.addEventListener('resize', handleResize);

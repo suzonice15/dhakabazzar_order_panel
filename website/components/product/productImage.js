@@ -1,4 +1,4 @@
-import React ,{memo,useEffect} from 'react'
+import react ,{memo,useEffect} from 'react'
  import { WEBSITEURL } from '../AppUrl'
  import WindowDimention from '../../components/master/window';
 
@@ -67,6 +67,7 @@ const ProductImage=({featured_image,image,feturedImageUpdate})=> {
                      </div>
                   }	 
                </div>:
+               
                <div id="mobile_picture" className="col-sm-4 images" >
                   <div className="demo">
                   <ul id="lightSlider">

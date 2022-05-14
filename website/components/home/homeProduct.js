@@ -4,7 +4,7 @@ import { WEBSITEURL } from '../AppUrl'
 import Image from 'next/image'
 import {  useRouter } from 'next/router';
 
-export default function homeProduct({products}) { 
+export default function HomeProduct({products}) { 
     const router = useRouter();  
     const  generatePrice=(sell_price,discount_price,discount_type)=>{
         var product_price = sell_price = sell_price;

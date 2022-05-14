@@ -2,6 +2,7 @@ import React,{useState,useEffect,useContext } from 'react'
  import { DataContext } from '../../store/GlobalState';
  import Link from 'next/link'
 import { WEBSITEURL } from '../AppUrl';
+import Image from 'next/image'
  
 export default function LogoPart() {    
  const {menuCategoryList}=useContext(DataContext);
@@ -11,7 +12,13 @@ export default function LogoPart() {
     <div className="col-sm-3 logo-area">
        <div className="logo" style={{cursor:"pointer"}}> 
        <Link href={`/`}>
-            <img className="main-logo" src={`${WEBSITEURL}uploads/logogif.gif`} alt="Dhaka Bazar" /> 
+             <Image src={`${WEBSITEURL}uploads/logogif.gif`} 
+                                alt="Dhaka Bazar"
+                               
+                                width={157}
+                                height={40}
+                                                           
+                             />
        </Link>
             </div>
     </div>

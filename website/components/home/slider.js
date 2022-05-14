@@ -2,7 +2,7 @@ import React,{useContext } from 'react'
  import { DataContext } from '../../store/GlobalState';
   import {  useRouter } from 'next/router';
 import { WEBSITEURL } from '../AppUrl';
-
+import Image from 'next/image'
 export default function Slider() {    
  const {sliders}=useContext(DataContext);
  const router = useRouter(); 
@@ -16,7 +16,13 @@ export default function Slider() {
                    <div id="bannerSlider" className="carousel slide" data-ride="carousel">
                       <div className="carousel-inner" role="listbox">
                           {sliders.map((slider,index)=>
-                         <div key={index} className={`${index==0 ? "item active" :"item"}`}> <img src={`${WEBSITEURL+slider.homeslider_banner}`} alt="Dhaka Image Slider" /> </div>
+                         <div key={index} className={`${index==0 ? "item active" :"item"}`}>                             
+                             <Image  src={`${WEBSITEURL+slider.homeslider_banner}`}                                 
+                                alt="Dhaka Image Slider"  
+                                width={1600}
+                                height={500}                                
+                             />
+                             </div>
                           )}
                             <ol className="carousel-indicators">    
                             {sliders.map((slider,index)=>                    

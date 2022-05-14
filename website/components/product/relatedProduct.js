@@ -3,7 +3,7 @@ import { WEBSITEURL } from '../AppUrl'
 import Image from 'next/image'
 import {  useRouter } from 'next/router';
 
-const relatedProduct=({relatedProducts})=> {
+const RelatedProduct=({relatedProducts})=> {
    const router = useRouter();
     const  generatePrice=(sell_price,discount_price,discount_type)=>{
         var product_price = sell_price = sell_price;
@@ -82,4 +82,4 @@ return (
     </>
   )
 }
-export default memo(relatedProduct);
+export default memo(RelatedProduct);

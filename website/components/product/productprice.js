@@ -1,6 +1,5 @@
-import React from 'react'
-
-export default function productprice({product}) {
+ 
+export default function Productprice({product}) {
   return (
     <> <div className="col-sm-5 mt40column">
                   <h1 className="headinglefttitle">{product.product_title}</h1>
@@ -13,7 +12,7 @@ export default function productprice({product}) {
                         <span className="bn">৳ 1,199.00</span> 
                      </div>                      
                      <div className="prices">
-                        <form action="" method="POST" id="" enctype="multipart/form-data">
+                        <form action="" method="POST" id="" encType="multipart/form-data">
                           
                            <div className="btns">
                               <div className="cell-qty text-center">
@@ -40,11 +39,14 @@ export default function productprice({product}) {
                       <a style={{"color":"red","fontSize":"17px"}}  href="tel: +8801784-472014">☎ 01784-472014</a> 
                       <a style={{"color":"red","fontSize":"17px"}}  href="tel: +8801797-313046">☎ 01797-313046</a> 
                      <div className="imowhatsapp">
-                        <a href="https://api.whatsapp.com/send?phone=8801970778457" target="_blank" onclick="window.open('https://api.whatsapp.com/send?phone=8801970778457"> 
+                        <a href="https://api.whatsapp.com/send?phone=8801970778457"   
+                        onClick="window.open('https://api.whatsapp.com/send?phone=8801970778457"> 
                         <img style={{"width":"42px","background":"#ededed"}} src="https://www.dhakabaazar.com/images/social/wa.svg.webp" alt="LinkedInShare" /> +8801970778457 
                         </a> 
                         <a> 
-                         <img style={{"width":"42px","background":"#ededed"}} src="https://dummytech.com/wp-content/uploads/2017/12/imo-logo.jpg" alt="LinkedInShare" /> 
+                         <img style={{"width":"42px","background":"#ededed"}} 
+                         src="https://dummytech.com/wp-content/uploads/2017/12/imo-logo.jpg" 
+                         alt="LinkedInShare" /> 
                          +8801970778457
                          </a> 
                      </div>
@@ -52,8 +54,8 @@ export default function productprice({product}) {
                </div>
                <div className="col-sm-3 col-optional">
                   <div className="vertical-menu"> 
-                  <a className="active" target="_blank" href="https://www.dhakabaazar.com/kitchen-dining"> Kitchen &amp; Dining </a>
-                   <a target="_blank" href="https://www.dhakabaazar.com/slicer-cutter">Slicer &amp; Cutter </a>
+                  <a className="active"  href="https://www.dhakabaazar.com/kitchen-dining"> Kitchen &amp; Dining </a>
+                   <a   href="https://www.dhakabaazar.com/slicer-cutter">Slicer &amp; Cutter </a>
                 </div>
                </div>
     </>

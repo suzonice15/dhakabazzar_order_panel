@@ -15,36 +15,33 @@ export default function Product() {
    let product_name=router.query.product_name;
    const [featured_image_data,setFeaturedImage]=useState("")
    const [product,setProduct]=useState({
-         product:{},
+         product_row:{},
          relatedProducts:[],
          hotProducts:[],
          image:[]
    }) 
 
    useEffect(() => {         
-      getProduct(); 
+      let product_url=api_base_url+"product/"+product_name;   
+      axios.get(product_url).then(response=>{  
+       setFeaturedImage(WEBSITEURL+response.data.original.product.featured_image)
+        setProduct( {
+           product_row:response.data.original.product,
+           relatedProducts:response.data.original.related_product,
+           hotProducts:response.data.original.hot_product,
+           image:response.data.original.image,
+        }
+         )
+     
+        }).catch(error => { 
+        //   setProduct([])
+         console.log("product_error",error)                
+      }) 
    },[product_name])
    const feturedImageUpdate=image=>{
       setFeaturedImage(image)
    }
-
-   const getProduct=()=>{ 
-             let product_url=api_base_url+"product/"+product_name;   
-             axios.get(product_url).then(response=>{  
-              setFeaturedImage(WEBSITEURL+response.data.original.product.featured_image)
-               setProduct({
-                  ...product,
-                  product:response.data.original.product,
-                  relatedProducts:response.data.original.related_product,
-                  hotProducts:response.data.original.hot_product,
-                  image:response.data.original.image,
-               })
-            
-               }).catch(error => { 
-               //   setProduct([])
-                console.log("product_error",error)                
-             }) 
-         } 
+ 
               
   return ( 
 
@@ -54,7 +51,7 @@ export default function Product() {
          <div className="col-sm-12">
             <div className="row">
               <ProductImage  image={product.image} feturedImageUpdate={feturedImageUpdate}  featured_image={featured_image_data}/>
-              {/* <ProductPrice  product={product.product} /> */}
+              <ProductPrice  product={product.product_row} />
             </div>
          </div>
       </div>

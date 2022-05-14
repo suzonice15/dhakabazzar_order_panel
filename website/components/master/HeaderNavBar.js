@@ -2,7 +2,6 @@ import React,{useContext } from 'react'
  import { DataContext } from '../../store/GlobalState';
  import Link from 'next/link'
  import {  useRouter } from 'next/router';
-
 export default function HeaderNavBar() {    
  const {menuCategoryList}=useContext(DataContext);
  const router = useRouter(); 

@@ -1,5 +1,4 @@
 import Layout from '../components/master/Layout'
-import '../styles/globals.css'
 import React, { useState, useEffect } from 'react'
 import { DataProvider } from '../store/GlobalState' 
 
