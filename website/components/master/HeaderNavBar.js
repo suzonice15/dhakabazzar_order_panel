@@ -15,9 +15,10 @@ export default function HeaderNavBar() {
     <ul className="catnavul">
        <a   className="close_category_menu"><button type="button" className="close" aria-label="Close"> <span className="z_close_btn" aria-hidden="true">×</span> </button></a>
        <div className="list_all"> 
+       <li className="blazer"><Link href={`/allProduct`}>All Products </Link> </li>
        {menuCategoryList.map((cat_1,index_1)=>                 
          
-          <li className="winter-collection">
+          <li  key={index_1} className="winter-collection">
              <a onClick={()=>{router.push(`/category/${cat_1.category_name}`) }} >
                 {/* <img src="https://www.dhakabaazar.com/uploads/22-08-2019-02-14-07-hot-water-shower-tap-3509-1-min-150x150.jpg" /> */}
                  {cat_1.category_title}
@@ -28,17 +29,17 @@ export default function HeaderNavBar() {
                    {cat_1.sub.map((cat_2,index_2)=>{
                    if(typeof cat_2.child === 'object' && Object.keys(cat_2.child).length > 0){
                  return (
-                 <li className="jacket">
+                 <li  key={index_2} className="jacket">
                       <Link href={`/category/${cat_2.category_name}`}>{cat_2.category_title}</Link> 
                       <ul className="childcat">
                       {cat_2.child.map((cat_3,index_3)=>
-                         <li className="Denim"><Link href={`/category/${cat_3.category_name}`}>{cat_3.category_title}</Link></li>
+                         <li key={index_3} className="Denim"><Link href={`/category/${cat_3.category_name}`}>{cat_3.category_title}</Link></li>
                       )}
                         </ul>
                    </li>
                  )
                    }else{
-                     return  <li className="blazer"><Link href={`/category/${cat_2.category_name}`}>{cat_2.category_title}</Link> </li>
+                     return  <li   key={index_2}  className="blazer"><Link href={`/category/${cat_2.category_name}`}>{cat_2.category_title}</Link> </li>
 
                    } 
                })}

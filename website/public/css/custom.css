@@ -1,8 +1,6 @@
 *{font-family:'Open Sans', sans-serif;font-size:14px;}
 body{overflow-x:hidden;background: #eff7fa;}
-.large-12{
-    background:#fff;
-}
+ 
 .copyright-text{font-family:'Segoe UI';}
 .text-left{text-align:left;}
 #category_image_id{
@@ -103,7 +101,10 @@ article.txt{font-size:16px;line-height:25px;}
 
 /*### mobile css ###*/
 .mobile{display:none!important;}
+#mobile_picture{display:none !important}
 @media only screen and (max-width:999px){
+	#desktop_picture{display:none }
+	#mobile_picture{display:block !important;margin-top: -59px;}
  .main.support-box {
     margin: 50px auto 30px;
     margin-bottom: 63px;
@@ -364,7 +365,7 @@ border-radius: 6px;
 #services-box .services-part li:last-child{margin-right:0px;}
 .headinglefttitle{font-weight:normal;}
 .headingsubtitle{color:#000;}
-.pro-box{height:auto;margin-bottom:0px;position:relative;}
+.pro-box{height:auto;margin-bottom:0px;position:relative;border: 1px solid #ddd;}
 .imgbox_overflwoe{
    overflow: hidden; 
 }
@@ -1740,16 +1741,7 @@ border-radius: 6px;
 	transition: all 400ms ease 0s;
 }
 
-/*----ul.parentcat li:hover > ul.childcat{
-position: absolute;
-left: 100%;
-background: #0a8ded;
-width: 170px;
-top: 0px;
-display: block;
-height: auto;
-min-height: 525px;
-}--zia*/
+ 
  ul.childcat li:hover a{
   background:#fff!important;   
   color:#FF0000 !important;  
@@ -1956,7 +1948,8 @@ header .others > div > div + div {
 	background:#24a3b5;
 }
 .maincnt{
-    top: 0px;
+    top: 120px;
+margin-bottom: 110px;
 }
 
 /*catagory menu top modify  --*/
@@ -2494,12 +2487,12 @@ text-align: center;
 
 
 #demos .large-12  .item{
-	border: 1px solid #ddd !important;
-	margin-top: 10px;
-	height: 266px;
-	width: 238px;
-	padding: 6px;
-	margin: 4px;
+	border: 1px solid #ddd !important; 
+ margin-top: 10px;
+height: 266px;
+ padding: 6px;
+margin: 4px;
+text-align: center;
 }
 
 
@@ -2512,11 +2505,7 @@ text-align: center;
 #demos .large-12  .item .pro-desc,.add-btn-box
 {
 	text-align: center;
-}
-#demos .large-12  .item .add-btn-box{
-
-}
-
+} 
 .archive #category_image_id{
     display:none !important;
     

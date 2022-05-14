@@ -6,7 +6,7 @@ import Header from "./Header";
   return (
     <>
       <Header />
-      <main >
+      <main  style={{background:"#f2f2f2"}}>
        {children} 
       </main>
       <Footer />

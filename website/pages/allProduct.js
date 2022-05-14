@@ -2,18 +2,19 @@ import React ,{ useEffect ,useState}from 'react'
    import Image from 'next/image'
   import axios from 'axios'
   import {  useRouter } from 'next/router';
+import { api_base_url } from '../components/AppUrl';
 
-import { api_base_url, WEBSITEURL } from '../../components/AppUrl';
- export default function Category() {
+ 
+ export default function AllProduct() {
   let router=useRouter();
-  let category_name=router.query.category_name;
+  
    const [products,setProduct]=useState([])
    useEffect(() => {         
       getCategory(); 
-   },[category_name])
+   },[])
    const getCategory=()=>{ 
-             let menu_category_url=api_base_url+"category/"+category_name;   
-             axios.get(menu_category_url).then(response=>{                   
+             let url=api_base_url+"allProducts";   
+             axios.get(url).then(response=>{                   
               setProduct(response.data)
                }).catch(error => {
                   setProduct([])
@@ -49,21 +50,22 @@ import { api_base_url, WEBSITEURL } from '../../components/AppUrl';
   return (
     
   
- <div class="container remove_class" style={{marginTop:120}}> 
-             <ul class="products row row5 mt30">
+ <div class="container remove_class" style={{marginTop:130}}> 
+            <ul class="products row row5 mt30">
             <div class="col-sm-12">
 {products.map((product,index)=>{
 return (    
                 <li    class="col-xs-6 col-sm-2">
-                     <div  style={{background:"white"}} class="pro-box" onClick={()=>{router.push(`/products/${product.product_name}`) }}>
-                        <div  class="img-box">
+                     <div class="pro-box" onClick={()=>{router.push(`/products/${product.product_name}`) }}>
+                        <div class="img-box">
                            <div class="imgbox_overflwoe">                             
                               <div class="freepeoduct">৳ 450 ছাড়</div>
                               <Image
                                 src={`${WEBSITEURL+product.featured_image}`}
                                 alt={`${product.product_title}`}
                                 width={200}
-                                height={200}                                
+                                height={200}
+                                
                              />
                            </div>
                         </div>
@@ -96,4 +98,3 @@ return (
            </div>
                   )
                   }
-                 

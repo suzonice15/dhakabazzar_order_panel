@@ -1,8 +1,68 @@
-import React from 'react'
+import React ,{useEffect} from 'react'
 import Link from 'next/link'
 import { WEBSITEURL } from '../AppUrl'
 import Image from 'next/image'
+import {  useRouter } from 'next/router';
+
 export default function homeProduct({products}) { 
+    const router = useRouter();  
+    const  generatePrice=(sell_price,discount_price,discount_type)=>{
+        var product_price = sell_price = sell_price;
+        var product_discount = discount_price;
+        var discount_type;
+        var oldPrice='';
+        if(product_discount != 0)
+        { 
+            var discount_type =discount_type;
+              oldPrice='৳ '+sell_price;
+            let save_money;
+         let   product_discount = save_money = product_discount;
+
+            if(discount_type == 'fixed')
+            {
+                sell_price = product_price - product_discount;
+            }else if(discount_type == 'percent')
+            {
+                save_money = (product_discount / 100) * product_price;
+               sell_price = product_price - save_money;
+            }
+        }
+      return  <> <del>{oldPrice}</del> ৳ {sell_price} </> 
+
+    }
+
+     useEffect(() => {
+      setTimeout(()=>{ 
+         $('.owl-carousel').owlCarousel({
+            items: 6,
+            margin: 0,
+            nav: false,
+            dots: false,
+            autoplay: false,
+            slideBy: 6,
+            autoplayHoverPause: true,
+            rewind: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                760: {
+                    items: 4
+                },
+                960: {
+                    items: 6
+                },
+                1170: {
+                    items: 6
+                }
+            }
+        });
+
+
+       },500)
+     
+       
+     }, [])
      
   return (
     <>   
@@ -11,18 +71,19 @@ export default function homeProduct({products}) {
 
     return (<>
     
-    <div className="category-tabs" style={{"marginTop": "9px","marginLeft": "-14px"}}>
+    <div className="category-tabs" style={{"marginTop": "-9px","marginLeft": "-14px"}}>
        <Link href={`category/${product.products[0].category_name}`}  ><a className="parent homparent">{product.products[0].category_title}</a></Link>
     </div>
-
     <div id="demos" className="row">
        <div className="large-12 columns">
           <div className="owl-carousel owl-theme owl-loaded owl-drag">
              <div className="owl-stage-outer">
                 <div className="owl-stage"  > 
                 {product.products.map((product,index2)=>
-                   <div className="owl-item "  >
-                      <div className="item pro-box">
+                   <div  key={index2} className="owl-item " 
+                   onClick={()=>{router.push(`/products/${product.product_name}`) }}
+                     >
+                      <div  style={{background:"white"}} className="item pro-box">
                          <div className="pboxall">                    
                          <Image
                                 src={`${WEBSITEURL+product.featured_image}`}
@@ -33,20 +94,21 @@ export default function homeProduct({products}) {
                              />
                  <div className="pro-desc">
                                <div className="pro-name"> 
-                               <a target="_blank" 
-                               href={`/products/${product.product_name}`}>{product.product_title.substring(0, 25)}</a> 
+                                <a  
+                                 onClick={()=>{router.push(`/products/${product.product_name}`) }} >{product.product_title.substring(0, 25)}
+                               </a> 
                                </div>
                                 <div  className="clearfix">
-                                  <div  style={{"marginBottom":"-1px"}} className="price bn"> <del> ৳ 900.00 </del> ৳ 450.00 </div>
+                                  <div  style={{"marginBottom":"-1px"}} className="price bn">
+                                       {generatePrice(product.sell_price,product.discount_price,product.discount_type)}
+                                       </div>
                              
                                </div>
                             </div>
                           </div>
                       </div>
                    </div>
-)}
-
-                   
+)}                   
                 </div>
              </div>            
              
