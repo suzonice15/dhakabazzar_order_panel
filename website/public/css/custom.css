@@ -1324,7 +1324,7 @@ section.catproducts .products .pro-box .availability{right:5px;top:5px;font-size
 .support-box .boxinner{border:1px solid #ddd;border-radius:5px;padding:10px;height:60px;overflow:hidden;box-shadow:0px 1px 3px 2px #ddd;}
 /*.support-box .boxinner.item2{border-color:#ed1c24;box-shadow:0px 1px 3px 2px #ed1c24;}
 .support-box .boxinner.item3{border-color:#003A7E;box-shadow:0px 1px 3px 2px #003A7E;}*/
-.support-box img{float:left;margin-right:15px;width:35px;height:35px;}
+.support-box img{float:left;margin-right:15px;width:35px !important;height:35px !important; }
 
 div#product{box-shadow:0px 2px 2px 2px #eee;}
 .products{text-align:center;}
@@ -1354,8 +1354,16 @@ div#hotdeal{box-shadow:0px 2px 2px 2px #eee;}
 .hotdeals .hotdeal .prices-area .regular-price{float:right;color:#f00;text-decoration:line-through;}
 .hotdeals .hotdeal .btns-area{clear:both;}
 .btn-prod{width:49%;display:inline-block;padding:8px;text-align:center;font-size:12px !important;font-weight:bold;text-decoration:none;border:0px;border-radius:0px;}
-
-
+.vertical-menu a:hover {
+	background-color: #ccc;
+  }
+.vertical-menu a {
+	background-color: #eee;
+	color: black;
+	display: block;
+	padding: 12px;
+	text-decoration: none;
+  } 
 /*
 ### bestdeal ###
 */

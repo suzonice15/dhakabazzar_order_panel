@@ -30,7 +30,7 @@
 
                                 <div class="form-group ">
                                     <label for="billing_mobile">Customer Phone</label>
-                                    <input required type="text" placeholder="Customer Mobile" name="billing_mobile"
+                                    <input required type="number" placeholder="Customer Mobile" name="billing_mobile"
                                            class="form-control"
                                            value=""/>
                                 </div>
@@ -78,6 +78,31 @@
                                         <option value="Pathao">Pathao</option>
                                         <option value="Habib Express">Habib Express</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Area Name</label>
+                                    <select name="area_id" id="area_id" class="form-control select2"                                                                                    id="courier_service">
+                                        <option value="">---- Select ----</option>
+                                        @foreach($areas as $area)
+                                            <option   value="{{$area->area_id}}">{{$area->area_name}}</option>
+                                        @endforeach
+
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="weight">Product Weight</label>
+                                    <input required type="number" placeholder="Product Weight" name="weight"
+                                           class="form-control"
+                                           value=""/>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="weight">Invoice Number</label>
+                                    <input type="text" placeholder="Invoice Number" name="invoice_id"
+                                           class="form-control"
+                                           value=""/>
                                 </div>
                                 <div class="form-group"  >
                                     <label>Order Status</label>

@@ -33,6 +33,8 @@ use App\Http\Controllers\admin\SettingController;
     Route::get('/orderStatus/report', [OrderController::class, 'orderStatusReport']);
     Route::get('/currentMonthStaffReport', [OrderController::class, 'currentMonthStaffReport']);
     Route::get('/order/getTotalProductsReport', [OrderController::class, 'getTotalProductsReport']);
+    Route::get('/order/sendCourier', [OrderController::class, 'sendCourier']);
+    Route::post('/sendProductCourier', [OrderController::class, 'sendProductCourier']);
 
 
     Route::post('/orderExchange', [OrderController::class, 'orderExchange']);

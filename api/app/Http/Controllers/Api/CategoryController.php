@@ -13,7 +13,7 @@ class CategoryController extends Controller
 
     public function menuList()
     {
-        $categories= Cache::remember('menuListf', 15000, function() {
+        $categories= Cache::remember('menuList', 15000, function() {
             return Category::with('sub.child')->where('parent_id',0)->get();
         });
          return response()->json($categories);
@@ -27,7 +27,7 @@ class CategoryController extends Controller
     public function homeCategory()
     {
         $homeCategory = Cache::remember('homeCategory', 36000, function () {
-            return DB::table('category')->select('category_title','category_name')->limit(12)->get();
+            return DB::table('v_category_image_path')->get();
         });
         return $homeCategory;
 

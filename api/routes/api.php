@@ -14,9 +14,7 @@ use App\Http\Controllers\Api\ProductController;
  Route::get('/homeCategory', [CategoryController::class, 'homeCategory']);
  Route::get('/category/{category_name}', [CategoryController::class, 'categoryProducts']);
  Route::get('/product/{product_name}', [ProductController::class, 'Products']);
- Route::get('/related_products/{product_name}', [ProductController::class, 'related_products']);
- Route::get('/hotProducts', [ProductController::class, 'hotProducts']);
- Route::get('/allProduct', [ProductController::class, 'allProduct']);
+ Route::get('/allProducts', [ProductController::class, 'allProducts']);
  Route::get('/productSearch', [ProductController::class, 'productSearch']);
  Route::get('/singleProductRightCategory/{product_id}', [ProductController::class, 'singleProductRightCategory']);
- Route::get('/singleProductRightCategory/{product_id}', [ProductController::class, 'singleProductRightCategory']);
+ 

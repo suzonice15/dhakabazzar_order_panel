@@ -13,7 +13,7 @@ export default function SliderBottom() {
          
         {sliderBottomCategory.map((category,index)=>
        <div  key={index} style={{"backgroundColor":"rgb(255, 255, 255)","padding":"5px","border":"1px solid #ddd","textAlign":"center"}} className="col-md-1 col-sm-4 col-xs-4">
-           <Link href={`/category/${category.category_name}`}>
+           <Link href={`/${category.category_name}`}>
                 <Image  src={`${WEBSITEURL+category.media_path}`} 
                                 width={100}
                                 height={100} 

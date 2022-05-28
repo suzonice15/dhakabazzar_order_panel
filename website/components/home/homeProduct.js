@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { WEBSITEURL } from '../AppUrl'
 import Image from 'next/image'
 import {  useRouter } from 'next/router';
+import { GeneratePrice } from '../common/Helper';
 
 export default function HomeProduct({products}) { 
     const router = useRouter();  
@@ -100,8 +101,8 @@ export default function HomeProduct({products}) {
                                </div>
                                 <div  className="clearfix">
                                   <div  style={{"marginBottom":"-1px"}} className="price bn">
-                                       {generatePrice(product.sell_price,product.discount_price,product.discount_type)}
-                                       </div>
+                                   <GeneratePrice sell_price={product.sell_price} discount_price={product.discount_price} discount_type={product.discount_type} />
+                                  </div>
                              
                                </div>
                             </div>

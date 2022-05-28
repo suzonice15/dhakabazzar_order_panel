@@ -58,6 +58,12 @@ $status=Session::get("status");
                         <p>Order Status Report </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{url('/')}}/admin/order/sendCourier" class="nav-link">
+                        <i class="fas fa-arrow-circle-right nav-icon"></i>
+                        <p>Order Send To Courier </p>
+                    </a>
+                </li>
 				
                 @if($status=='super-admin')
                 <li class="nav-item">

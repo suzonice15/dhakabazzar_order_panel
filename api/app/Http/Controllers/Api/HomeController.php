@@ -29,13 +29,17 @@ class HomeController extends Controller
      */
     public function homeCategoryProducts()
     {
-        $home_cat_section = explode(",", get_option('home_cat_section'));
-        $data=array();
-        foreach ($home_cat_section as $key=>$home_cat){
-           $data[$key]=DB::table('v_product_category')->where('term_id',$home_cat)->limit(10)->get();;
-        }
-          ;
-        return response()->json($data);
+
+        $homeCategoryProducts= Cache::remember('homeCategoryProducts', 15000, function() {
+              $home_cat_section = explode(",", get_option('home_cat_section'));
+            $data=array();
+            foreach ($home_cat_section as $key=>$home_cat){
+                $data['products'][$key]=DB::table('v_product_category')->where('term_id',$home_cat)->limit(12)->get();
+            }
+            return $data;
+        });
+
+        return response()->json($homeCategoryProducts);
     }
 
     /**

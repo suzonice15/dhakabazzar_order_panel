@@ -46,6 +46,7 @@ class OrderController extends Controller
         }
     }
 
+
     public function editHistory(Request $request, $order_id)
     {
 
@@ -124,12 +125,15 @@ class OrderController extends Controller
 
     public function create()
     {
+
+        $data['areas']=DB::table('area')->get();
         $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
         return view('admin.order.create', $data);
     }
 
     public function edit($order_id)
     {
+        $data['areas']=DB::table('area')->get();
         $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
         $data['order'] = DB::table('order')->where('order_id', '=', $order_id)->first();
         $data['orderTrackInfo']=DB::table('order_edit_track')->where('order_id',$order_id)->orderBy('id','desc')->get();
@@ -146,6 +150,7 @@ class OrderController extends Controller
         $data['modified_time'] = date("Y-m-d");
         $data['order_date'] = date("Y-m-d");
         $data['order_total'] = $request->order_total;
+        $data['area_id'] = $request->area_id;
         $data['products'] = serialize($request->products);
         $data['billing_name'] = $request->billing_name;
         $data['billing_mobile'] = $request->billing_mobile;
@@ -156,6 +161,8 @@ class OrderController extends Controller
         $data['advabced_price'] = $request->advabced_price;
         $data['order_note'] = $request->order_note;
         $data['order_area'] = $request->order_area;
+        $data['invoice_id'] = $request->invoice_id;
+        $data['weight'] = $request->weight;
         if ($request->shipment_time) {
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
         }
@@ -222,12 +229,16 @@ class OrderController extends Controller
         $data['billing_mobile'] = $request->billing_mobile;
         $data['shipping_address1'] = $request->shipping_address1;
         $data['courier_service'] = $request->courier_service;
+        $data['invoice_id'] = $request->invoice_id;
+        $data['weight'] = $request->weight;
         $data['staff_id'] = Session::get('admin_id');
         $data['shipping_charge'] = $request->shipping_charge;
         $data['discount_price'] = $request->discount_price;
         $data['advabced_price'] = $request->advabced_price;
         $data['order_note'] = $request->order_note;
         $data['order_area'] = $request->order_area;
+        $data['area_id'] = $request->area_id;
+
         if ($request->shipment_time) {
 
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
@@ -509,11 +520,88 @@ class OrderController extends Controller
     }
 
     public  function getTotalProductsReport(Request $request){
-
         $data['orders']=getTotalOrderListItems($request->status,$request->starting_date,$request->ending_date);
         return view('admin.order.order_loop',$data);
     }
+    public  function sendCourier(Request $request){
+         $data['orders']=DB::table('order')
+             ->where('courier_service','Redx')
+             ->where('order_status','invoice')
+             ->get();
+        return view('admin.order.sendCourier',$data);
+    }
 
+    public function sendProductCourier(Request $request)
+    {
+        $count = count($request->order_id);
+        if ($count > 0) {
+            foreach ($request->order_id as $order_id) {
+                $order=  DB::table('order')->where('order_id',$order_id)->first();
+                if($order->weight > 0 && $order->area_id > 0 ) {
+
+                    $name = $order->billing_name;
+                    $phone = $order->billing_mobile;
+                    $address = $order->shipping_address1;
+                    $cash_collection = str_replace(',', '', $order->order_total);
+                    $percel_weight = $order->weight;
+                    $value = 80;
+                    $note = $order->order_note;
+                    $invoice_id = $order->invoice_id;
+                    $areaInfo = DB::table('area')->where('area_id', $order->area_id)->first();
+                    if ($areaInfo) {
+                        $delivery_area = $areaInfo->area_name;
+                        $delivery_area_id = $areaInfo->area_id;
+                    }
+
+                    $tracking = $this->getTrackingId($name, $phone, $address, $cash_collection, $percel_weight, $value, $note, $invoice_id, $delivery_area, $delivery_area_id);
+
+                    $object = json_decode($tracking);
+
+                    $data['traking_id'] = $object->tracking_id;
+                    DB::table('order')->where('order_id', '=', $order_id)->update($data);
+                }
+            }
+
+        }
+
+    }
+    public  function getTrackingId($name,$phone,$address,$cash_collection,$percel_weight,$value,$note,$invoice_id,$delivery_area,$delivery_area_id){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://openapi.redx.com.bd/v1.0.0-beta/parcel',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'{
+    "customer_name":"'.$name.'",
+    "customer_phone":"'.$phone.'",
+    "delivery_area": "'.$delivery_area.'",
+    "delivery_area_id": '.$delivery_area_id.',
+    "customer_address":"'.$address.'",
+    "merchant_invoice_id": "'.$invoice_id.'",
+    "cash_collection_amount": "'.$cash_collection.'",
+    "parcel_weight": '.$percel_weight.',
+    "instruction": "'.$note.'",
+    "value": '.$value.',
+    "parcel_details_json": [ ]
+}',
+            CURLOPT_HTTPHEADER => array(
+                'API-ACCESS-TOKEN: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTAzOCIsImlhdCI6MTY1MzM3Nzk4NiwiaXNzIjoieExQelFrTmZyZjJnb3JkT2s1U1E0NFhTQVdWV0Jqd0MiLCJzaG9wX2lkIjoyMTAzOCwidXNlcl9pZCI6ODE0Mjd9.ppTa6QWyNUj4_N1g48mZ2VsesbhRsEqwfs4ySFxPm5M',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return $response;
+
+    }
 
 
 

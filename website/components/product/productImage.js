@@ -1,10 +1,11 @@
 import react ,{memo,useEffect} from 'react'
  import { WEBSITEURL } from '../AppUrl'
- import WindowDimention from '../../components/master/window';
+  import Image from 'next/image'
 
 const ProductImage=({featured_image,image,feturedImageUpdate})=> {
-   const { height, width } = WindowDimention();
-  
+    const hasWindow = typeof window !== 'undefined';
+      const width = hasWindow ? window.innerWidth : null;
+    
     useEffect(()=>{
        setTimeout(()=>{
       
@@ -35,20 +36,27 @@ const ProductImage=({featured_image,image,feturedImageUpdate})=> {
   
   return (
     <>
+     
     { (width > 800 && featured_image.length > 0) ? 
          <div id="desktop_picture" className="col-sm-4 images">
-                  <img id="zoom_09" src={`${featured_image}`}  /> 
+                  <img id="zoom_09" src={`${featured_image}`} alt="Single Dhaka" /> 
                   {image.length > 3 ?
                   <ul className="bxslider">
-                     <li> 
-                           <a href="javascript:void(0)" className="elevatezoom-gallery">
-                                 <img  onClick={()=>feturedImageUpdate(featured_image)} src={`${featured_image}`} width="100" />
+                     <li><a href="javascript:void(0)" className="elevatezoom-gallery">
+                                 {/* <img  onClick={()=>feturedImageUpdate(featured_image)} src={`${featured_image}`} width="100" /> */}
+                                 <Image  src={`${featured_image}`}
+                                 onClick={()=>feturedImageUpdate(featured_image)} 
+                                 width={800}
+                                 height={800}
+                                 alt ="Product Image"
+                                 />
                            </a>
 							 </li> 
                     {image.map((image_row,index)=>                  
                        <li key={index}>								
 								 <a  className="elevatezoom-gallery">
-                         <img onClick={()=>feturedImageUpdate(WEBSITEURL+image_row.media_path)} src={`${WEBSITEURL+image_row.media_path}`} width="100" />
+                         <img onClick={()=>feturedImageUpdate(WEBSITEURL+image_row.media_path)} 
+                         src={`${WEBSITEURL+image_row.media_path}`} width="100"  alt="Single Dhaka" />
                          </a>
 							</li> 
                         )}
@@ -56,28 +64,39 @@ const ProductImage=({featured_image,image,feturedImageUpdate})=> {
                   :
                   <div id="gallery_09" style={{maxWidth:'1200px'}}> 
                     <a   className="elevatezoom-gallery">
-                      <img onClick={()=>feturedImageUpdate(featured_image)} src={`${featured_image}`} width="200" />
+                      <img onClick={()=>feturedImageUpdate(featured_image)} 
+                      src={`${featured_image}`} width="200" alt="Single Dhaka" />
                      </a>
                   {image.length > 0 ?
                      image.map((image_row,index)=>    
                   <a  key={index}  className="elevatezoom-gallery">
-                      <img onClick={()=>feturedImageUpdate(WEBSITEURL+image_row.media_path)} src={`${WEBSITEURL+image_row.media_path}`} width="200" />
+                      <img onClick={()=>feturedImageUpdate(WEBSITEURL+image_row.media_path)}
+                       src={`${WEBSITEURL+image_row.media_path}`} width="200"  alt="Single Dhaka"/>
                      </a>
                      ) :null }
                      </div>
                   }	 
-               </div>:
-               
+               </div>: 
                <div id="mobile_picture" className="col-sm-4 images" >
                   <div className="demo">
                   <ul id="lightSlider">
-                        <li data-thumb={`${featured_image}`} >
-                              <img src={`${featured_image}`}  />
+                        <li data-thumb={`${featured_image}`} >                             
+                              <Image
+                               src={`${featured_image}`} 
+                                alt="Single Dhaka"
+                                width={800}
+                                height={800}                                
+                             />
                         </li>
                    {image.length > 0 ?
                            image.map((image_row,index)=>  
-                           <li data-thumb={`${WEBSITEURL+image_row.media_path}`}>
-                           <img src={`${WEBSITEURL+image_row.media_path}`} />
+                           <li data-thumb={`${WEBSITEURL+image_row.media_path}`}>                          
+                             <Image
+                                src={`${WEBSITEURL+image_row.media_path}`} 
+                                alt="Single Dhaka"
+                                width={800}
+                                height={800}                                
+                             />
                            </li>
                      ) :null }
                                    

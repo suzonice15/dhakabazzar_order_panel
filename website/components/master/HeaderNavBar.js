@@ -5,6 +5,7 @@ import React,{useContext } from 'react'
 export default function HeaderNavBar() {    
  const {menuCategoryList}=useContext(DataContext);
  const router = useRouter(); 
+
   return (   
     <div className="category-menu">
     <a   className="view-all-cats">
@@ -12,14 +13,16 @@ export default function HeaderNavBar() {
        <h5 className="Categories_heading">Categories</h5>
     </a>
     <ul className="catnavul">
-       <a   className="close_category_menu"><button type="button" className="close" aria-label="Close"> <span className="z_close_btn" aria-hidden="true">×</span> </button></a>
+       <a   className="close_category_menu">
+          <button type="button" className="close" aria-label="Close"> 
+          <span className="z_close_btn" aria-hidden="true">×</span> </button></a>
        <div className="list_all"> 
        <li className="blazer"><Link href={`/allProduct`}>All Products </Link> </li>
        {menuCategoryList.map((cat_1,index_1)=>                 
          
           <li  key={index_1} className="winter-collection">
-             <a onClick={()=>{router.push(`/category/${cat_1.category_name}`) }} >
-                {/* <img src="https://www.dhakabaazar.com/uploads/22-08-2019-02-14-07-hot-water-shower-tap-3509-1-min-150x150.jpg" /> */}
+             <a onClick={()=>{router.push(`/${cat_1.category_name}`) }} >
+                <img src="https://www.dhakabaazar.com/uploads/22-08-2019-02-06-16-22-08-2019-10-19-41-brand-quartz-watch-luxury-creative-waterproof-date-casual-men-watches-relogio-masculino--3360n-min-150x150.jpg" />
                  {cat_1.category_title}
                 <p className="dropdown_indicator"><span className="glyphicon glyphicon-plus" aria-hidden="true"></span></p>
              </a>
@@ -29,16 +32,16 @@ export default function HeaderNavBar() {
                    if(typeof cat_2.child === 'object' && Object.keys(cat_2.child).length > 0){
                  return (
                  <li  key={index_2} className="jacket">
-                      <Link href={`/category/${cat_2.category_name}`}>{cat_2.category_title}</Link> 
+                      <Link href={`/${cat_2.category_name}`}>{cat_2.category_title}</Link> 
                       <ul className="childcat">
                       {cat_2.child.map((cat_3,index_3)=>
-                         <li key={index_3} className="Denim"><Link href={`/category/${cat_3.category_name}`}>{cat_3.category_title}</Link></li>
+                         <li key={index_3} className="Denim"><Link href={`/${cat_3.category_name}`}>{cat_3.category_title}</Link></li>
                       )}
                         </ul>
                    </li>
                  )
                    }else{
-                     return  <li   key={index_2}  className="blazer"><Link href={`/category/${cat_2.category_name}`}>{cat_2.category_title}</Link> </li>
+                     return  <li   key={index_2}  className="blazer"><Link href={`/${cat_2.category_name}`}>{cat_2.category_title}</Link> </li>
 
                    } 
                })}

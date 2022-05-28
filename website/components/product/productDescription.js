@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function productDescription() {
+export default function ProductDescription() {
   return (
     <>
          <div className="productdesc">

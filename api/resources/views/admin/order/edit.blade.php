@@ -15,7 +15,8 @@
 
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Customer Information (<span style='font-size:22px'>{{$order->order_id}}</span>)</h3>
+                                <h3 class="card-title">Customer Information (<span
+                                            style='font-size:22px'>{{$order->order_id}}</span>)</h3>
                             </div>
 
 
@@ -30,7 +31,7 @@
 
                                 <div class="form-group ">
                                     <label for="billing_mobile">Customer Phone</label>
-                                    <input required type="text" placeholder="Customer Mobile" name="billing_mobile"
+                                    <input required type="number" placeholder="Customer Mobile" name="billing_mobile"
                                            class="form-control"
                                            value="{{$order->billing_mobile}}"/>
                                 </div>
@@ -50,49 +51,53 @@
                     </div>
                     <div class="col-md-4">
 
-<div class="card card-info">
-    <div class="card-header">
-        <h3 class="card-title">Order Edit History</h3>
-    </div>
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Order Edit History</h3>
+                            </div>
 
 
-    <div class="card-body">
-        <div   style="height:300px;overflow-y:scroll">
-         
-<table class="table table-bordered">
-    <tr>
-        
-        <th>Name</th>      
-        <th>Order Note</th>         
-    </tr>
+                            <div class="card-body">
+                                <div style="height:300px;overflow-y:scroll">
 
-    <?php
-    if($orderTrackInfo) {
-    $count=0;
-    foreach ($orderTrackInfo as $order_track ){
-    ?>
-    <tr>
-       
-        <td> <span class="badge badge-pill badge-success">{{$order_track->status}}</span>  <br/> <span class="badge badge-pill badge-info">{{$order_track->user_name}}</span></td>
-        <td> 
-        
-        {{$order_track->order_note}}
-        <br/>
-        <span class="badge badge-pill badge-success"> {{date('d-m-Y',strtotime($order_track->updated_date))}} </span>
-        <span class="badge badge-pill badge-success">  {{date('h:i a',strtotime($order_track->updated_date))}}</span>
-        </td>
-       
-    </tr>
+                                    <table class="table table-bordered">
+                                        <tr>
 
-    <?php } } ?>
-</table>
-    </div>
-    </div>
+                                            <th>Name</th>
+                                            <th>Order Note</th>
+                                        </tr>
+
+                                        <?php
+                                        if($orderTrackInfo) {
+                                        $count = 0;
+                                        foreach ($orderTrackInfo as $order_track ){
+                                        ?>
+                                        <tr>
+
+                                            <td>
+                                                <span class="badge badge-pill badge-success">{{$order_track->status}}</span>
+                                                <br/> <span
+                                                        class="badge badge-pill badge-info">{{$order_track->user_name}}</span>
+                                            </td>
+                                            <td>
+
+                                                {{$order_track->order_note}}
+                                                <br/>
+                                                <span class="badge badge-pill badge-success"> {{date('d-m-Y',strtotime($order_track->updated_date))}} </span>
+                                                <span class="badge badge-pill badge-success">  {{date('h:i a',strtotime($order_track->updated_date))}}</span>
+                                            </td>
+
+                                        </tr>
+
+                                        <?php } } ?>
+                                    </table>
+                                </div>
+                            </div>
 
 
-</div>
+                        </div>
 
-</div>
+                    </div>
 
                     <div class="col-md-4">
 
@@ -104,25 +109,56 @@
 
                             <div class="card-body">
                                 <div class="form-group" id="order_area">
-                                    <label> <input type="radio" name="order_area"  value="inside_dhaka" @if($order->order_area=='inside_dhaka') checked="" @endif>
-                                        Inside Dhaka </label>   <label>
-                                        <input type="radio" name="order_area" value="outside_dhaka" @if($order->order_area=='outside_dhaka') checked="" @endif> Outside Dhaka
+                                    <label> <input type="radio" name="order_area" value="inside_dhaka"
+                                                   @if($order->order_area=='inside_dhaka') checked="" @endif>
+                                        Inside Dhaka </label> <label>
+                                        <input type="radio" name="order_area" value="outside_dhaka"
+                                               @if($order->order_area=='outside_dhaka') checked="" @endif> Outside Dhaka
                                     </label></div>
                                 <div class="form-group">
                                     <label>Courier Service</label>
-                                        <select name="courier_service" class="form-control select2"                                                                                    id="courier_service">
-                                            <option value="">---- Select ----</option>
-                                            <option value="sundarban courier service">sundarban courier service</option>
-                                            <option value="karatoa courier service">karatoa courier service</option>
-                                            <option value="S A paribahan courier service">S A paribahan courier          service
-                                            </option>
-                                            <option value="Janani courier service">Janani courier service</option>
-                                            <option value="AJR Courier Service">AJR Courier Service</option>
-                                            <option value="Redx">Redx</option>
-                                        </select>
+                                    <select name="courier_service" class="form-control select2" id="courier_service">
+                                        <option value="">---- Select ----</option>
+                                        <option value="sundarban courier service">sundarban courier service</option>
+                                        <option value="karatoa courier service">karatoa courier service</option>
+                                        <option value="S A paribahan courier service">S A paribahan courier service
+                                        </option>
+                                        <option value="Janani courier service">Janani courier service</option>
+                                        <option value="AJR Courier Service">AJR Courier Service</option>
+                                        <option value="Redx">Redx</option>
+                                    </select>
 
                                 </div>
-                                <div class="form-group" >
+                                <div class="form-group">
+                                    <label>Area Name</label>
+                                    <select name="area_id" id="area_id" class="form-control select2"
+                                            id="courier_service">
+                                        <option value="">---- Select ----</option>
+                                        @foreach($areas as $area)
+                                            <option @if($area->area_id==$order->area_id) selected
+                                                    @endif value="{{$area->area_id}}">{{$area->area_name}}</option>
+                                        @endforeach
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <label for="weight">Product Weight</label>
+                                    <input required type="number" placeholder="Product Weight" name="weight"
+                                           class="form-control"
+                                           value="{{$order->weight}}"/>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="weight">Invoice Number</label>
+                                    <input type="text" placeholder="Invoice Number" name="invoice_id"
+                                           class="form-control"
+                                           value="{{$order->invoice_id}}"/>
+                                </div>
+
+                                <div class="form-group">
                                     <label>Order Status</label>
                                     <select name="order_status" id="order_status" class="form-control">
                                         <option value="new">New</option>
@@ -141,16 +177,17 @@
                                     <div class="input-group date">
                                         <div class="input-group-addon">
                                         </div>
-                                        <input type="date" name="shipment_time" class="form-control pull-right"   value="{{date("Y-m-d",strtotime($order->shipment_time))}}">
+                                        <input type="date" name="shipment_time" class="form-control pull-right"
+                                               value="{{date("Y-m-d",strtotime($order->shipment_time))}}">
                                     </div>
                                 </div>
-                                <div class="form-group" >
+                                <div class="form-group">
                                     <label> Order Note</label>
                                     <textarea rows="3" class="form-control"
                                               name="order_note"></textarea>
 
                                 </div>
-                                
+
 
                             </div>
 
@@ -307,7 +344,8 @@
                            </span>
 
                                         <div class="form-group">
-                                            <select required name="product_ids" id="product_ids" class="form-control select2"
+                                            <select required name="product_ids" id="product_ids"
+                                                    class="form-control select2"
                                                     multiple="multiple"
                                                     data-placeholder="Type... product name here..."
                                                     style="width:100%;">
@@ -333,7 +371,7 @@
                                     </div>
 
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-success btn-sm float-right" >Update</button>
+                                        <button type="submit" class="btn btn-success btn-sm float-right">Update</button>
                                         <a href="{{ url('/') }}/admin/order" class="btn btn-danger btn-sm float-left">Cancel</a>
                                     </div>
                                     <!-- /.card-body -->
