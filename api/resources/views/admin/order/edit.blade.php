@@ -155,7 +155,13 @@
                                     <label for="weight">Invoice Number</label>
                                     <input type="text" placeholder="Invoice Number" name="invoice_id"
                                            class="form-control"
-                                           value="{{$order->invoice_id}}"/>
+                                           value="{{$order->order_id}}"/>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="weight">Tracking ID</label>
+                                    <input type="text" placeholder="Tracking ID" name="traking_id"
+                                           class="form-control"
+                                           value="{{$order->traking_id}}"/>
                                 </div>
 
                                 <div class="form-group">
@@ -169,6 +175,7 @@
                                         <option value="cancled">Cancelled</option>
                                         <option value="ready_to_deliver">Pending Invoice</option>
                                         <option value="invoice">Invoice</option>
+                                        <option value="booking">Booking</option>
 
                                     </select>
                                 </div>

@@ -2,28 +2,22 @@
 @section('main',"Orders")
 @section('active',"  Orders List")
 @section('title'," Orders List")
-
 @section('main-content')
-
-
     <style>
         .img-responsive {
             float: left;
             border: 2px solid #ddd;
         }
-
         .product-title {
             width: 100%;
             display: block;
             height: 30px;
             overflow: hidden;
         }
-
     </style>
     <section class="content">
         <div class="row" style="cursor: pointer;">
             <span id="order_status_view"></span>
-
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -130,6 +124,7 @@
                                         <option value="cancled">Cancelled</option>
                                         <option value="ready_to_deliver">Pending Invoice</option>
                                         <option value="invoice">Invoice</option>
+                                        <option value="booking">Booking</option>
                     </select>
                      </div>
 

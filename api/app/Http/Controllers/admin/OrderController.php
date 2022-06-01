@@ -162,6 +162,7 @@ class OrderController extends Controller
         $data['order_note'] = $request->order_note;
         $data['order_area'] = $request->order_area;
         $data['invoice_id'] = $request->invoice_id;
+        $data['traking_id'] = $request->traking_id;
         $data['weight'] = $request->weight;
         if ($request->shipment_time) {
             $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
@@ -527,6 +528,7 @@ class OrderController extends Controller
          $data['orders']=DB::table('order')
              ->where('courier_service','Redx')
              ->where('order_status','invoice')
+             ->orderBy('order_id','desc')
              ->get();
         return view('admin.order.sendCourier',$data);
     }
@@ -541,7 +543,7 @@ class OrderController extends Controller
 
                     $name = $order->billing_name;
                     $phone = $order->billing_mobile;
-                    $address = $order->shipping_address1;
+                    $address = trim($order->shipping_address1);
                     $cash_collection = str_replace(',', '', $order->order_total);
                     $percel_weight = $order->weight;
                     $value = 80;
@@ -558,6 +560,7 @@ class OrderController extends Controller
                     $object = json_decode($tracking);
 
                     $data['traking_id'] = $object->tracking_id;
+                    $data['order_status'] = 'booking';
                     DB::table('order')->where('order_id', '=', $order_id)->update($data);
                 }
             }
@@ -597,7 +600,6 @@ class OrderController extends Controller
         ));
 
         $response = curl_exec($curl);
-
         curl_close($curl);
         return $response;
 

@@ -5,7 +5,7 @@
     }
 
     .order_status {
-        width: 23.9%;
+        width: 19%;
         background: #6A00A8;
         font-weight: bold;
         border: none;
@@ -66,6 +66,10 @@
     <button onClick="orderStatus('delivered')" type="button"
             class="btn btn-primary order_status ">  Delivered  <span class="badge badge-light">     {{totalOrder('delivered')}}</span>
     </button>
+        <button onClick="orderStatus('booking')" type="button"
+                class="btn btn-primary order_status ">  Booking  <span class="badge badge-light">     {{totalOrder('booking')}}</span>
+        </button>
+
     <button onClick="orderStatus('cancled')" type="button"
             class="btn btn-primary order_status ">  Cancled  <span class="badge badge-light">     {{totalOrder('cancled')}}</span>
     </button>
