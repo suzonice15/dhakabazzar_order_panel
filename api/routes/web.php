@@ -5,10 +5,10 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\DashboardController;
  use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\OrderController;
-use App\Http\Controllers\admin\SettingController;  
+use App\Http\Controllers\admin\SettingController;
 
 
- Route::group(['prefix'=>'admin',
+Route::group(['prefix'=>'admin',
 'middleware' => 'admin'], function(){  
    
   Route::get('/login', [AdminController::class, 'login']); 

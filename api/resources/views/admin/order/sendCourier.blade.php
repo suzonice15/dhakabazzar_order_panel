@@ -192,7 +192,7 @@ $areaInfo = DB::table('area')->where('area_id', $order->area_id)->first();
                     method: 'post',
                     success: function (data) {
                         $("#exchange_send_now").text("Successfully done !");
-                       // location.reload();
+                         location.reload();
                     },
                     error:function(data){
                         $("#exchange_send_now").prop("disabled",false);
