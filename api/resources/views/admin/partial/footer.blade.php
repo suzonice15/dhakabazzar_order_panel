@@ -1,6 +1,6 @@
 
 <footer class="main-footer">
-    <strong>Copyright &copy; 2021 <a href="#">Shahinul islam sujon</a></strong>
+    <strong>Copyright &copy; 2021 <a href="https://www.messenger.com/t/100012069192979" target="_blank">Shahinul islam sujon</a></strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1.0.0

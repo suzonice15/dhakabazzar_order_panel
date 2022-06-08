@@ -6,13 +6,36 @@
 
                   $order_track=DB::table('order_edit_track')->where('order_id',$order->order_id)->orderBy('id','desc')->value('updated_date');
 
-                          ?>
+
+                  $areaInfo = DB::table('area')->where('area_id', $order->area_id)->first();
+
+
+
+                  ?>
                   <tr>
               <td><span   class="badge badge-pill badge-danger" style="font-size:18px">  {{$order->order_id}}</span>
                   <span   class="badge badge-pill badge-success" style="font-size:18px">    {{date('d-m-Y',strtotime($order->created_time))}}</span>
                    {{date('h:i a',strtotime($order->created_time))}}
-                </td>
 
+                </td>
+                      <td> <span style="color:red;font-size: 17px;font-weight: bold">
+                                                 {{$order->courier_service}}
+                                            </span>
+                          <br/>
+                          @if($areaInfo)
+                              <span style="color:green;font-size: 15px;font-weight: bold">
+                                                 {{$areaInfo->area_name}}
+                                            </span>
+                          @endif
+                          <br/>
+                          <span style="color:red;font-size: 15px;font-weight: bold">
+                                                Weight : {{$order->weight}}
+                                            </span>
+                          <br/>
+                                              <span style="color:black;font-size: 15px;font-weight: bold">
+                                                Invoice : {{$order->invoice_id}}
+                                            </span>
+                      </td>
 
                 <td style="text-align: center" >
                 @if(Session::get('status') !='office-staff')
@@ -20,12 +43,9 @@
                     @endif
                     <span   data-toggle="modal" data-target="#modal-edit" onclick="orderEdit({{$order->order_id}})" class="badge badge-pill badge-primary"> {{officeStaffName($order->staff_id)}}</span>
               <span class="badge badge-pill badge-danger" >@if($order->order_area=='outside_dhaka')  Outside Dhaka   @else Inside Dhaka @endif</span>
+              <span class="badge badge-pill badge-danger" >{{$order->traking_id}}</span>
 
                </td>
-
-            
-               
-               
              <td>
              <span   class="badge badge-pill badge-info" style="font-size:18px">   {{$order->billing_name}}</span>
                <br>
@@ -91,6 +111,9 @@
                     <span    class="badge badge-pill badge-danger"  >Failded Delevery </span>
                     <?php  } elseif ($order->order_status=='pending') { ?>
                     <span    class="badge badge-pill badge-danger"  >Pending  </span>
+                    <?php  } elseif ($order->order_status=='booking') { ?>
+                    <span    class="badge badge-pill badge-success"  >Booking  </span>
+
                     <?php  } else {  ?>
                     <span   class="badge badge-pill badge-success">Pending Invoice</span>
                 <?php } ?>

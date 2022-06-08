@@ -41,6 +41,8 @@ Route::group(['prefix'=>'admin',
     Route::get('/order/pagination', [OrderController::class, 'pagination']); 
     Route::get('/order/pagination_search_by_phone', [OrderController::class, 'pagination_search_by_phone']);  
     Route::get('/order/pagination_search_by_order_id', [OrderController::class, 'pagination_search_by_order_id']);  
+    Route::get('/order/searchOrderOfRedexCourier', [OrderController::class, 'searchOrderOfRedexCourier']);  
+    Route::get('/order/getSinglePercel', [OrderController::class, 'getSinglePercel']);  
 
     
     Route::get('/setting', [SettingController::class,'setting']);  

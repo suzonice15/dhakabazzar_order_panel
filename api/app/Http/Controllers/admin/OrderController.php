@@ -66,13 +66,13 @@ class OrderController extends Controller
         $status = $request->get('status');
         $staff_id = Session::get('admin_id');
         if ($role_status == 'office-staff') {
-            if($status=='ready_to_deliver' || $status=='invoice'){
+            if ($status == 'ready_to_deliver' || $status == 'invoice') {
                 $orders = DB::table('order')
                     ->where('order_status', $status)
-                   // ->where('staff_id', '=', $staff_id)
+                    // ->where('staff_id', '=', $staff_id)
                     ->orderBy('order_id', 'desc')
                     ->paginate(10);
-            }else{
+            } else {
                 $orders = DB::table('order')
                     ->where('order_status', $status)
                     ->where('staff_id', '=', $staff_id)
@@ -126,17 +126,17 @@ class OrderController extends Controller
     public function create()
     {
 
-        $data['areas']=DB::table('area')->get();
+        $data['areas'] = DB::table('area')->get();
         $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
         return view('admin.order.create', $data);
     }
 
     public function edit($order_id)
     {
-        $data['areas']=DB::table('area')->get();
+        $data['areas'] = DB::table('area')->get();
         $data['products'] = DB::table('product')->select('product_id', 'sku', 'product_title')->get();
         $data['order'] = DB::table('order')->where('order_id', '=', $order_id)->first();
-        $data['orderTrackInfo']=DB::table('order_edit_track')->where('order_id',$order_id)->orderBy('id','desc')->get();
+        $data['orderTrackInfo'] = DB::table('order_edit_track')->where('order_id', $order_id)->orderBy('id', 'desc')->get();
         return view('admin.order.edit', $data);
     }
 
@@ -146,7 +146,7 @@ class OrderController extends Controller
         $data['order_status'] = $request->order_status;
         $order_status = $request->order_status;
         $data['shipping_charge'] = $request->shipping_charge;
-      //  $data['created_time'] = date("Y-m-d H:i:s");
+        //  $data['created_time'] = date("Y-m-d H:i:s");
         $data['modified_time'] = date("Y-m-d");
         $data['order_date'] = date("Y-m-d");
         $data['order_total'] = $request->order_total;
@@ -203,7 +203,7 @@ class OrderController extends Controller
         if ($result) {
             return back()->with('success', 'Updated successfully.');
         } else {
-            return  back()->with('error', 'Error to Update this order');
+            return back()->with('error', 'Error to Update this order');
         }
 
     }
@@ -314,12 +314,13 @@ class OrderController extends Controller
         $product_qtys = explode(",", $request->product_qtys);
         $data['shipping_charge'] = $request->shipping_charge;
         $data['order_id'] = $request->order_id;
-      $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
+        $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
         $pqty = array_combine($product_ids, $product_qtys);
         $data['pqty'] = $pqty;
         $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
         return view('admin.order.newProductUpdateChange', $data);
     }
+
     public function ProductUpdateChangeOfNewOrder(Request $request)
     {
 
@@ -328,15 +329,12 @@ class OrderController extends Controller
         $product_qtys = explode(",", $request->product_qtys);
         $data['shipping_charge'] = $request->shipping_charge;
         $data['order_id'] = $request->order_id;
-      $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
+        $data['order'] = DB::table('order')->where('order_id', $request->order_id)->first();
         $pqty = array_combine($product_ids, $product_qtys);
         $data['pqty'] = $pqty;
         $data['products'] = DB::table('product')->whereIn('product_id', $product_ids)->get();
         return view('admin.order.ProductUpdateChangeOfNewOrder', $data);
     }
-
-
-    
 
 
     public function convertOrder()
@@ -366,10 +364,10 @@ class OrderController extends Controller
 
         if ($request->order_date_start || $request->order_date_end || $request->product_code) {
 
-            
+
             if ($request->product_code) {
                 $start_date = date("Y-m-d");
-               
+
                 $data['searchDateStart'] = $start_date;
                 $data['searchDateEnd'] = $start_date;
                 $data['searchText'] = $request->product_code;
@@ -379,7 +377,7 @@ class OrderController extends Controller
                     ->join('product', 'product.product_id', '=', 'product_order_report.product_id')
                     ->where('product_code', '=', $request->product_code)
                     ->groupBy('product_order_report.product_id')->get();
-            } else if ($request->order_date_start && $request->order_date_end ) {
+            } else if ($request->order_date_start && $request->order_date_end) {
                 $start_date = date("Y-m-d", strtotime($request->order_date_start));
                 $ending_date = date("Y-m-d", strtotime($request->order_date_end));
                 $data['searchDateStart'] = $start_date;
@@ -430,24 +428,24 @@ class OrderController extends Controller
             foreach ($order_items['items'] as $product_id => $item) {
                 $existingOrderID = DB::table('product_order_report')->where('order_id', '=', $orderID)->value('order_id');
                 if ($existingOrderID) {
-                }else{ 
-                $sku = DB::table('product')->where('product_id', $product_id)->value('sku');
-                $newArray[] = array(
-                    'order_id' => $orderID,
-                    'product_id' => $product_id,
-                    'product_code' => $sku,
-                    'order_date' => date("Y-m-d")
-                );
-                DB::table('product_order_report')->insert($newArray);
-            }
+                } else {
+                    $sku = DB::table('product')->where('product_id', $product_id)->value('sku');
+                    $newArray[] = array(
+                        'order_id' => $orderID,
+                        'product_id' => $product_id,
+                        'product_code' => $sku,
+                        'order_date' => date("Y-m-d")
+                    );
+                    DB::table('product_order_report')->insert($newArray);
+                }
 
 
             }
-          
+
         }
         $name = Session::get('name');
-        $row_data['order_status']='invoice';
-        $row_data['order_print_status']=1;
+        $row_data['order_status'] = 'invoice';
+        $row_data['order_print_status'] = 1;
         DB::table('order')->where('order_id', '=', $orderID)->update($row_data);
         return redirect("https://dhakabaazar.com/order/single_order_invoice/{$orderID}?name={$name}");
 
@@ -458,60 +456,58 @@ class OrderController extends Controller
 
 
         date_default_timezone_set("Asia/Dhaka");
-        $data['start_date']=date("Y-m-d");
-        $data['ending_date']=date("Y-m-d");
-        $data['orders']=array();
-        if($request->order_status && $request->starting_date && $request->ending_date){
+        $data['start_date'] = date("Y-m-d");
+        $data['ending_date'] = date("Y-m-d");
+        $data['orders'] = array();
+        if ($request->order_status && $request->starting_date && $request->ending_date) {
 
-            $data['start_date']=date("Y-m-d",strtotime($request->starting_date));
-            $data['ending_date']=date("Y-m-d",strtotime($request->ending_date));
+            $data['start_date'] = date("Y-m-d", strtotime($request->starting_date));
+            $data['ending_date'] = date("Y-m-d", strtotime($request->ending_date));
 
-            $data['orderStatus']=$request->order_status;
-            $data['orders']= DB::table('order')
-                ->where('order_date', '>=',  $data['start_date'])
+            $data['orderStatus'] = $request->order_status;
+            $data['orders'] = DB::table('order')
+                ->where('order_date', '>=', $data['start_date'])
                 ->where('order_date', '<=', $data['ending_date'])
                 ->where('order_status', '=', $request->order_status)
-                ->orderBy('order_id','desc')
+                ->orderBy('order_id', 'desc')
                 ->get();
 
 
-
-        }else if($request->starting_date && $request->ending_date){
-            $data['orderStatus']="";
-            $data['start_date']=date("Y-m-d",strtotime($request->starting_date));
-            $data['ending_date']=date("Y-m-d",strtotime($request->ending_date));
-            $data['orders']= DB::table('order')
-                ->where('order_date', '>=',  $data['start_date'])
-                ->where('order_date', '<=', $data['ending_date'])
-          //      ->where('order_status', '=', $request->order_status)
-          ->orderBy('order_id','desc')
-                ->get();
-        }
-        else{
-
-            $data['orderStatus']="";
-            $data['start_date']=date("Y-m-d");
-            $data['ending_date']=date("Y-m-d");
-            $data['orders']= DB::table('order')
-                ->where('order_date', '>=',  $data['start_date'])
+        } else if ($request->starting_date && $request->ending_date) {
+            $data['orderStatus'] = "";
+            $data['start_date'] = date("Y-m-d", strtotime($request->starting_date));
+            $data['ending_date'] = date("Y-m-d", strtotime($request->ending_date));
+            $data['orders'] = DB::table('order')
+                ->where('order_date', '>=', $data['start_date'])
                 ->where('order_date', '<=', $data['ending_date'])
                 //      ->where('order_status', '=', $request->order_status)
-                ->orderBy('order_id','desc')
+                ->orderBy('order_id', 'desc')
+                ->get();
+        } else {
+
+            $data['orderStatus'] = "";
+            $data['start_date'] = date("Y-m-d");
+            $data['ending_date'] = date("Y-m-d");
+            $data['orders'] = DB::table('order')
+                ->where('order_date', '>=', $data['start_date'])
+                ->where('order_date', '<=', $data['ending_date'])
+                //      ->where('order_status', '=', $request->order_status)
+                ->orderBy('order_id', 'desc')
                 ->get();
         }
 
 
         return view('admin.order.orderStatusReport', $data);
 
- 
+
     }
 
-    public  function currentMonthStaffReport(){
+    public function currentMonthStaffReport()
+    {
         $start_date = date("Y-m-01");
-        $ending_date  = date("Y-m-31");
+        $ending_date = date("Y-m-31");
 
-        $data['orders']=  DB::table('order')->select('staff_id',DB::raw('count(order_id) as total'))
-
+        $data['orders'] = DB::table('order')->select('staff_id', DB::raw('count(order_id) as total'))
             ->groupBy('staff_id')
             ->where('order_date', '>=', $start_date)
             ->where('order_date', '<=', $ending_date)
@@ -520,26 +516,75 @@ class OrderController extends Controller
         return view('admin.order.currentMonthStaffReport', $data);
     }
 
-    public  function getTotalProductsReport(Request $request){
-        $data['orders']=getTotalOrderListItems($request->status,$request->starting_date,$request->ending_date);
-        return view('admin.order.order_loop',$data);
+    public function getTotalProductsReport(Request $request)
+    {
+        $data['orders'] = getTotalOrderListItems($request->status, $request->starting_date, $request->ending_date);
+        return view('admin.order.order_loop', $data);
     }
-    public  function sendCourier(Request $request){
-         $data['orders']=DB::table('order')
-             ->where('courier_service','Redx')
-             ->where('order_status','invoice')
-             ->orderBy('order_id','desc')
-             ->get();
-        return view('admin.order.sendCourier',$data);
+
+    public function sendCourier(Request $request)
+    {
+        $start_date='';
+        $end_date='';
+        if($request->filter=='filter'){
+            $start_date=date("Y-m-d",strtotime($request->starting_date));
+            $end_date=date("Y-m-d",strtotime($request->end_date));
+            $data['orders'] = DB::table('order')
+                ->where('courier_service', 'Redx')
+                ->where('order_status', 'invoice')
+                ->where('order_date', '>=', $start_date)
+                ->where('order_date', '<=', $end_date)
+                ->orderBy('order_id', 'desc')
+                ->get();
+
+        } else if($request->booking=='booking')   {
+            $start_date=date("Y-m-d",strtotime($request->starting_date));
+            $end_date=date("Y-m-d",strtotime($request->end_date));
+
+            $data['orders'] = DB::table('order')
+                ->where('courier_service', 'Redx')
+                ->where('order_status', 'booking')
+                ->where('order_date', '>=', $start_date)
+                ->where('order_date', '<=', $end_date)
+                ->orderBy('order_id', 'desc')
+                ->get();
+
+        } else{
+
+            $data['orders'] = DB::table('order')
+                ->where('courier_service', 'Redx')
+                ->where('order_status', 'invoice')
+                ->orderBy('order_id', 'desc')
+                ->get();
+        }
+        $data['start_date']= $start_date;
+        $data['end_date']= $end_date;
+ 
+        return view('admin.order.sendCourier', $data);
     }
+
+    public function searchOrderOfRedexCourier(Request $request)
+    {
+
+            $data['orders'] = DB::table('order')
+                ->where('courier_service', 'Redx')
+                ->whereIn('order_status', ['invoice','booking'])
+                ->where('order_id', $request->order_id)
+                ->orderBy('order_id', 'desc')
+                ->limit(2)->get();
+        return view('admin.order.sendCourierComponent', $data);
+    }
+
 
     public function sendProductCourier(Request $request)
     {
+        $failed_to_insert='Failed following order to insert in redex: ';
+         $error_count=0;
         $count = count($request->order_id);
         if ($count > 0) {
             foreach ($request->order_id as $order_id) {
-                $order=  DB::table('order')->where('order_id',$order_id)->first();
-                if($order->weight > 0 && $order->area_id > 0 ) {
+                $order = DB::table('order')->where('order_id', $order_id)->first();
+                if ($order->weight > 0 && $order->area_id > 0) {
 
                     $name = $order->billing_name;
                     $phone = $order->billing_mobile;
@@ -558,17 +603,28 @@ class OrderController extends Controller
                     $tracking = $this->getTrackingId($name, $phone, $address, $cash_collection, $percel_weight, $value, $note, $invoice_id, $delivery_area, $delivery_area_id);
 
                     $object = json_decode($tracking);
-
-                    $data['traking_id'] = $object->tracking_id;
-                    $data['order_status'] = 'booking';
-                    DB::table('order')->where('order_id', '=', $order_id)->update($data);
+                    if (isset($object->tracking_id)) {
+                        $data['traking_id'] = $object->tracking_id;
+                        $data['order_status'] = 'booking';
+                        DB::table('order')->where('order_id', '=', $order_id)->update($data);
+                    } else{
+                        $failed_to_insert .=$order_id.' ,';
+++$error_count;
+                    }
                 }
             }
 
         }
+        if($error_count >0){
+          return  $failed_to_insert;
+        }else{
+            return "Successfully Your Selected Order Booking  to redex.com ";
+        }
 
     }
-    public  function getTrackingId($name,$phone,$address,$cash_collection,$percel_weight,$value,$note,$invoice_id,$delivery_area,$delivery_area_id){
+
+    public function getTrackingId($name, $phone, $address, $cash_collection, $percel_weight, $value, $note, $invoice_id, $delivery_area, $delivery_area_id)
+    {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -580,18 +636,27 @@ class OrderController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-    "customer_name":"'.$name.'",
-    "customer_phone":"'.$phone.'",
-    "delivery_area": "'.$delivery_area.'",
-    "delivery_area_id": '.$delivery_area_id.',
-    "customer_address":"'.$address.'",
-    "merchant_invoice_id": "'.$invoice_id.'",
-    "cash_collection_amount": "'.$cash_collection.'",
-    "parcel_weight": '.$percel_weight.',
-    "instruction": "'.$note.'",
-    "value": '.$value.',
-    "parcel_details_json": [ ]
+            CURLOPT_POSTFIELDS => '{
+    "customer_name":"' . $name . '",
+    "customer_phone":"' . $phone . '",
+    "delivery_area": "' . $delivery_area . '",
+    "delivery_area_id": ' . $delivery_area_id . ',
+    "customer_address":"' . $address . '",
+    "merchant_invoice_id": "' . $invoice_id . '",
+    "cash_collection_amount": "' . $cash_collection . '",
+    "parcel_weight": ' . $percel_weight . ',
+    "instruction": "' . $note . '",
+    "value": 100,
+    "parcel_details_json": [ {
+            "name": "item1",
+            "category": "category1",
+            "value": 120.05
+        },
+        {
+            "name": "item2",
+            "category": "category2",
+            "value": 130.05
+        } ]
 }',
             CURLOPT_HTTPHEADER => array(
                 'API-ACCESS-TOKEN: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTAzOCIsImlhdCI6MTY1MzM3Nzk4NiwiaXNzIjoieExQelFrTmZyZjJnb3JkT2s1U1E0NFhTQVdWV0Jqd0MiLCJzaG9wX2lkIjoyMTAzOCwidXNlcl9pZCI6ODE0Mjd9.ppTa6QWyNUj4_N1g48mZ2VsesbhRsEqwfs4ySFxPm5M',
@@ -606,7 +671,49 @@ class OrderController extends Controller
     }
 
 
+    public function getSinglePercel(Request $request){
+
+$row_data=array();
+        $row_data['name']='';
+        if($request->all()) {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://openapi.redx.com.bd/v1.0.0-beta/parcel/track/' . $request->parcel,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+                CURLOPT_HTTPHEADER => array(
+                    'API-ACCESS-TOKEN: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMTAzOCIsImlhdCI6MTY1MzM3Nzk4NiwiaXNzIjoieExQelFrTmZyZjJnb3JkT2s1U1E0NFhTQVdWV0Jqd0MiLCJzaG9wX2lkIjoyMTAzOCwidXNlcl9pZCI6ODE0Mjd9.ppTa6QWyNUj4_N1g48mZ2VsesbhRsEqwfs4ySFxPm5M'
+                ),
+            ));
+            
+            $response = curl_exec($curl);
+           $final_data= json_decode($response);
+            curl_close($curl);
+            if($final_data){
+                $data=array();
+                $total_count=0;
+                if(isset($final_data->tracking)) {
+                    $total_count = count($final_data->tracking);
+
+                    foreach ($final_data->tracking as $key => $row) {
+                        $data[$key]['message_en'] = $row->message_en;
+                        $data[$key]['message_bn'] = $row->message_bn;
+                        $data[$key]['time'] = $row->time;
+
+                    }
+                }
+            }
+            $row_data['result']=$data;
+            $row_data['total_count']=$total_count;
+            $row_data['name']=$request->parcel;
+        }
 
 
-
+         return view('admin.order.getSinglePercel',$row_data);
+    }
 }

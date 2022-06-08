@@ -54,6 +54,7 @@
                             <th width="10%">
                                 Order ID
                             </th>
+                            <th>Courier Information</th>
                             <th style="width: 9%;">
                                 <span style="font-size: 15px;"> Office Staff</span>
                                 <br/>
@@ -279,12 +280,6 @@
             let page = 1;
             fetch_data(page, status);
         }
-
-    </script>
-
-
-    <script>
-
 
         function pagination_search_by_order_id(query) {
             var page = 1
