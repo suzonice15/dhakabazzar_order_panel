@@ -1,27 +1,27 @@
 import React,{ createContext, useReducer, useEffect, useState } from 'react'
 import axios from 'axios'
-import { api_base_url ,base_url} from '../components/AppUrl' 
+import { api_base_url ,base_url, WEBSITEURL} from '../components/AppUrl' 
 export const DataContext = createContext() 
 export const DataProvider = ({children}) => { 
+     const [cart,setCart]=useState([])  
      const [menuCategoryList,setMenuCategoryList]=useState([])  
      const [sliders,setSlider]=useState([])  
      const [sliderBottomCategory,setSliderBottomCategory]=useState([])  
 
     useEffect(() => { 
-        deleteItems();  
-
+      //  deleteItems();  
         getMenu();   
         getSlider();        
-        getSliderBottom();     
-   
+        getSliderBottom(); 
     },[])
 
-
+    useEffect(() => { 
+        getCart(); 
+     },[])   
 
     const getSliderBottom=()=>{     
         let local_sliders_bottom_cat=  JSON.parse(localStorage.getItem('local_slider_bottom_category'));
-        if(local_sliders_bottom_cat){
-            console.log(local_sliders_bottom_cat)
+        if(local_sliders_bottom_cat){            
             setSliderBottomCategory(local_sliders_bottom_cat)         
        }else{
            let menu_category_url=api_base_url+"homeCategory";   
@@ -36,6 +36,36 @@ export const DataProvider = ({children}) => {
        } 
 
        
+function AddToCart(product_id,product_title,sku,picture,price) {
+    
+    const index = cart.findIndex((item) => item.product_id ===product_id)
+    if (index !== -1) {
+        alert("Product Exist"); return false; 
+    }
+    let cart_data={}
+    cart_data.product_id=product_id
+    cart_data.product_title=product_title
+    cart_data.sku=sku
+    cart_data.picture=WEBSITEURL+picture
+    cart_data.quantity=1    
+    cart_data.price=price    
+    setCart(oldArray => 
+        [...oldArray,cart_data]
+    );
+  
+        localStorage.setItem("set_cart_data",JSON.stringify([...cart,cart_data]));
+    
+    
+  }
+
+function getCart() {
+    
+    let set_cart_data=  JSON.parse(localStorage.getItem('set_cart_data'));
+    if(set_cart_data){
+       setCart(set_cart_data)         
+   }
+  }
+
 function deleteItems() {
     localStorage.clear();
   }
@@ -69,7 +99,7 @@ function deleteItems() {
     
   
     return(
-        <DataContext.Provider value={{sliderBottomCategory,menuCategoryList,sliders}}>
+        <DataContext.Provider value={{sliderBottomCategory,menuCategoryList,sliders,cart,setCart,AddToCart}}>
             {children}
         </DataContext.Provider>
     )

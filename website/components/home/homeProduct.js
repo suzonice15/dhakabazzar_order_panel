@@ -6,6 +6,8 @@ import {  useRouter } from 'next/router';
 import { GeneratePrice } from '../common/Helper';
 
 export default function HomeProduct({products}) { 
+  
+   
     const router = useRouter();  
     const  generatePrice=(sell_price,discount_price,discount_type)=>{
         var product_price = sell_price = sell_price;
@@ -68,19 +70,19 @@ export default function HomeProduct({products}) {
   return (
     <>   
  <div className="container remove_class" style={{"marginTop": "23px","marginBottom": "-70px"}}>
-     {products.map((product,index)=>{
+     {products.map((product_row,index)=>{
 
     return (<>
     
     <div className="category-tabs" style={{"marginTop": "-9px","marginLeft": "-14px"}}>
-       <Link href={`category/${product.products[0].category_name}`}  ><a className="parent homparent">{product.products[0].category_title}</a></Link>
+       <Link href={`category/${product_row[0].category_name}`}  ><a className="parent homparent">{product_row[0].category_title}</a></Link>
     </div>
     <div id="demos" className="row">
        <div className="large-12 columns">
           <div className="owl-carousel owl-theme owl-loaded owl-drag">
              <div className="owl-stage-outer">
                 <div className="owl-stage"  > 
-                {product.products.map((product,index2)=>
+                {product_row.map((product,index2)=>
                    <div  key={index2} className="owl-item " 
                    onClick={()=>{router.push(`/products/${product.product_name}`) }}
                      >

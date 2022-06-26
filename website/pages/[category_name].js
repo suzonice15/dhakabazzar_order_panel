@@ -1,14 +1,14 @@
 import React ,{ useEffect ,useState,Suspense}from 'react'  
   import axios from 'axios'
-  import {  useRouter } from 'next/router';
- 
+  import {  useRouter } from 'next/router'; 
 import { api_base_url } from '../components/AppUrl';
+
 const ProductRow = React.lazy(() => import('../components/common/ProductRow'));
  export default function Category() {
+
    let router=useRouter();
   let category_name=router.query.category_name;
-  const [products,setProduct]=useState([])
-  
+  const [products,setProduct]=useState([])  
    useEffect(() => {         
                let menu_category_url=api_base_url+"category/"+category_name;   
                   axios.get(menu_category_url).then(response=>{                   

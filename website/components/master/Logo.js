@@ -37,15 +37,17 @@ export default function LogoPart() {
 
                 <a href="tel: +8801970778457">+8801750445553</a> </div>
                 <div className="hidden-xs hidden-sm" style={{marginTop:'9px'}}>
-                   <a href="https://www.dhakabaazar.com/trackorder">
-                      <span className="glyphicon glyphicon-search"></span> Track Order</a>
-                      </div>
+                <Link href={`/trackorder`}>
+                <a > <span className="glyphicon glyphicon-search"></span>
+                       Track Order</a>
+                       </Link>
+                 </div>
                 <div   style={{marginTop:'9px'}} className="cartbtn crtb">
-                   <a   className="cart-button">
-                      <div className="items">
-                          <div className="itemcount item_0"> <span className="itemno">0</span> </div>
-                      </div>
+                <Link href={`/cart`}>
+                   <a   className="cart-button"> 
+                           <span class="glyphicon glyphicon-shopping-cart"></span>   
                    </a>
+                   </Link>
                 </div>
                 <div className="wishlistbtn">                                
                 </div>
