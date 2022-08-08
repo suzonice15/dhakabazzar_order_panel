@@ -62,8 +62,8 @@
                                     <input type="checkbox" name="all_select" id="checkAll"/>
                                 @endif
                             </th>
-                            <th style="width:20%;text-align:left">Customer</th>
-                            <th style="text-align:left">Products</th>
+                            <th style="width:15%;text-align:left">Customer</th>
+                            <th style="width:15%;text-align:left">Products</th>
                             <th> Amount</th>
                             <th> Status</th>
                             <th width="10%">Action </th>

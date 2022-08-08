@@ -75,7 +75,7 @@ export default function HomeProduct({products}) {
     return (<>
     
     <div className="category-tabs" style={{"marginTop": "-9px","marginLeft": "-14px"}}>
-       <Link href={`category/${product_row[0].category_name}`}  ><a className="parent homparent">{product_row[0].category_title}</a></Link>
+       <Link href={`/${product_row[0].category_name}`}  ><a className="parent homparent">{product_row[0].category_title}</a></Link>
     </div>
     <div id="demos" className="row">
        <div className="large-12 columns">
@@ -86,7 +86,7 @@ export default function HomeProduct({products}) {
                    <div  key={index2} className="owl-item " 
                    onClick={()=>{router.push(`/products/${product.product_name}`) }}
                      >
-                      <div  style={{background:"white"}} className="item pro-box">
+                      <div  style={{background:"white",cursor:"pointer"}} className="item pro-box">
                          <div className="pboxall">                    
                          <Image
                                 src={`${WEBSITEURL+product.featured_image}`}

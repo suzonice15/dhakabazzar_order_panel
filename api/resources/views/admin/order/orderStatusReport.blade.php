@@ -26,7 +26,7 @@
         }
 
         .order_status {
-            width: 23.9%;
+            width: 18.9%;
             background: #6A00A8;
             font-weight: bold;
             border: none;
@@ -79,8 +79,7 @@
                             <option value="ready_to_deliver">Pending Invoice</option>
                             <option value="invoice">Invoice</option>
                             <option value="booking">Booking</option>
-
-
+                            <option value="return">Return</option>
                         </select>
                     </div>
                 </div>
@@ -104,8 +103,16 @@
                         <input type="date" id="ending_date" name="ending_date" value="{{date("Y-m-d",strtotime($ending_date))}}" class="form-control">
                     </div>
                 </div>
+                <div class="col-6 col-lg-2">
 
-                <div class="col-6 col-lg-3">
+<div class="form-group"  >
+    <label>Order ID</label>
+    <input type="text" id="order_id" placeholder="Order ID" name="order_id" value="" class="form-control">
+</div>
+</div>
+
+
+                <div class="col-6 col-lg-1">
 <br>
                     <div class="form-group" >
                        <input type="submit"  style="margin-top: 8px;" value="Search" class="form-control btn btn-success">
@@ -178,6 +185,12 @@
             <button onClick="orderStatus('cancled')" type="button"
                     class="btn btn-primary order_status ">  Cancled  <span class="badge badge-light">  {{orderStatusReport('cancled',$start_date,$ending_date)}} </span>
             </button>
+            <button onClick="orderStatus('booking')" type="button"
+                    class="btn btn-primary order_status ">  Booking  <span class="badge badge-light">  {{orderStatusReport('booking',$start_date,$ending_date)}} </span>
+            </button>
+            <button onClick="orderStatus('return')" type="button"
+                    class="btn btn-primary order_status ">  Return  <span class="badge badge-light">  {{orderStatusReport('return',$start_date,$ending_date)}} </span>
+            </button>
 
         </div>
         </div>
@@ -210,6 +223,21 @@
             <tr>
                 <td><span   class="badge badge-pill badge-danger" style="font-size:18px">  {{$order->order_id}}</span>
                     {{date('d-m-Y h:i a',strtotime($order->created_time))}}
+                    @if($order->shipment_time)
+                        <br/>
+                        <span style="color:green">
+                      Shipping Date
+                            {{date('d-m-Y',strtotime($order->shipment_time))}}
+                  </span>
+                    @endif
+                    @if($order->return_date)
+                        <br/>
+                        <span style="color:red">
+                      Return Date
+                            {{date('d-m-Y',strtotime($order->return_date))}}
+                  </span>
+
+                    @endif
                 </td>
                 <td>
                                             <span style="color:red;font-size: 17px;font-weight: bold">
@@ -305,6 +333,8 @@
                     <span    class="badge badge-pill badge-info" style="background-color:#ffad55;color: black;border: none;" >Phone Pending </span>
                     <?php  } elseif ($order->order_status=='failed') { ?>
                     <span    class="badge badge-pill badge-danger"  >Failded Delevery </span>
+                    <?php  } elseif ($order->order_status=='return') { ?>
+                    <span    class="badge badge-pill badge-danger"  >Return</span>
                     <?php  } else {  ?>
                     <span   class="badge badge-pill badge-success">Pending Invoice</span>
                     <?php } ?>

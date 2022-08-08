@@ -9,7 +9,7 @@ export default function SliderBottom() {
 
   return (
     <div className="container remove_class " style={{"backgroundColor": "#f2f2f2"}}>
-    <div className="row" style={{"marginTop": "21px"}}>
+    <div className="row" style={{"marginTop": "21px",cursor:"pointer"}}>
          
         {sliderBottomCategory.map((category,index)=>
        <div  key={index} style={{"backgroundColor":"rgb(255, 255, 255)","padding":"5px","border":"1px solid #ddd","textAlign":"center"}} className="col-md-1 col-sm-4 col-xs-4">

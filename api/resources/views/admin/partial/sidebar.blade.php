@@ -52,7 +52,12 @@ $status=Session::get("status");
                     </a>
                 </li>     
 				
-
+				 <li class="nav-item">
+                    <a href="{{url('/')}}/admin/orderStatus/report" class="nav-link">
+                        <i class="fas fa-arrow-circle-right nav-icon"></i>
+                        <p>Order Status Report </p>
+                    </a>
+                </li>
 
 				
                 @if($status=='super-admin')
@@ -72,13 +77,15 @@ $status=Session::get("status");
                     </li>
 
                     @endif
+
+
+
+
             </ul>
         </li>
-      
-        
-        
 
-         <li class="nav-item ">
+
+        <li class="nav-item ">
             <a href="#" class="nav-link ">
                 <i class="nav-icon fa  fa-car"></i>
                 <p>
@@ -105,6 +112,27 @@ $status=Session::get("status");
 
             </ul>
         </li>
+
+
+
+        <!-- <li class="nav-item ">
+            <a href="#" class="nav-link ">
+                <i class="nav-icon fa  fa-user"></i>
+                <p>
+                    User
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{url('/')}}/admin/user" class="nav-link">
+                    <i class="fas fa-arrow-circle-right nav-icon"></i>
+                        <p>Admin User</p>
+                    </a>
+                </li>
+
+            </ul>
+        </li> -->
 
         <li class="nav-item ">
             <a href="#" class="nav-link ">

@@ -17,7 +17,20 @@ function totalOrder($order_status)
 
 function orderStatusReport($order_status,$start_date,$ending_date)
 {
-    
+
+    if($order_status=='return'){
+        return DB::table('order')
+            ->where('return_date', '>=', $start_date)
+            ->where('return_date', '<=', $ending_date)
+            ->where('order_status', '=', $order_status)
+            ->count();
+    }elseif($order_status=='booking'){
+    return DB::table('order')
+        ->where('shipment_time', '>=', $start_date)
+        ->where('shipment_time', '<=', $ending_date)
+        ->where('order_status', '=', $order_status)
+        ->count();
+     }
         return DB::table('order')
             ->where('order_date', '>=', $start_date)
             ->where('order_date', '<=', $ending_date)

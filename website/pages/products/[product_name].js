@@ -10,13 +10,13 @@
 import { api_base_url, WEBSITEURL } from '../../components/AppUrl';
 import ProductRightCategory from '../../components/product/ProductRightCategory';
 
-export default function Product() {
+export default function SingleProduct() {
 
   let router=useRouter();
-   let product_name=router.query.product_name;
+   let parmalink=router.query.product_name;
    const [featured_image_data,setFeaturedImage]=useState("")
    const [categories,setCategory]=useState({})
-   const [product,setProduct]=useState({
+   const [productInfo,setProduct]=useState({
          product_row:{},
          relatedProducts:[],
          hotProducts:[],
@@ -25,23 +25,21 @@ export default function Product() {
    }) 
 
    useEffect(() => {         
-      let product_url=api_base_url+"product/"+product_name;   
+      let product_url=api_base_url+"product/"+parmalink;   
       axios.get(product_url).then(response=>{  
        setFeaturedImage(WEBSITEURL+response.data.original.product.featured_image)
-       let updatedState={...product}
-       
+       let updatedState={...productInfo}       
        updatedState.product_row=response.data.original.product;
        updatedState.relatedProducts=response.data.original.related_product;
        updatedState.hotProducts=response.data.original.hot_product;
        updatedState.image=response.data.original.image;      
         setProduct(updatedState)
-        setCategory(response.data.original.product_right_category)
-      
-        }).catch(error => { 
-        //   setProduct([])
+        setCategory(response.data.original.product_right_category)      
+        }).catch(error => {         
          console.log("product_error",error)                
       }) 
-   },[product_name])
+   },[parmalink,productInfo])
+
    const feturedImageUpdate=image=>{
       setFeaturedImage(image)
    }
@@ -53,12 +51,12 @@ export default function Product() {
       <div className="row mt40">
          <div className="col-sm-12">
             <div className="row">
-               {featured_image_data.length > 0 && <ProductImage  image={product.image}
+               {featured_image_data.length > 0 && <ProductImage  image={productInfo.image}
                                                       feturedImageUpdate={feturedImageUpdate} 
                                                       featured_image={featured_image_data}
                                                     /> }
 
-              <ProductPrice  product={product.product_row} />
+              <ProductPrice  product={productInfo.product_row} />
               {typeof categories !='undefined' && 
             <ProductRightCategory   categories={categories} /> }
             
@@ -67,8 +65,8 @@ export default function Product() {
       </div>
      
      <ProductDescription />
-     <RelatedProduct  relatedProducts={product.relatedProducts}/>
-     <HotDealProduct  hotProducts={product.hotProducts} />  
+     <RelatedProduct  relatedProducts={productInfo.relatedProducts}/>
+     <HotDealProduct  hotProducts={productInfo.hotProducts} />  
  
    
    </div>

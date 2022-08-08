@@ -19,7 +19,7 @@ export default function Seach() {
    },[search])
 
    return (  
-    <div className="container remove_class" style={{marginTop:120}}> 
+    <div className="container" style={{marginTop:120}}> 
     <h3 className='text-center' style={{fontWeight:'bold',marginTop:5}}>Search result for: {search}</h3>
                 <ul className="products row row5 mt30">
                <div className="col-sm-12">

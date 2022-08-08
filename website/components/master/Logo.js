@@ -4,8 +4,9 @@ import React,{useState,useEffect,useContext } from 'react'
 import { WEBSITEURL } from '../AppUrl';
 import Image from 'next/image'
 import { useRouter } from 'next/router'; 
-export default function LogoPart() {    
- const {menuCategoryList}=useContext(DataContext);
+export default function LogoPart() {  
+
+ const {menuCategoryList,cart}=useContext(DataContext);
  const router=useRouter();  
   return (   
     <div className="row">
@@ -44,9 +45,16 @@ export default function LogoPart() {
                  </div>
                 <div   style={{marginTop:'9px'}} className="cartbtn crtb">
                 <Link href={`/cart`}>
-                   <a   className="cart-button"> 
-                           <span class="glyphicon glyphicon-shopping-cart"></span>   
+                   <a   className="cart-button"> <div className="items">
+                   <span className="glyphicon glyphicon-shopping-cart"> 
+                   {cart.length > 0 && <div className="itemcount item_1"> 
+                   <span className="itemno">{cart.length }</span> 
+                   </div> }
+                   </span>   
+
+                   </div>
                    </a>
+                  
                    </Link>
                 </div>
                 <div className="wishlistbtn">                                
@@ -65,7 +73,7 @@ export default function LogoPart() {
                }
             } }
 
-             type="search" name="q" id="search_query2" placeholder="Search for products..." />
+             type="text" name="q" id="search_query2" placeholder="Search for products..." />
               <button type="button"><span className="glyphicon glyphicon-search"></span></button> 
               </form>
           </div>

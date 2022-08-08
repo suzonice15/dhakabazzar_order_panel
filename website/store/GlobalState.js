@@ -1,13 +1,20 @@
 import React,{ createContext, useReducer, useEffect, useState } from 'react'
 import axios from 'axios'
 import { api_base_url ,base_url, WEBSITEURL} from '../components/AppUrl' 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';   
 export const DataContext = createContext() 
+import { useRouter } from 'next/router' 
+
 export const DataProvider = ({children}) => { 
+    const router = useRouter()
+ 
      const [cart,setCart]=useState([])  
      const [menuCategoryList,setMenuCategoryList]=useState([])  
      const [sliders,setSlider]=useState([])  
      const [sliderBottomCategory,setSliderBottomCategory]=useState([])  
-
+ 
     useEffect(() => { 
       //  deleteItems();  
         getMenu();   
@@ -39,9 +46,9 @@ export const DataProvider = ({children}) => {
 function AddToCart(product_id,product_title,sku,picture,price) {
     
     const index = cart.findIndex((item) => item.product_id ===product_id)
-    if (index !== -1) {
-        alert("Product Exist"); return false; 
-    }
+    // if (index !== -1) {
+    //     alert("Product Exist"); return false; 
+    // }
     let cart_data={}
     cart_data.product_id=product_id
     cart_data.product_title=product_title
@@ -52,9 +59,10 @@ function AddToCart(product_id,product_title,sku,picture,price) {
     setCart(oldArray => 
         [...oldArray,cart_data]
     );
-  
-        localStorage.setItem("set_cart_data",JSON.stringify([...cart,cart_data]));
+    toast.success(product_title + " Added to your cart", {autoClose:3000,  position: toast.POSITION.BOTTOM_CENTER})
     
+    localStorage.setItem("set_cart_data",JSON.stringify([...cart,cart_data])); 
+    router.push('/cart')
     
   }
 
@@ -101,6 +109,7 @@ function deleteItems() {
     return(
         <DataContext.Provider value={{sliderBottomCategory,menuCategoryList,sliders,cart,setCart,AddToCart}}>
             {children}
+            <ToastContainer />
         </DataContext.Provider>
     )
 }

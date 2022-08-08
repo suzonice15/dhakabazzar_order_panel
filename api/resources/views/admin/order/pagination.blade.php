@@ -3,19 +3,30 @@
               @foreach($orders as $order)
 
                   <?php
-
                   $order_track=DB::table('order_edit_track')->where('order_id',$order->order_id)->orderBy('id','desc')->value('updated_date');
-
-
                   $areaInfo = DB::table('area')->where('area_id', $order->area_id)->first();
-
-
-
                   ?>
                   <tr>
               <td><span   class="badge badge-pill badge-danger" style="font-size:18px">  {{$order->order_id}}</span>
-                  <span   class="badge badge-pill badge-success" style="font-size:18px">    {{date('d-m-Y',strtotime($order->created_time))}}</span>
+                  <span   class="badge badge-pill badge-success" style="font-size:18px">
+                      {{date('d-m-Y',strtotime($order->created_time))}}</span>
                    {{date('h:i a',strtotime($order->created_time))}}
+
+                  @if($order->shipment_time)
+                      <br/>
+                      <span style="color:green">
+                      Shipping Date
+                          {{date('d-m-Y',strtotime($order->shipment_time))}}
+                  </span>
+                  @endif
+                  @if($order->return_date)
+                      <br/>
+                  <span style="color:red">
+                      Return Date
+                      {{date('d-m-Y',strtotime($order->return_date))}}
+                  </span>
+
+                  @endif
 
                 </td>
                       <td> <span style="color:red;font-size: 17px;font-weight: bold">
@@ -113,6 +124,8 @@
                     <span    class="badge badge-pill badge-danger"  >Pending  </span>
                     <?php  } elseif ($order->order_status=='booking') { ?>
                     <span    class="badge badge-pill badge-success"  >Booking  </span>
+                    <?php  } elseif ($order->order_status=='return') { ?>
+                    <span    class="badge badge-pill badge-success"  >Return</span>
 
                     <?php  } else {  ?>
                     <span   class="badge badge-pill badge-success">Pending Invoice</span>

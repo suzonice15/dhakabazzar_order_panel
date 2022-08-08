@@ -165,7 +165,10 @@ class OrderController extends Controller
         $data['traking_id'] = $request->traking_id;
         $data['weight'] = $request->weight;
         if ($request->shipment_time) {
-            $data['shipment_time'] = date('Y-m-d H:i:s', strtotime($request->shipment_time));
+            $data['shipment_time'] = date('Y-m-d', strtotime($request->shipment_time));
+        }
+        if ($request->return_date) {
+            $data['return_date'] = date('Y-m-d', strtotime($request->return_date));
         }
 
         if ($request->order_status == 'on_courier') {
@@ -459,18 +462,48 @@ class OrderController extends Controller
         $data['start_date'] = date("Y-m-d");
         $data['ending_date'] = date("Y-m-d");
         $data['orders'] = array();
+
+        $data['orderStatus'] = $request->order_status;
+        
+        if ($request->order_id ) {
+
+            $data['orders'] = DB::table('order') 
+            ->where('order_id', '=', $request->order_id)
+            ->orderBy('order_id', 'desc')
+            ->get();
+            return view('admin.order.orderStatusReport', $data);
+        }
+
+
+
         if ($request->order_status && $request->starting_date && $request->ending_date) {
 
             $data['start_date'] = date("Y-m-d", strtotime($request->starting_date));
             $data['ending_date'] = date("Y-m-d", strtotime($request->ending_date));
-
             $data['orderStatus'] = $request->order_status;
-            $data['orders'] = DB::table('order')
-                ->where('order_date', '>=', $data['start_date'])
-                ->where('order_date', '<=', $data['ending_date'])
-                ->where('order_status', '=', $request->order_status)
-                ->orderBy('order_id', 'desc')
-                ->get();
+            if($request->order_status=='return'){
+                $data['orders'] = DB::table('order')
+                    ->where('return_date', '>=', $data['start_date'])
+                    ->where('return_date', '<=', $data['ending_date'])
+                    ->where('order_status', '=', $request->order_status)
+                    ->orderBy('order_id', 'desc')
+                    ->get();
+            }elseif($request->order_status=='booking'){
+                $data['orders'] = DB::table('order')
+                    ->where('shipment_time', '>=', $data['start_date'])
+                    ->where('shipment_time', '<=', $data['ending_date'])
+                    ->where('order_status', '=', $request->order_status)
+                    ->orderBy('order_id', 'desc')
+                    ->get();
+            }else{
+                $data['orders'] = DB::table('order')
+                    ->where('order_date', '>=', $data['start_date'])
+                    ->where('order_date', '<=', $data['ending_date'])
+                    ->where('order_status', '=', $request->order_status)
+                    ->orderBy('order_id', 'desc')
+                    ->get();
+
+            }
 
 
         } else if ($request->starting_date && $request->ending_date) {
@@ -480,7 +513,6 @@ class OrderController extends Controller
             $data['orders'] = DB::table('order')
                 ->where('order_date', '>=', $data['start_date'])
                 ->where('order_date', '<=', $data['ending_date'])
-                //      ->where('order_status', '=', $request->order_status)
                 ->orderBy('order_id', 'desc')
                 ->get();
         } else {
@@ -491,7 +523,6 @@ class OrderController extends Controller
             $data['orders'] = DB::table('order')
                 ->where('order_date', '>=', $data['start_date'])
                 ->where('order_date', '<=', $data['ending_date'])
-                //      ->where('order_status', '=', $request->order_status)
                 ->orderBy('order_id', 'desc')
                 ->get();
         }
@@ -524,8 +555,8 @@ class OrderController extends Controller
 
     public function sendCourier(Request $request)
     {
-        $start_date='';
-        $end_date='';
+        $start_date=date("d-m-Y");
+        $end_date=date("d-m-Y");
         if($request->filter=='filter'){
             $start_date=date("Y-m-d",strtotime($request->starting_date));
             $end_date=date("Y-m-d",strtotime($request->end_date));
@@ -544,8 +575,8 @@ class OrderController extends Controller
             $data['orders'] = DB::table('order')
                 ->where('courier_service', 'Redx')
                 ->where('order_status', 'booking')
-                ->where('order_date', '>=', $start_date)
-                ->where('order_date', '<=', $end_date)
+                ->where('shipment_time', '>=', $start_date)
+                ->where('shipment_time', '<=', $end_date)
                 ->orderBy('order_id', 'desc')
                 ->get();
 
@@ -553,6 +584,7 @@ class OrderController extends Controller
 
             $data['orders'] = DB::table('order')
                 ->where('courier_service', 'Redx')
+                ->whereNull('traking_id')
                 ->where('order_status', 'invoice')
                 ->orderBy('order_id', 'desc')
                 ->get();
@@ -605,11 +637,12 @@ class OrderController extends Controller
                     $object = json_decode($tracking);
                     if (isset($object->tracking_id)) {
                         $data['traking_id'] = $object->tracking_id;
+                        $data['shipment_time'] = date("Y-m-d");
                         $data['order_status'] = 'booking';
                         DB::table('order')->where('order_id', '=', $order_id)->update($data);
                     } else{
                         $failed_to_insert .=$order_id.' ,';
-++$error_count;
+                        ++$error_count;
                     }
                 }
             }

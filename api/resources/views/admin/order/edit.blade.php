@@ -176,7 +176,7 @@
                                         <option value="ready_to_deliver">Pending Invoice</option>
                                         <option value="invoice">Invoice</option>
                                         <option value="booking">Booking</option>
-
+                                        <option value="return">Return</option>
                                     </select>
                                 </div>
                                 <div class="form-group ">
@@ -188,6 +188,22 @@
                                                value="{{date("Y-m-d",strtotime($order->shipment_time))}}">
                                     </div>
                                 </div>
+                                <div class="form-group ">
+                                    <label>Return Date</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                        </div>
+                                        @if(empty($order->return_date))
+                                        <input type="date" name="return_date" class="form-control pull-right"
+                                               value="">
+                                               @else
+                                               <input type="date" name="return_date" class="form-control pull-right"
+                                               value="{{date("Y-m-d",strtotime($order->return_date))}}">
+                                               @endif
+
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label> Order Note</label>
                                     <textarea rows="3" class="form-control"

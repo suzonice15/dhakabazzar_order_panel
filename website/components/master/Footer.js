@@ -46,6 +46,9 @@ export default function Footer() {
        </div>
     </section>
  </div>
+ <div style={{background:'#24a3b5',color: 'white',fontWeight:'bold',padding:2,}} className='copyright bg-dark text-center' >
+ <p style={{verticalAlign:'middle'}}>Copyright 2018</p> 
+ </div> 
     </footer>
   );
 }

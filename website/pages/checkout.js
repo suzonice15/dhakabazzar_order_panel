@@ -34,9 +34,9 @@ export default function Checkout() {
             <div className="panel panel-default mt-5">
    <div className="panel-heading">Customer Information </div>
   <div className="panel-body">
-  <div class="form-group"> 
-  <label for="billing_name">Name<span class="required"></span></label> 
-  <input type="text" name="billing_name" class="form-control" required="" id="billing_name" /> </div> <div class="form-group"> <label for="billing_phone">Phone<span class="required"></span></label> <input type="text" name="billing_phone" required="" class="form-control" id="billing_phone" /> </div> <div class="form-group shipping-address-group"> <label for="shipping_address1">Delivery Address<span class="required"></span></label> <textarea class="form-control" rows="5" name="shipping_address1" id="shipping_address1"></textarea> </div> <div class="form-group"> <select id="order_area" required="" name="order_area" class="form-control" style={{"border":"1px solid #ccc","borderRadius":"5px !important"}}> <option value="">Select Your Area</option> <option selected="" value="inside_dhaka">Inside Dhaka</option> <option value="outside_dhaka">Outside Dhaka</option> </select> </div> </div> 
+  <div className="form-group"> 
+  <label htmlFor="billing_name">Name<span className="required"></span></label> 
+  <input type="text" name="billing_name" className="form-control" required="" id="billing_name" /> </div> <div className="form-group"> <label htmlFor="billing_phone">Phone<span className="required"></span></label> <input type="text" name="billing_phone" required="" className="form-control" id="billing_phone" /> </div> <div className="form-group shipping-address-group"> <label htmlFor="shipping_address1">Delivery Address<span className="required"></span></label> <textarea className="form-control" rows="5" name="shipping_address1" id="shipping_address1"></textarea> </div> <div className="form-group"> <select id="order_area" required="" name="order_area" className="form-control" style={{"border":"1px solid #ccc","borderRadius":"5px !important"}}> <option value="">Select Your Area</option> <option selected="" value="inside_dhaka">Inside Dhaka</option> <option value="outside_dhaka">Outside Dhaka</option> </select> </div> </div> 
              </div>
             </div>
             <div className='col-md-8 col-sm-12'>
@@ -94,7 +94,7 @@ export default function Checkout() {
 
             </div>
             </div>   
-            <div class="col-sm-12 col-md-12"> <div class="checkout-box order-confirmation"> <div class="submit-btns"> <button type="submit" class="btn btn-default confirm_order">Confirm Order</button> <a href="https://www.dhakabaazar.com/" class="btn btn-primary mr10">Continue Shopping</a> </div> </div> </div>         
+            <div className="col-sm-12 col-md-12"> <div className="checkout-box order-confirmation"> <div className="submit-btns"> <button type="submit" className="btn btn-default confirm_order">Confirm Order</button> <a href="https://www.dhakabaazar.com/" className="btn btn-primary mr10">Continue Shopping</a> </div> </div> </div>         
         </div>
 
     </div>

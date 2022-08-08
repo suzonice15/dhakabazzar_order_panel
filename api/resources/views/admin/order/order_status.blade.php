@@ -70,6 +70,9 @@
                 class="btn btn-primary order_status ">  Booking  <span class="badge badge-light">     {{totalOrder('booking')}}</span>
         </button>
 
+        <button onClick="orderStatus('return')" type="button"
+                class="btn btn-primary order_status ">  Return  <span class="badge badge-light">     {{totalOrder('return')}}</span>
+        </button>
     <button onClick="orderStatus('cancled')" type="button"
             class="btn btn-primary order_status ">  Cancled  <span class="badge badge-light">     {{totalOrder('cancled')}}</span>
     </button>
