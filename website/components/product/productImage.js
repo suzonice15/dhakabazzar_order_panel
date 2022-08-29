@@ -39,7 +39,7 @@ const ProductImage=({featured_image,image,feturedImageUpdate})=> {
      
     { (width > 800 && featured_image.length > 0) ? 
          <div id="desktop_picture" className="col-sm-4 images">
-                  <img id="zoom_09" src={`${featured_image}`} alt="Single Dhaka" /> 
+               <Image src={`${featured_image}`} width={800} height={800} alt="Dhaka bazar" />
                   {image.length > 3 ?
                   <ul className="bxslider">
                      <li><a href="javascript:void(0)" className="elevatezoom-gallery">
@@ -90,7 +90,7 @@ const ProductImage=({featured_image,image,feturedImageUpdate})=> {
                         </li>
                    {image.length > 0 ?
                            image.map((image_row,index)=>  
-                           <li data-thumb={`${WEBSITEURL+image_row.media_path}`}>                          
+                           <li key={index} data-thumb={`${WEBSITEURL+image_row.media_path}`}>                          
                              <Image
                                 src={`${WEBSITEURL+image_row.media_path}`} 
                                 alt="Single Dhaka"

@@ -1,6 +1,7 @@
 import React,{ useContext,} from 'react' 
 import Link from 'next/link'
 import { DataContext } from '../store/GlobalState';
+import Image from 'next/image';
    
 export default function Checkout() { 
     const {cart,setCart}=useContext(DataContext); 
@@ -65,7 +66,13 @@ export default function Checkout() {
                                                     
                                                        <picture>
         <source srcSet={product.picture}  type="image/webp" />
-        <img src={product.picture}  alt="Landscape picture"    style={{width:"100%"}}/>
+        
+        <Image
+                                src={product.picture}
+                                alt="Single Dhaka"
+                                width={800}
+                                height={800}                                
+                             />
       </picture>
                                                 </td>
                                                 <td>{product.product_title}</td>

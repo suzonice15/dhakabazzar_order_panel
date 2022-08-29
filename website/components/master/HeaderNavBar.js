@@ -2,7 +2,7 @@ import React,{useContext,useState } from 'react'
  import { DataContext } from '../../store/GlobalState';
  import Link from 'next/link'
  import {  useRouter } from 'next/router';
-
+ import Image from 'next/image';
  export default function HeaderNavBar() {    
  const {menuCategoryList}=useContext(DataContext);
  const [menuShow,setMenuShow]=useState(false);
@@ -23,11 +23,14 @@ import React,{useContext,useState } from 'react'
          
           <li  key={index_1} className="winter-collection">
              <a onClick={()=>{router.push(`/${cat_1.category_name}`) }} >
-               
-                 <picture>
-        <source srcSet="https://www.dhakabaazar.com/uploads/22-08-2019-02-06-16-22-08-2019-10-19-41-brand-quartz-watch-luxury-creative-waterproof-date-casual-men-watches-relogio-masculino--3360n-min-150x150.jpg" type="image/webp" />
-        <img src="https://www.dhakabaazar.com/uploads/22-08-2019-02-06-16-22-08-2019-10-19-41-brand-quartz-watch-luxury-creative-waterproof-date-casual-men-watches-relogio-masculino--3360n-min-150x150.jpg" alt="Landscape picture" />
-      </picture>
+             <Image
+                                src={"https://www.dhakabaazar.com/uploads/22-08-2019-02-06-16-22-08-2019-10-19-41-brand-quartz-watch-luxury-creative-waterproof-date-casual-men-watches-relogio-masculino--3360n-min-150x150.jpg"}
+                                alt="Single Dhaka"
+                                width={100}
+                                height={100}
+                                                                
+                             />
+                
                  {cat_1.category_title}
                 <p className="dropdown_indicator"><span className="glyphicon glyphicon-plus" aria-hidden="true"></span></p>
              </a>

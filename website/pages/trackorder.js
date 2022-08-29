@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { api_base_url } from '../components/AppUrl';
 import axios from 'axios'
 import { DataContext } from '../store/GlobalState';
+import Image from 'next/image';
 
 export default function TrackOrder() {
     const { cart, setCart } = useContext(DataContext);
@@ -177,12 +178,14 @@ export default function TrackOrder() {
                       {" "}
                       <a>
                         {" "}
-                        <img
-                          src="https://www.dhakabaazar.com/uploads/16-06-2022-05-09-41-0001_thumb.jpg"
-                          width={30}
-                          height={30}
-                          alt="Image"
-                        />{" "}
+                        
+                            <Image
+                                src={`https://www.dhakabaazar.com/uploads/16-06-2022-05-09-41-0001_thumb.jpg`}
+                                alt="Single Dhaka"
+                                width={800}
+                                height={800}                                
+                             /> 
+                        {" "}
                       </a>{" "}
                       <div className="item-name-and-price">
                         {" "}
