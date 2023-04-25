@@ -11,7 +11,8 @@ export default function Seach() {
 
    useEffect(() => {         
       let product_url=api_base_url+"productSearch?search="+search; 
-      axios.get(product_url).then(response=>{           
+      axios.get(product_url).then(response=>{   
+         console.log(response.data)        
          setProduct(response.data)     
         }).catch(error => {   
                   

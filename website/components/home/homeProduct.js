@@ -5,34 +5,8 @@ import Image from 'next/image'
 import {  useRouter } from 'next/router';
 import { GeneratePrice } from '../common/Helper';
 
-export default function HomeProduct({products}) { 
-  
-   
-    const router = useRouter();  
-    const  generatePrice=(sell_price,discount_price,discount_type)=>{
-        var product_price = sell_price = sell_price;
-        var product_discount = discount_price;
-        var discount_type;
-        var oldPrice='';
-        if(product_discount != 0)
-        { 
-            var discount_type =discount_type;
-              oldPrice='৳ '+sell_price;
-            let save_money;
-         let   product_discount = save_money = product_discount;
-
-            if(discount_type == 'fixed')
-            {
-                sell_price = product_price - product_discount;
-            }else if(discount_type == 'percent')
-            {
-                save_money = (product_discount / 100) * product_price;
-               sell_price = product_price - save_money;
-            }
-        }
-      return  <> <del>{oldPrice}</del> ৳ {sell_price} </> 
-
-    }
+export default function HomeProduct({products}) {  
+    const router = useRouter();   
 
      useEffect(() => {
       setTimeout(()=>{ 
@@ -59,11 +33,8 @@ export default function HomeProduct({products}) {
                     items: 6
                 }
             }
-        });
-
-
-       },500)
-     
+        }); 
+       },500) 
        
      }, [])
      
@@ -74,7 +45,7 @@ export default function HomeProduct({products}) {
 
     return (<>
     
-    <div className="category-tabs" style={{"marginTop": "-9px","marginLeft": "-14px"}}>
+    <div key={index} className="category-tabs" style={{"marginTop": "-9px","marginLeft": "-14px"}}>
        <Link href={`/${product_row[0].category_name}`}  ><a className="parent homparent">{product_row[0].category_title}</a></Link>
     </div>
     <div id="demos" className="row">

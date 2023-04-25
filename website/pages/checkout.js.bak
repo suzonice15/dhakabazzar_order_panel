@@ -24,7 +24,9 @@ export default function Checkout() {
     localStorage.setItem("set_cart_data",JSON.stringify( newItems));
 
     setCart(newItems); // set new state
-  }  
+  }
+
+  
   return (
     <>  
     <div className='container' style={{marginTop:140}}>
@@ -78,9 +80,9 @@ export default function Checkout() {
                                                 {product.sku}                               
                                                   </td>  
                                                   <td> 
-                                                  <span  style={{"fontSize":"14px","cursor":"pointer",padding:5}} onClick={() => quantityHandler('more', index)} className="label label-success"><i className='glyphicon glyphicon-plus'></i></span>
-                                                  <span style={{"background":"none","color":"black",fontSize:18}} className="label label-default">{product.quantity}</span>
-                                                  <span style={{"fontSize":"14px","cursor":"pointer",padding:5}} onClick={() => quantityHandler('less', index)}  className="label label-danger"><i className='glyphicon glyphicon-minus'></i></span>
+                                                  <span  style={{"fontSize":"14px","cursor":"pointer"}} onClick={() => quantityHandler('more', index)} className="label label-success">+</span>
+                                                  <span style={{"background":"none","color":"black"}} className="label label-default">{product.quantity}</span>
+                                                  <span style={{"fontSize":"14px","cursor":"pointer"}} onClick={() => quantityHandler('less', index)}  className="label label-danger">-</span>
                                                   
                                                </td> 
                                                 <td className="text-center"> {product.price} </td>

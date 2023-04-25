@@ -8,7 +8,7 @@ export default function Slider() {
  const router = useRouter(); 
   return (   
     <section id="content" className="main desktop">
-    <div className="container">
+    <div className="container-fluid">
        <div className="row">           
           <div className="col-md-12 col-xs-12 remove_class maincnt">
              <section className="banner-slider">

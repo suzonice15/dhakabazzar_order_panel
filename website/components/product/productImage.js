@@ -7,8 +7,7 @@ const ProductImage=({featured_image,image,feturedImageUpdate})=> {
       const width = hasWindow ? window.innerWidth : null;
     
     useEffect(()=>{
-       setTimeout(()=>{
-      
+       setTimeout(()=>{      
          $('.bxslider').bxSlider({
             mode: 'horizontal',
             moveSlides: 1,
@@ -20,15 +19,13 @@ const ProductImage=({featured_image,image,feturedImageUpdate})=> {
             speed: 800,
             pager: false,
          });
-
          $('#lightSlider').lightSlider({
             gallery: true,
             item: 1,
             loop:true,
             slideMargin: 0,
             thumbItem: 9
-        });
-         
+        });         
 
        },500)
      

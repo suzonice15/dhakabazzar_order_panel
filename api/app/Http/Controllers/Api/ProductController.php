@@ -73,9 +73,12 @@ class ProductController extends Controller
     public function productSearch(Request $request)
     {
         $search=$request->search;
-        $data= DB::table('product')->selectRaw('product_title,product_name,featured_image,sell_price,discount_price,discount_type')->where('product_title','like',"%$search%")
+        $data= DB::table('product')
+            ->selectRaw('product_title,product_name,featured_image,sell_price,discount_price,discount_type,sku')
+            ->where('product_title','like',"%$search%")
             ->orWhere('sku','like',"%$search%")
-            ->limit(48)->get();
+            ->limit(48)
+            ->get();
         return response()->json($data);
     }
 }

@@ -11,7 +11,9 @@ body{overflow-x:hidden;background: #eff7fa;}
 a{color:#555555;}
 a:hover{color:#d22612;}
 .required{color:#d00;}
-del{opacity:0.5;}
+del{opacity: 0.7;
+	color: red;
+	font-weight: bold;}
 
 .singleproduct #singleProduct_picture {display:none}
 /*# auto suggestion search query
@@ -2375,19 +2377,20 @@ text-align: center;
 }
 .freepeoduct {
 	background: #18ac4f !important;
-	width: 48px!important;
-	height: 43px!important;
-	overflow: hidden!important;
-	text-align: center!important;
-	float: right!important;
-	padding: 5px!important;
-	border-radius: 50px!important;
-	color: white!important;
-	font-size: 10px!important;
-	z-index: 999;
-    position: absolute;
-    right: 0;
-       top: 5px;
+width: 81px !important;
+height: 27px !important;
+overflow: hidden !important;
+text-align: center !important;
+float: left !important;
+padding: 5px !important;
+ color: white !important;
+font-size: 10px !important;
+z-index: 999;
+position: absolute;
+left: 0;
+top: 5px;
+border-radius: 0px 20px 20px 0px;
+font-weight: bold;
 }
 
 .category_info{

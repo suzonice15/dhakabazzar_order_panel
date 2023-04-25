@@ -637,3 +637,5 @@ ul.listoption6 li:before{padding:5px 0 5px 3px;font-family:fontAwesome;content:"
 	.search-box .btn, .form-control{padding:8px}
 	.manufacturer-list ul{width:90%}
 }
+.displayNone{display: none}
+.displayBlock{display: block !important}

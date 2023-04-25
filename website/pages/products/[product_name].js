@@ -2,13 +2,13 @@
  import React ,{ useEffect ,useState}from 'react'
  import axios from 'axios'
   import {  useRouter } from 'next/router';
-  import ProductImage from '../../components/product/ProductImage'
-  import ProductPrice from '../../components/product/Productprice'
-  import RelatedProduct from '../../components/product/RelatedProduct'
-  import HotDealProduct from '../../components/product/HotDeal'
-  import ProductDescription from '../../components/product/ProductDescription'
+  import ProductImage from '../../components/product/productImage'
+  import ProductPrice from '../../components/product/productprice'
+  import RelatedProduct from '../../components/product/relatedProduct'
+  import HotDealProduct from '../../components/product/hotDeal'
+  import ProductDescription from '../../components/product/productDescription'
 import { api_base_url, WEBSITEURL } from '../../components/AppUrl';
-import ProductRightCategory from '../../components/product/ProductRightCategory';
+import ProductRightCategory from '../../components/product/productRightCategory';
 
 export default function SingleProduct() {
 

@@ -34,22 +34,16 @@ export default function ProductRow({ product_id, product_title, product_name, fe
         <GeneratePrice sell_price = { sell_price }
         discount_price = { discount_price }
         discount_type = { discount_type }
-        /> </div> </div> </div>
-         {/* <div className = "add-btn-box" >
-        <a onClick = {
-            () => AddToCart(product_id,product_title,sku,WEBSITEURL+featured_image,) }
-        className = "buy_now" >
-        Order < span > Now </span> </a> 
-        </div>  */}
+        /> </div> </div> </div> 
         <AddToCartComponent  
-         product_id={product_id} 
-         product_title={product_title} 
-          featured_image ={featured_image}
-           sku={sku}
-            sell_price ={sell_price}
-            discount_price ={discount_price}
-             discount_type ={discount_type}
-             />
+                product_id={product_id} 
+                product_title={product_title} 
+                featured_image ={featured_image}
+                sku={sku}
+                sell_price ={sell_price}
+                discount_price ={discount_price}
+                discount_type ={discount_type}
+        />
 
         </div> </li> </>
     )

@@ -27,10 +27,14 @@ export default function Cart() {
   }
 
   const Delete=(index)=>{
-    const newItems = [...cart]; // clone the array    
-          newItems.splice(index, 1);
-          localStorage.setItem("set_cart_data",JSON.stringify( newItems));
-          setCart(newItems); // set new state     
+    let confirm_check=confirm('Are you want to delete this product from cart ?')
+    if(confirm_check){
+      const newItems = [...cart]; // clone the array    
+      newItems.splice(index, 1);
+      localStorage.setItem("set_cart_data",JSON.stringify( newItems));
+      setCart(newItems); // set new state  
+    }
+         
   }
   return (
     <>  
@@ -57,7 +61,9 @@ export default function Cart() {
 {cart.map((product,index)=>
                                            <tr key={index} >
                                                 <td onClick={() => Delete(index)} className="text-center">          
-                                                <span style={{"fontSize":"14px","cursor":"pointer"}} className="label label-danger">x</span>
+                                                <span style={{"fontSize":"12px","cursor":"pointer",padding:7}} className="label label-danger">
+                                                <i className='glyphicon glyphicon-trash'></i>
+                                                </span>
 
                                                 </td>
 
@@ -79,9 +85,9 @@ export default function Cart() {
                                                 {product.sku}                               
                                                   </td>  
                                                   <td> 
-                                                  <span  style={{"fontSize":"14px","cursor":"pointer"}} onClick={() => quantityHandler('more', index)} className="label label-success">+</span>
-                                                  <span style={{"background":"none","color":"black"}} className="label label-default">{product.quantity}</span>
-                                                  <span style={{"fontSize":"14px","cursor":"pointer"}} onClick={() => quantityHandler('less', index)}  className="label label-danger">-</span>
+                                                  <span  style={{"fontSize":"14px","cursor":"pointer"}} onClick={() => quantityHandler('more', index)} className="label label-success"><i className='glyphicon glyphicon-plus'></i></span>
+                                                  <span style={{"background":"none","color":"black",fontSize:18}} className="label label-default">{product.quantity}</span>
+                                                  <span style={{"fontSize":"14px","cursor":"pointer"}} onClick={() => quantityHandler('less', index)}  className="label label-danger"><i className='glyphicon glyphicon-minus'></i></span>
                                                   
                                                </td> 
                                                 <td className="text-center"> {product.price} </td>
