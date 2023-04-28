@@ -15,26 +15,22 @@ import React,{useContext,useState,useEffect  } from 'react'
  });
   const menuHideByClick=()=>{ 
    if(windowSize.width < 776) {
-
    setDisplay("displayNone")
     setTimeout(()=>{setDisplay("displayBlock")},2500)
    }
 
  }
- const FathermenuHideByClick=()=>{ 
- 
+ const FathermenuHideByClick=()=>{  
    if(windowSize.width < 776) {
    setDisplay("displayNone")
     setTimeout(()=>{setDisplay("displayBlock")},2500)
    }
-
  }
 
  useEffect(() => {
    window.onresize = () => {
      setWindowSize({
-       width: window.innerWidth,
-     
+       width: window.innerWidth,     
      });
    };
  }, []);
