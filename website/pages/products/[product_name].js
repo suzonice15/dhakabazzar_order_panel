@@ -8,7 +8,7 @@
   import HotDealProduct from '../../components/product/hotDeal'
   import ProductDescription from '../../components/product/productDescription'
 import { api_base_url, WEBSITEURL } from '../../components/AppUrl';
-import ProductRightCategory from '../../components/product/productRightCategory';
+import ProductRightCategory from '../../components/product/ProductRightCategory';
 
 export default function SingleProduct() {
 
